@@ -95,7 +95,7 @@ customElements.define('jk224jv-graphdrawer2000',
 
     // Draw a maximum of 20 labels.
     if (dataset.length > 20) {
-      const dataIndexStep = Math.ceil(dataset.length / 20)
+      const dataIndexStep = Math.floor(dataset.length / 20)
       const xPositionStep = Math.ceil(graphWidth / 20)
       for (let i = 0; i < 20; i ++) {
         const x = marginWidth + i * xPositionStep
@@ -105,7 +105,18 @@ customElements.define('jk224jv-graphdrawer2000',
           continue
         }
         // Draw the label vertically
-        const label = (i * dataIndexStep).toString()
+        const label = (i * dataIndexStep + 1).toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
+      // Draw the last label. This is done outside the loop to assure that the last label is always drawn regardless of the number of labels and the width of the canvas.
+      const x = marginWidth + graphWidth
+      const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+
+      // Only draw the label if it fits.
+      if (ctx.measureText(1).width <= step) {
+        const label = dataset.length.toString()
         for (let j = 0; j < label.length; j++) {
           ctx.fillText(label[j], x, y + j * 12)
         }
@@ -119,7 +130,7 @@ customElements.define('jk224jv-graphdrawer2000',
           continue
         }
         // Draw the label vertically
-        const label = i.toString()
+        const label = (i + 1).toString()
         for (let j = 0; j < label.length; j++) {
           ctx.fillText(label[j], x, y + j * 12)
         }
@@ -137,7 +148,7 @@ customElements.define('jk224jv-graphdrawer2000',
     ctx.lineTo(marginWidth, marginHeight + graphHeight)
     ctx.stroke()
 
-    // Draw the y-axis labels.
+    // Draw the y-axis labels, 10 labels.
     ctx.textAlign = 'right'
     ctx.textBaseline = 'middle'
     for (let i = 0; i <= 10; i++) {
@@ -155,6 +166,13 @@ customElements.define('jk224jv-graphdrawer2000',
     ctx.textBaseline = 'bottom'
     ctx.fillText('Value', 0, 0)
     ctx.restore()
+
+    // If the range includes 0, draw a line at 0.
+    if (min < 0 && max > 0) {
+      ctx.moveTo(marginWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+      ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+      ctx.stroke()
+    }
 
     // Draw the lines.
     ctx.moveTo(marginWidth, marginHeight + graphHeight)
