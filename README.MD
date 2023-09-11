@@ -10,10 +10,6 @@ Copy the /components/graphdrawer2000 folder into your project and import it into
 
 Call the method "render(number[])" on the GraphDrawer2000 object. The array of numbers will be rendered as a graph.
 
-### To many numbers? Not Yet implemented
-
-If the array contains more numbers than the graph can display, average values will be calculated and displayed instead.
-
 ## How to change the colors? Not Yet implemented
 
 The colors are defined by HTML attributes on the graphdrawer2000 element. The following attributes are available:

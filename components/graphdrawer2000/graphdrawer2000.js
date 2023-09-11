@@ -76,7 +76,8 @@ customElements.define('jk224jv-graphdrawer2000',
     // Calculate the x-step.
     const step = graphWidth / (dataset.length - 1)
 
-    // Calculate the y-step.
+    // Calculate the y-step. This have more to do with the axis labels than the actual graph, and hence the base 10.
+    // The step must be at least 12px high to fit the labels.
     const heightStep = Math.max(1, Math.ceil(range / 10)) // The step size should be at least 1.
 
     ctx.clearRect(0, 0, width, height)
@@ -91,17 +92,45 @@ customElements.define('jk224jv-graphdrawer2000',
     ctx.font = '12px Arial'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'top'
-    for (let i = 0; i < dataset.length; i++) {
-      const x = marginWidth + i * step
-      const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
-      ctx.fillText(i, x, y)
+
+    // Draw a maximum of 20 labels.
+    if (dataset.length > 20) {
+      const dataIndexStep = Math.ceil(dataset.length / 20)
+      const xPositionStep = Math.ceil(graphWidth / 20)
+      for (let i = 0; i < 20; i ++) {
+        const x = marginWidth + i * xPositionStep
+        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+        // Only draw the label if it fits.
+        if (ctx.measureText(1).width > step) {
+          continue
+        }
+        // Draw the label vertically
+        const label = (i * dataIndexStep).toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
+    } else {
+      for (let i = 0; i < dataset.length; i++) {
+        const x = marginWidth + i * step
+        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+        // Only draw the label if it fits.
+        if (ctx.measureText(1).width > step) {
+          continue
+        }
+        // Draw the label vertically
+        const label = i.toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
     }
 
     // Draw the x-axis title.
     ctx.font = '16px Arial'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'bottom'
-    ctx.fillText('Index', marginWidth + graphWidth / 2, marginHeight + graphHeight + 42)
+    ctx.fillText('Index', marginWidth + graphWidth + 42, graphHeight + marginHeight + 16)
 
     // Draw the y-axis.
     ctx.moveTo(marginWidth, marginHeight)
