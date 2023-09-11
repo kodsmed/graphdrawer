@@ -1,1 +1,1 @@
-import './components/graphdrawer2000'
+import './components/graphdrawer2000/index.js'

@@ -1,6 +1,7 @@
 {
   "name": "graphdrawer",
   "version": "1.0.0",
+  "type":"module",
   "description": "draw a graph of a given array in a canvas element",
   "main": "index.js",
   "scripts": {
