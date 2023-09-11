@@ -1,0 +1,25 @@
+{
+  "name": "graphdrawer",
+  "version": "1.0.0",
+  "description": "draw a graph of a given array in a canvas element",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kodsmed/graphdrawer2000.git"
+  },
+  "keywords": [
+    "canvas",
+    "graph",
+    "render",
+    "datarendition"
+  ],
+  "author": "Jimmy Karlsson <jk224jv@student.lnu.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kodsmed/graphdrawer2000/issues"
+  },
+  "homepage": "https://github.com/kodsmed/graphdrawer2000#readme"
+}
