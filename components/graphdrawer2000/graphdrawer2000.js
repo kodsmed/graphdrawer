@@ -183,6 +183,18 @@ customElements.define('jk224jv-graphdrawer2000',
       ctx.lineTo(x, y)
     }
     ctx.stroke()
+
+    // Draw the dots.
+    for (let i = 0; i < dataset.length; i++) {
+      const x = marginWidth + i * step
+      const y = marginHeight + graphHeight - (dataset[i] - min) / heightStep * (graphHeight / 10)
+      const dotRadius = 3
+      const startAngle = 0
+      const stopAngle = 2 * Math.PI // A full circle.
+      ctx.beginPath()
+      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
+      ctx.fill()
+    }
   }
 })
 
