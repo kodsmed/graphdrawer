@@ -17,6 +17,7 @@ The colors are defined by HTML attributes on the graphdrawer2000 element. The fo
 * data-color-background: The background color of the graph, defaults to 'white'
 * data-color-graph: The color of the graph, defaults to 'black'
 * data-color-axis: The color of the axis, defaults to 'black'
+* data-color-dot: The color of the dots, defaults to 'black'
 
 Valid values are:
 
@@ -43,3 +44,9 @@ The axis are defined by HTML attributes on the graphdrawer2000 element. The foll
 
 * data-axis-x: The label of the x axis, defaults to 'x'
 * data-axis-y: The label of the y axis, defaults to 'y'
+
+## Hot to change the size of the dots? Not Yet implemented
+
+The size of the dots is defined by the data-dot-size attribute on the graphdrawer2000 element.
+
+* data-dot-size: The size of the dots must be a number 0 to 10. 0 means no dots will be rendered. Defaults to 3 pixels.

@@ -59,8 +59,8 @@ customElements.define('jk224jv-graphdrawer2000',
     canvas.height = height
 
     // Calculate the graph dimensions.
-    const margin = 0.1 // 10% margin, this allows room for the axis.
-    const marginWidth = width * margin
+    const margin = 0.1
+    const marginWidth = Math.min(width * margin, 64) // The margin should be at least 64px wide to fit the labels.
     const marginHeight = height * margin
     const graphWidth = width - marginWidth * 2
     const graphHeight = height - marginHeight * 2
@@ -73,82 +73,67 @@ customElements.define('jk224jv-graphdrawer2000',
     const range = max - min
     console.log(range + ' range')
 
-    // Calculate the x-step.
-    const step = graphWidth / (dataset.length - 1)
+    // Calculate the widthStep.
+    const widthStep = graphWidth / (dataset.length - 1)
 
-    // Calculate the y-step. This have more to do with the axis labels than the actual graph, and hence the base 10.
-    // The step must be at least 12px high to fit the labels.
-    const heightStep = Math.max(1, Math.ceil(range / 10)) // The step size should be at least 1.
+    // Calculate the heightStep. This have more to do with the axis labels than the actual graph, and hence the base 10.
+    const heightStep = Math.ceil(range / 10)
 
     ctx.clearRect(0, 0, width, height)
     ctx.strokeStyle = 'black'
 
-    // Draw the x-axis.
-    ctx.moveTo(marginWidth, marginHeight + graphHeight)
-    ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight)
-    ctx.stroke()
-
-    // Draw the x-axis labels.
-    ctx.font = '12px Arial'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'top'
-
-    // Draw a maximum of 20 labels.
-    if (dataset.length > 20) {
-      const dataIndexStep = Math.floor(dataset.length / 20)
-      const xPositionStep = Math.ceil(graphWidth / 20)
-      for (let i = 0; i < 20; i ++) {
-        const x = marginWidth + i * xPositionStep
-        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
-        // Only draw the label if it fits.
-        if (ctx.measureText(1).width > step) {
-          continue
-        }
-        // Draw the label vertically
-        const label = (i * dataIndexStep + 1).toString()
-        for (let j = 0; j < label.length; j++) {
-          ctx.fillText(label[j], x, y + j * 12)
-        }
-      }
-      // Draw the last label. This is done outside the loop to assure that the last label is always drawn regardless of the number of labels and the width of the canvas.
-      const x = marginWidth + graphWidth
-      const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
-
-      // Only draw the label if it fits.
-      if (ctx.measureText(1).width <= step) {
-        const label = dataset.length.toString()
-        for (let j = 0; j < label.length; j++) {
-          ctx.fillText(label[j], x, y + j * 12)
-        }
-      }
-    } else {
-      for (let i = 0; i < dataset.length; i++) {
-        const x = marginWidth + i * step
-        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
-        // Only draw the label if it fits.
-        if (ctx.measureText(1).width > step) {
-          continue
-        }
-        // Draw the label vertically
-        const label = (i + 1).toString()
-        for (let j = 0; j < label.length; j++) {
-          ctx.fillText(label[j], x, y + j * 12)
-        }
-      }
+    // If the range includes 0, draw a line at 0.
+    if (min < 0 && max > 0) {
+      ctx.moveTo(marginWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+      ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+      ctx.stroke()
     }
 
-    // Draw the x-axis title.
-    ctx.font = '16px Arial'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'bottom'
-    ctx.fillText('Index', marginWidth + graphWidth + 42, graphHeight + marginHeight + 16)
+    this.drawYAxis(marginWidth, marginHeight, graphHeight, min, heightStep, ctx, 'Values')
+    this.drawXAxis(marginWidth, marginHeight, graphWidth, graphHeight, dataset.length, widthStep, ctx, 'Index')
 
+    // Draw the lines.
+    ctx.moveTo(marginWidth, marginHeight + graphHeight)
+    ctx.beginPath()
+    for (let i = 0; i < dataset.length; i++) {
+      const x = marginWidth + i * widthStep
+      const y = marginHeight + graphHeight - (dataset[i] - min) / heightStep * (graphHeight / 10)
+      ctx.lineTo(x, y)
+    }
+    ctx.stroke()
+
+    // Draw the dots.
+    for (let i = 0; i < dataset.length; i++) {
+      const x = marginWidth + i * widthStep
+      const y = marginHeight + graphHeight - (dataset[i] - min) / heightStep * (graphHeight / 10)
+      const dotRadius = 3
+      const startAngle = 0
+      const stopAngle = 2 * Math.PI // A full circle.
+      ctx.beginPath()
+      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
+      ctx.fill()
+    }
+  }
+
+  /**
+   * Draws the y-axis and its labels.
+   *
+   * @param {number} marginWidth - The margin on the side of the graph.
+   * @param {number} marginHeight - The margin on the bottom of the graph.
+   * @param {number} graphHeight - The height of the graph.
+   * @param {number} min - The minimum value of the dataset.
+   * @param {number} heightStep - The step size of the y-axis.
+   * @param {object} ctx - The canvas context.
+   * @param {string} title - The title of the y-axis.
+   */
+  drawYAxis (marginWidth, marginHeight, graphHeight, min, heightStep, ctx, title) {
     // Draw the y-axis.
     ctx.moveTo(marginWidth, marginHeight)
     ctx.lineTo(marginWidth, marginHeight + graphHeight)
     ctx.stroke()
 
     // Draw the y-axis labels, 10 labels.
+    ctx.font = '12px Arial'
     ctx.textAlign = 'right'
     ctx.textBaseline = 'middle'
     for (let i = 0; i <= 10; i++) {
@@ -164,37 +149,83 @@ customElements.define('jk224jv-graphdrawer2000',
     ctx.font = '16px Arial'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'bottom'
-    ctx.fillText('Value', 0, 0)
+    ctx.fillText(title, 0, 0)
     ctx.restore()
+  }
 
-    // If the range includes 0, draw a line at 0.
-    if (min < 0 && max > 0) {
-      ctx.moveTo(marginWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
-      ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
-      ctx.stroke()
-    }
-
-    // Draw the lines.
+  /**
+   * Draws the x-axis and its labels.
+   *
+   * @param {number} marginWidth - The margin on the side of the graph.
+   * @param {number} marginHeight - The margin on the bottom of the graph.
+   * @param {number} graphWidth - The width of the graph.
+   * @param {number} graphHeight - The height of the graph.
+   * @param {number} datasetLength - The length of the dataset.
+   * @param {number} widthStep - The step size of the x-axis.
+   * @param {object} ctx - The canvas context.
+   * @param {string} title - The title of the x-axis.
+   */
+  drawXAxis (marginWidth, marginHeight, graphWidth, graphHeight, datasetLength, widthStep, ctx, title) {
+    // Draw the x-axis.
     ctx.moveTo(marginWidth, marginHeight + graphHeight)
-    ctx.beginPath()
-    for (let i = 0; i < dataset.length; i++) {
-      const x = marginWidth + i * step
-      const y = marginHeight + graphHeight - (dataset[i] - min) / heightStep * (graphHeight / 10)
-      ctx.lineTo(x, y)
-    }
+    ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight)
     ctx.stroke()
 
-    // Draw the dots.
-    for (let i = 0; i < dataset.length; i++) {
-      const x = marginWidth + i * step
-      const y = marginHeight + graphHeight - (dataset[i] - min) / heightStep * (graphHeight / 10)
-      const dotRadius = 3
-      const startAngle = 0
-      const stopAngle = 2 * Math.PI // A full circle.
-      ctx.beginPath()
-      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
-      ctx.fill()
+    // Draw the x-axis labels.
+    ctx.font = '12px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'top'
+
+    // Draw a maximum of 20 labels.
+    if (datasetLength > 20) {
+      const dataIndexStep = Math.floor(datasetLength / 20)
+      const xPositionStep = Math.ceil(graphWidth / 20)
+      for (let i = 0; i < 20; i ++) {
+        const x = marginWidth + i * xPositionStep
+        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+        // Only draw the label if it fits.
+        if (ctx.measureText(1).width > widthStep) {
+          continue
+        }
+        // Draw the label vertically
+        const label = (i * dataIndexStep + 1).toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
+
+      // Draw the last label. This is done outside the loop to assure that the last label is always drawn regardless of the number of labels and the width of the canvas.
+      const x = marginWidth + graphWidth
+      const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+
+      // Only draw the label if it fits.
+      if (ctx.measureText(1).width <= widthStep) {
+        const label = datasetLength.toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
+    } else {
+      for (let i = 0; i < datasetLength; i++) {
+        const x = marginWidth + i * widthStep
+        const y = marginHeight + graphHeight + 5 // 5 is the margin between the x-axis and the labels.
+        // Only draw the label if it fits.
+        if (ctx.measureText(1).width > widthStep) {
+          continue
+        }
+        // Draw the label vertically
+        const label = (i + 1).toString()
+        for (let j = 0; j < label.length; j++) {
+          ctx.fillText(label[j], x, y + j * 12)
+        }
+      }
     }
+
+    // Draw the x-axis title.
+    ctx.font = '16px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'bottom'
+    ctx.fillText(title, marginWidth + graphWidth + 42, graphHeight + marginHeight + 16)
   }
 })
 
