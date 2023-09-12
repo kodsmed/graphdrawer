@@ -1,5 +1,5 @@
 /**
- * GraphDrawer2000 is a Custom Web Component that renders a graph of a number dataset on a canvas.
+ * GraphDrawer2000 is a Custom Web Element that renders a graph of a number dataset on a canvas.
  *
  * @author Jimmy Karlsson <jk224jv@student.lnu.se>
  *
@@ -28,6 +28,34 @@ customElements.define('jk224jv-graphdrawer2000',
 
   constructor () {
     super()
+    // Zero is just Zero, not a magic number. It is just the number 0, Origo, the center of positive and negative numbers.
+    this.nonMagicZero = 0
+    // The number of steps on the y-axis. This is the number of labels on the y-axis. This should really really be 10 since 10 is the basis of our number system.
+    this.numberOfStepsOnYAxis = 10
+    // The maximum number of steps on the x-axis. This can change, but 20 is a good number. But feel free to experiment.
+    this.maxNumberOfStepsOnXAxis = 20
+    // The default margin. This is the margin on the side of the graph and the bottom of the graph. This is a percentage of the canvas width/height. This should be between 0 and 0.5.
+    // 0.1 is a good number. But feel free to experiment, if your labels are too long, you might need to increase this number.
+    this.defaultMargin = 0.1
+
+    // The default font. This object is updated when the attribute is changed.
+    // you are encouraged to use the attribute for changes instead of this object.
+    this.selectedFont = {
+      label: '12px Arial',
+      title: '16px Arial'
+    }
+
+    // The default colors. This object is updated when the attribute is changed.
+    // you are encouraged to use the attribute for changes instead of this object.
+    this.selectedColors = {
+      graph: 'black',
+      zeroLine: 'grey',
+      axis: 'black',
+      label: 'black',
+      title: 'black',
+      dot: 'black',
+      default: 'black'
+    }
 
     this.attachShadow({ mode: 'open' })
     .appendChild(template.content.cloneNode(true))
@@ -47,31 +75,39 @@ customElements.define('jk224jv-graphdrawer2000',
    * @param {Array} dataset - The dataset to render.
    */
   render (dataset) {
+    this.verifyDatasetIntegrity(dataset)
+
     const canvas = this.shadowRoot.querySelector('#canvas')
     const ctx = canvas.getContext('2d')
 
-    // Get the width and height of the canvas.
+    // Calculate the graph dimensions.
     const computedStyle = getComputedStyle(canvas)
     const width = parseInt(computedStyle.getPropertyValue('width'), 10)
     const height = parseInt(computedStyle.getPropertyValue('height'), 10)
-    // Set the rending resolution to the display resolution.
-    canvas.width = width
-    canvas.height = height
-
-    // Calculate the graph dimensions.
-    const margin = 0.1
-    const marginWidth = Math.min(width * margin, 64) // The margin should be at least 64px wide to fit the labels.
-    const marginHeight = height * margin
+    const marginWidth = width * this.defaultMargin
+    const marginHeight = height * this.defaultMargin
     const graphWidth = width - marginWidth * 2
     const graphHeight = height - marginHeight * 2
 
+    const canvasProperties = {
+      width: width,
+      height: height,
+      marginWidth: marginWidth,
+      marginHeight: marginHeight,
+      graphWidth: graphWidth,
+      graphHeight: graphHeight
+    }
+
+
+    // Set the rending resolution to the display resolution.
+    canvas.width = width
+    canvas.height = height
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+
     // Calculate the range of the graph.
     const max = Math.max(...dataset)
-    console.log(max + ' max')
     const min = Math.min(...dataset)
-    console.log(min + ' min')
     const range = max - min
-    console.log(range + ' range')
 
     // Calculate the widthStep.
     const widthStep = graphWidth / (dataset.length - 1)
@@ -79,15 +115,18 @@ customElements.define('jk224jv-graphdrawer2000',
     // Calculate the heightStep. This have more to do with the axis labels than the actual graph, and hence the base 10.
     const heightStep = Math.ceil(range / 10)
 
+    const graphProperties = {
+      max: max,
+      min: min,
+      range: range,
+      widthStep: widthStep,
+      heightStep: heightStep
+    }
+
     ctx.clearRect(0, 0, width, height)
     ctx.strokeStyle = 'black'
 
-    // If the range includes 0, draw a line at 0.
-    if (min < 0 && max > 0) {
-      ctx.moveTo(marginWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
-      ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
-      ctx.stroke()
-    }
+    this.drawZeroLine(canvasProperties, graphProperties, ctx)
 
     this.drawYAxis(marginWidth, marginHeight, graphHeight, min, heightStep, ctx, 'Values')
     this.drawXAxis(marginWidth, marginHeight, graphWidth, graphHeight, dataset.length, widthStep, ctx, 'Index')
@@ -128,6 +167,7 @@ customElements.define('jk224jv-graphdrawer2000',
    */
   drawYAxis (marginWidth, marginHeight, graphHeight, min, heightStep, ctx, title) {
     // Draw the y-axis.
+    ctx.beginPath()
     ctx.moveTo(marginWidth, marginHeight)
     ctx.lineTo(marginWidth, marginHeight + graphHeight)
     ctx.stroke()
@@ -167,6 +207,7 @@ customElements.define('jk224jv-graphdrawer2000',
    */
   drawXAxis (marginWidth, marginHeight, graphWidth, graphHeight, datasetLength, widthStep, ctx, title) {
     // Draw the x-axis.
+    ctx.beginPath()
     ctx.moveTo(marginWidth, marginHeight + graphHeight)
     ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight)
     ctx.stroke()
@@ -226,6 +267,55 @@ customElements.define('jk224jv-graphdrawer2000',
     ctx.textAlign = 'center'
     ctx.textBaseline = 'bottom'
     ctx.fillText(title, marginWidth + graphWidth + 42, graphHeight + marginHeight + 16)
+  }
+
+  /**
+   * Draws the zero line.
+   * @param {object} canvasProperties - The properties of the canvas.
+   * @param {object} graphProperties - The properties of the graph.
+   * @param {object} ctx - The canvas context.
+   */
+  drawZeroLine (canvasProperties, graphProperties, ctx) {
+    if (graphProperties.min < 0 && graphProperties.max > 0) { // If the range includes 0.
+
+      // Draw the zero line.
+      ctx.strokeStyle = this.selectedColors.zeroLine
+      ctx.beginPath()
+      ctx.moveTo(
+        canvasProperties.marginWidth,
+        canvasProperties.marginHeight + canvasProperties.graphHeight - (this.nonMagicZero - graphProperties.min) / graphProperties.heightStep * (canvasProperties.graphHeight / this.numberOfStepsOnYAxis)
+      )
+      ctx.lineTo(
+        canvasProperties.marginWidth + canvasProperties.graphWidth,
+        canvasProperties.marginHeight + canvasProperties.graphHeight - (this.nonMagicZero - graphProperties.min) / graphProperties.heightStep * (canvasProperties.graphHeight / this.numberOfStepsOnYAxis)
+      )
+      ctx.stroke()
+      // end the stroke to reset the strokeStyle to default.
+      ctx.strokeStyle = this.selectedColors.default
+    }
+  }
+        // ctx.moveTo(marginWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+        // ctx.lineTo(marginWidth + graphWidth, marginHeight + graphHeight - (0 - min) / heightStep * (graphHeight / 10))
+        // ctx.stroke()
+
+  /**
+   * Verifies that the dataset is an array of valid numbers.
+   * Throws an error if the dataset is invalid.
+   * @param {Array} dataset - The dataset to verify.
+   * @throws {Error} - Throws an error if the dataset is invalid.
+   */
+  verifyDatasetIntegrity (dataset) {
+    if (!Array.isArray(dataset)) {
+      throw new Error('GraphDrawer2000: The dataset is not an array.')
+    }
+    if (dataset.length < 2) {
+      throw new Error('GraphDrawer2000: The dataset is too short. It must contain at least two numbers.')
+    }
+    for (let i = 0; i < dataset.length; i++) {
+      if (typeof dataset[i] !== 'number' || isNaN(dataset[i])) {
+        throw new Error('GraphDrawer2000: The dataset contains non-numbers.')
+      }
+    }
   }
 })
 
