@@ -1,6 +1,6 @@
-import './components/graphdrawer2000/index.js'
+import './components/graphdrawer/index.js'
 /**
- * This page shows the usage of the graphdrawer2000 element.
+ * This page shows the usage of the graphdrawer element.
  *
  * Simply import the element and use it like this:
  *   1) Import the element.
@@ -26,12 +26,12 @@ import './components/graphdrawer2000/index.js'
  * Note that the custom element is already imported in the head of this document.
  *
  * @example
- * const graphdrawer2000 = document.createElement('jk224jv-graphdrawer2000')
- * graphdrawer2000.setAttribute('width', '100%')
- * graphdrawer2000.setAttribute('height', '100%')
- * document.body.appendChild(graphdrawer2000)
+ * const graphdrawerElement = document.createElement('jk224jv-graphdrawer')
+ * graphdrawerElement.setAttribute('width', '100%')
+ * graphdrawerElement.setAttribute('height', '100%')
+ * document.body.appendChild(graphdrawerElement)
  * const dataset = [2, 1, 3, 3, 4, 5, 5, 7, 7, -9, 2, 1, 3, 3, 4, 5, 5, 7, 7, 8]
- * document.querySelector('jk224jv-graphdrawer2000').render(dataset)
+ * document.querySelector('jk224jv-graphdrawer').render(dataset)
  */
 
 
@@ -43,5 +43,5 @@ import './components/graphdrawer2000/index.js'
  *@example
  */
 const dataset2 = [8,7,7,5,5,4,3,3,1,2,-9,7,7,5,5,4,3,3,1,2,5,1,4,6]
-const graphdrawer2000 = document.querySelector('jk224jv-graphdrawer2000')
-graphdrawer2000.render(dataset2)
+const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
+graphdrawerElement.render(dataset2)

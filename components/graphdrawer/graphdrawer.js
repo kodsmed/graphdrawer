@@ -1,11 +1,14 @@
 /**
- * GraphDrawer2000 is a Custom Web Element that renders a graph of a number dataset on a canvas.
+ * GraphDrawer is a Custom Web Element that renders a graph of a number dataset on a canvas.
  *
  * @author Jimmy Karlsson <jk224jv@student.lnu.se>
  *
  * Please see the readme file for usage.
  *
  */
+import './classes/CanvasProperties.js'
+
+
 const template = document.createElement('template')
 template.innerHTML = `
   <style>
@@ -23,8 +26,8 @@ template.innerHTML = `
 </div>
 `
 
-customElements.define('jk224jv-graphdrawer2000',
- class jk224jvGraphdrawer2000 extends HTMLElement {
+customElements.define('jk224jv-graphdrawer',
+ class jk224jvGraphdrawer extends HTMLElement {
 
   constructor () {
     super()
@@ -88,7 +91,7 @@ customElements.define('jk224jv-graphdrawer2000',
     const ctx = this.canvas.getContext('2d')
 
     // Calculate the graph dimensions.
-    const canvasProperties = this.calculateCanvasProperties()
+    const canvasProperties = new CanvasProperties(this.canvas)
 
     // Set the rending resolution to the display resolution.
     this.canvas.width = canvasProperties.width
@@ -307,14 +310,14 @@ customElements.define('jk224jv-graphdrawer2000',
    */
   verifyDatasetIntegrity (dataset) {
     if (!Array.isArray(dataset)) {
-      throw new Error('GraphDrawer2000: The dataset is not an array.')
+      throw new Error('GraphDrawer: The dataset is not an array.')
     }
     if (dataset.length < 2) {
-      throw new Error('GraphDrawer2000: The dataset is too short. It must contain at least two numbers.')
+      throw new Error('GraphDrawer: The dataset is too short. It must contain at least two numbers.')
     }
     for (let i = 0; i < dataset.length; i++) {
       if (typeof dataset[i] !== 'number' || isNaN(dataset[i])) {
-        throw new Error('GraphDrawer2000: The dataset contains non-numbers.')
+        throw new Error('GraphDrawer: The dataset contains non-numbers.')
       }
     }
   }
@@ -365,5 +368,3 @@ customElements.define('jk224jv-graphdrawer2000',
     }
   }
 })
-
-

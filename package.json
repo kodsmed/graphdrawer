@@ -9,18 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kodsmed/graphdrawer2000.git"
+    "url": "git+ssh://git@github.com/kodsmed/graphdrawer.git"
   },
   "keywords": [
     "canvas",
     "graph",
     "render",
-    "datarendition"
+    "data rendering"
   ],
   "author": "Jimmy Karlsson <jk224jv@student.lnu.se>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kodsmed/graphdrawer2000/issues"
+    "url": "https://github.com/kodsmed/graphdrawer/issues"
   },
-  "homepage": "https://github.com/kodsmed/graphdrawer2000#readme"
+  "homepage": "https://github.com/kodsmed/graphdrawer#readme"
 }
