@@ -131,14 +131,16 @@ customElements.define('jk224jv-graphdrawer',
     const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
     for (let index = 0; index < dataset.length; index++) {
       // Calculate the x and y coordinates of the next point.
+      // x is the index of the dataset multiplied by the ratio of the width of the render area to the length of the dataset.
       const pixelToIndexRatio = canvasProperties.renderAreaWidth / (dataset.length - 1)
       const x = canvasProperties.marginWidth + index * pixelToIndexRatio
 
+      // y is the value of the dataset at the current index multiplied by the ratio of the height of the render area to the range of the dataset.
       const pixelToValueStepSize = canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis
       const calculatedValueSteps = (dataset[index] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
       const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
       // The y coordinate is inverted since the y-axis is inverted on the canvas.
-      const y = bottomOfGraph - calculatedValueSteps * (pixelToValueStepSize)
+      const y = bottomOfGraph - (calculatedValueSteps * (pixelToValueStepSize))
       ctx.lineTo(x, y)
     }
     ctx.stroke()
@@ -177,11 +179,35 @@ customElements.define('jk224jv-graphdrawer',
     const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
 
     // Draw the y-axis.
+    this.#drawYAxis(graphAndCanvasData)
+
+    // Draw the y-axis labels.
+    this.#drawYAxisLabels(graphAndCanvasData)
+
+    // Draw the y-axis title.
+    this.#drawYAxisTitle(graphAndCanvasData)
+  }
+
+  /**
+   * Draws the y-axis.
+   */
+  #drawYAxis (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+
     ctx.beginPath()
     ctx.strokeStyle = colorSettings.axisColor
     ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight)
     ctx.lineTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
     ctx.stroke()
+  }
+
+  /**
+   * Draws the x-axis labels.
+   */
+  #drawYAxisLabels (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx } = graphAndCanvasData
 
     // Draw the y-axis labels, 10 labels.
     ctx.font = fontSettings.label
@@ -197,11 +223,20 @@ customElements.define('jk224jv-graphdrawer',
       const rangeToHeightRatio = Math.ceil(graphProperties.range / totalNrOfLabels)
       ctx.fillText(graphProperties.min + (labelNumber * rangeToHeightRatio), x, y)
     }
+  }
 
-    // Draw the y-axis title.
+  /**
+   * Draws the y-axis title.
+   */
+  #drawYAxisTitle (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
+
+    const titleFontSize = parseInt(fontSettings.title, 10)
+
     ctx.save()
     // Translate the canvas to the y-axis title position.
-    ctx.translate(canvasProperties.marginWidth - 42, canvasProperties.marginHeight + canvasProperties.renderAreaHeight / 2)
+    ctx.translate(canvasProperties.marginWidth - titleFontSize * 3, canvasProperties.marginHeight + canvasProperties.renderAreaHeight / 2)
     ctx.rotate(-Math.PI / 2) // Rotate the canvas 90 degrees counter clockwise.
     ctx.font = fontSettings.title
     ctx.fillStyle = colorSettings.titleColor
@@ -261,7 +296,6 @@ customElements.define('jk224jv-graphdrawer',
     const pixelsBetweenLabels = Math.ceil(canvasProperties.renderAreaWidth / numberOfLabelsToDraw)
     const indexStepsPerLabel = Math.max(Math.floor(dataset.length / numberOfLabelsToDraw), 1)
     const labelFontSize = parseInt(fontSettings.label, 10)
-    const titleFontSize = parseInt(fontSettings.title, 10)
     for (let labelNumber = 0; labelNumber <= numberOfLabelsToDraw; labelNumber++) {
       const x = canvasProperties.marginWidth + labelNumber * pixelsBetweenLabels
       const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)

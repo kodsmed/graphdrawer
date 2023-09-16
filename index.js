@@ -30,7 +30,7 @@ import './components/graphdrawer/index.js'
  * graphdrawerElement.setAttribute('width', '100%')
  * graphdrawerElement.setAttribute('height', '100%')
  * document.body.appendChild(graphdrawerElement)
- * const dataset = [2, 1, 3, 3, 4, 5, 5, 7, 7, -9, 2, 1, 3, 3, 4, 5, 5, 7, 7, 8]
+ * const dataset = [2,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
  * document.querySelector('jk224jv-graphdrawer').render(dataset)
  */
 
@@ -42,6 +42,6 @@ import './components/graphdrawer/index.js'
  *
  *@example
  */
-const dataset2 = [3,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
+const dataset2 = [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
 graphdrawerElement.render(dataset2)
