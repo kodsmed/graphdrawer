@@ -28,8 +28,8 @@ export class CanvasProperties {
     this.#height = parseInt(computedStyle.getPropertyValue('height'), baseTen)
     this.#marginWidth = this.#width * marginRatio
     this.#marginHeight = this.#height * marginRatio
-    this.#renderAreaWidth = this.#width - marginWidth * 2
-    this.#renderAreaHeight = this.#height - marginHeight * 2
+    this.#renderAreaWidth = this.#width - this.#marginWidth * 2
+    this.#renderAreaHeight = this.#height - this.#marginHeight * 2
   }
 
   /**

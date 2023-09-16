@@ -29,6 +29,7 @@ Valid values are:
 * 'orange'
 * 'purple'
 * 'black'
+* 'gray'
 * 'white'
 
 ## How to change the size? Not Yet implemented

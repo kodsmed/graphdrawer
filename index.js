@@ -42,6 +42,6 @@ import './components/graphdrawer/index.js'
  *
  *@example
  */
-const dataset2 = [8,7,7,5,5,4,3,3,1,2,-9,7,7,5,5,4,3,3,1,2,5,1,4,6]
+const dataset2 = [3,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
 graphdrawerElement.render(dataset2)
