@@ -33,7 +33,6 @@ template.innerHTML = `
 
 export default customElements.define('jk224jv-graphdrawer',
   class jk224jvGraphdrawer extends HTMLElement {
-  #canvas
   #numberOfStepsOnYAxis
   #maxNumberOfStepsOnXAxis
   #fontSettings

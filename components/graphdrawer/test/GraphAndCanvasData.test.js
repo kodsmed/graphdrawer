@@ -1,9 +1,9 @@
-import { GraphAndCanvasData } from '../components/graphdrawer/classes/GraphAndCanvasData.js'
-import { GraphProperties } from '../components/graphdrawer/classes/GraphProperties.js'
-import { CanvasProperties } from '../components/graphdrawer/classes/CanvasProperties.js'
-import { AxisTitles } from '../components/graphdrawer/classes/AxisTitles.js'
-import { FontSettings } from '../components/graphdrawer/classes/FontSettings.js'
-import { ColorSettings } from '../components/graphdrawer/classes/ColorSettings.js'
+import { GraphAndCanvasData } from '../classes/GraphAndCanvasData.js'
+import { GraphProperties } from '../classes/GraphProperties.js'
+import { CanvasProperties } from '../classes/CanvasProperties.js'
+import { AxisTitles } from '../classes/AxisTitles.js'
+import { FontSettings } from '../classes/FontSettings.js'
+import { ColorSettings } from '../classes/ColorSettings.js'
 import { expect, jest, test } from '@jest/globals'
 
 /**

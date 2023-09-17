@@ -1,4 +1,4 @@
-import { FontSettings } from "../components/graphdrawer/classes/FontSettings";
+import { FontSettings } from "../classes/FontSettings.js";
 
 /**
  * Test the FontSettings class.

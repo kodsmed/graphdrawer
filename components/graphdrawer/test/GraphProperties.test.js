@@ -1,4 +1,4 @@
-import { GraphProperties } from "../components/graphdrawer/classes/GraphProperties"
+import { GraphProperties } from "../classes/GraphProperties"
 
 /**
  * Test the GraphProperties class.

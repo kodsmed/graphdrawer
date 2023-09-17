@@ -1,4 +1,4 @@
-import { ColorSettings } from "../components/graphdrawer/classes/ColorSettings"
+import { ColorSettings } from "../classes/ColorSettings.js"
 
 /**
  * Test the ColorSettings class.

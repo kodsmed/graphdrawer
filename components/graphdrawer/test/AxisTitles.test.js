@@ -1,4 +1,4 @@
-import { AxisTitles } from "../components/graphdrawer/classes/AxisTitles"
+import { AxisTitles } from "../classes/AxisTitles.js"
 
 /**
  * Test the AxisTitles class.

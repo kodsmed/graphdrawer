@@ -1,4 +1,4 @@
-import { CanvasProperties } from "../components/graphdrawer/classes/CanvasProperties"
+import { CanvasProperties } from "../classes/CanvasProperties.js"
 
 /**
  * Test the CanvasProperties class.

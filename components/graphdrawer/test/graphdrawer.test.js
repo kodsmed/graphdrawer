@@ -1,11 +1,8 @@
-import jk224jvGraphdrawer from '../components/graphdrawer/graphdrawer.js'
-import { AxisTitles } from "../components/graphdrawer/classes/AxisTitles.js"
-import { ColorSettings } from "../components/graphdrawer/classes/ColorSettings.js"
-import { FontSettings } from "../components/graphdrawer/classes/FontSettings.js"
-import { CanvasProperties } from "../components/graphdrawer/classes/CanvasProperties.js"
-import { GraphProperties } from "../components/graphdrawer/classes/GraphProperties.js"
-import { GraphAndCanvasData } from "../components/graphdrawer/classes/GraphAndCanvasData.js"
-import { expect, jest, test } from '@jest/globals'
+import jk224jvGraphdrawer from '../graphdrawer.js'
+import { AxisTitles } from "../classes/AxisTitles.js"
+import { ColorSettings } from "../classes/ColorSettings.js"
+import { FontSettings } from "../classes/FontSettings.js"
+import { expect, jest } from '@jest/globals'
 
 /**
  * Test the graphdrawer class.
