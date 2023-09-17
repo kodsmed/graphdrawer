@@ -4,7 +4,14 @@ Uses the canvas element to render an array of numerical data.
 
 ## Usage
 
-Copy the /components/graphdrawer folder into your project and import it into your code. An example of usage is provided in the root index.html and index.js files.
+Copy the /components/graphdrawer folder into your project and import it into your code.
+An example of usage is provided in the root index.html and index.js files.
+The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work,
+only the graphdrawer folder is required.
+
+## Testing
+
+The test suite is written in Jest and can be run with the command `npm test`.
 
 ## How to render? Not Yet implemented
 

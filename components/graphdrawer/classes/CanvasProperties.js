@@ -21,6 +21,9 @@ export class CanvasProperties {
    * @param {HTMLCanvasElement} canvas
    */
   constructor (canvas) {
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      throw new TypeError('canvas must be an instance of HTMLCanvasElement')
+    }
     const computedStyle = getComputedStyle(canvas)
     const baseTen = 10 // We're using base 10. Don't change.
     const marginRatio = 0.1 // 10% margin, 80% render area. Change if you want to.

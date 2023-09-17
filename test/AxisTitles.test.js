@@ -1,4 +1,14 @@
-import { AxisTitles } from "../components/graphdrawer/classes/AxisTitles";
+import { AxisTitles } from "../components/graphdrawer/classes/AxisTitles"
+
+/**
+ * Test the AxisTitles class.
+ * AxisTitles is a simple class that stores the titles of the x and y axes.
+ *
+ * @see AxisTitles
+ * It should have the following properties:
+ * @property {string} xAxis - The title of the x axis.
+ * @property {string} yAxis - The title of the y axis.
+ */
 
 describe('AxisTitles', () => {
   describe('constructor', () => {

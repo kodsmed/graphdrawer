@@ -13,9 +13,26 @@
      * @param {Array} dataset - The dataset to calculate the graph properties from.
      */
     constructor (dataset) {
+      this.#validateDataset(dataset)
       this.#max = Math.max(...dataset)
       this.#min = Math.min(...dataset)
       this.#range = this.#max - this.#min
+    }
+
+    #validateDataset (dataset) {
+      if (!Array.isArray(dataset)) {
+        throw new TypeError('The dataset must be an array.')
+      }
+
+      if (dataset.length === 0) {
+        throw new Error('The dataset must not be empty.')
+      }
+
+      for (const value of dataset) {
+        if (value === undefined || value === null || typeof value !== 'number' || isNaN(value)) {
+          throw new TypeError('The dataset must only contain numbers.')
+        }
+      }
     }
 
     /**

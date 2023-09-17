@@ -18,12 +18,12 @@ const template = document.createElement('template')
 template.innerHTML = `
   <style>
     #container {
-      width: 100%;
-      height: 100%;
+      width: 100%; /* Use these to set the size. */
+      height: 100%; /* Use these to set the size. */
     }
     #canvas {
-      width: 100%;
-      height: 100%;
+      width: 100%; /* DO NOT USE these to set the size. */
+      height: 100%; /* DO NOT USE these to set the size. */
     }
   </style>
 <div id="container">
@@ -31,8 +31,8 @@ template.innerHTML = `
 </div>
 `
 
-customElements.define('jk224jv-graphdrawer',
- class jk224jvGraphdrawer extends HTMLElement {
+export default customElements.define('jk224jv-graphdrawer',
+  class jk224jvGraphdrawer extends HTMLElement {
   #canvas
   #numberOfStepsOnYAxis
   #maxNumberOfStepsOnXAxis
@@ -42,11 +42,9 @@ customElements.define('jk224jv-graphdrawer',
 
   constructor () {
     super()
-    // The canvas element. Shortcut for convenience.
-    this.#canvas = null // Will be set in connectedCallback.
-
-    // The number of steps on the y-axis. This is the number of labels on the y-axis. This should really really be 10 since 10 is the basis of our number system.
+    // The number of steps on the y-axis. This is the number of labels on the y-axis. This should really really be 10 since 10 is the basis of our number system. Don't change this unless you have a good reason, changes in the code might be needed.
     this.#numberOfStepsOnYAxis = 10
+
     // The maximum number of steps on the x-axis. This can change, but 20 is a good number. But feel free to experiment.
     this.#maxNumberOfStepsOnXAxis = 20
 
@@ -77,12 +75,9 @@ customElements.define('jk224jv-graphdrawer',
   attributeChangedCallback (name, oldValue, newValue) {}
 
   connectedCallback () {
-    this.#canvas = this.shadowRoot.querySelector('#canvas')
   }
 
   disconnectedCallback () {
-    // forget everything.
-    this.#canvas = null
   }
 
   /**
@@ -91,14 +86,18 @@ customElements.define('jk224jv-graphdrawer',
    * @param {Array} dataset - The dataset to render.
    */
   render (dataset) {
-    const ctx = this.#canvas.getContext('2d')
+    // Verify the types of the parameters.
+    this.verifyDatasetIntegrity(dataset)
+
+    const canvas = this.shadowRoot.querySelector('#canvas')
+    const ctx = canvas.getContext('2d')
 
     // Calculate the graph dimensions.
-    const canvasProperties = new CanvasProperties(this.#canvas)
+    const canvasProperties = new CanvasProperties(canvas)
 
     // Set the rending resolution to the display resolution.
-    this.#canvas.width = canvasProperties.width
-    this.#canvas.height = canvasProperties.height
+    canvas.width = canvasProperties.width
+    canvas.height = canvasProperties.height
     ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
 
     // Calculate the graph properties and pixel dimensions.
@@ -387,5 +386,89 @@ customElements.define('jk224jv-graphdrawer',
 
     // clear the canvas.
     ctx.clearRect(0, 0, canvasProperties.width, canvasProperties.height)
+  }
+
+  /**
+   * Verify the the dataset is an array of numbers.
+   * Throws an error if the dataset is invalid.
+   *
+   * @param {Array} dataset - The dataset to verify.
+   * @throws {TypeError} - If the dataset is not an array of numbers.
+   */
+  verifyDatasetIntegrity (dataset) {
+    if (dataset === undefined || dataset === null) {
+      throw new TypeError('dataset must not be undefined or null')
+    }
+
+    if (!Array.isArray(dataset)) {
+      throw new TypeError('dataset must be an array')
+    }
+
+    if (dataset.length === 0) {
+      throw new Error('dataset must not be empty')
+    }
+
+    for (const value of dataset) {
+      if (value === undefined || value === null || typeof value !== 'number' || isNaN(value)) {
+        throw new TypeError('dataset must only contain numbers')
+      }
+    }
+  }
+
+  /**
+   * Get the number of steps on the y-axis.
+   *
+   * @readonly
+   * @returns {number} The number of steps on the y-axis.
+   */
+  get numberOfStepsOnYAxis () {
+    return this.#numberOfStepsOnYAxis
+  }
+
+  /**
+   * Get the maximum number of steps on the x-axis.
+   *
+   * @readonly
+   * @returns {number} The maximum number of steps on the x-axis.
+   */
+  get maxNumberOfStepsOnXAxis () {
+    return this.#maxNumberOfStepsOnXAxis
+  }
+
+  /**
+   * Get the font settings of the graph.
+   *
+   * @readonly
+   * @returns {FontSettings} The font settings of the graph.
+   */
+  get fontSettings () {
+    // Return a copy of the font settings.
+    return new FontSettings(
+      this.#fontSettings.label.split(' ')[1],
+      parseInt(this.#fontSettings.label),
+      parseInt(this.#fontSettings.title)
+      )
+  }
+
+  /**
+   * Get the color settings of the graph.
+   *
+   * @readonly
+   * @returns {ColorSettings} The color settings of the graph.
+   */
+  get colorSettings () {
+    // Return a copy of the color settings.
+    return new ColorSettings(this.#colorSettings.graphLineColor, this.#colorSettings.graphDotColor, this.#colorSettings.zeroLineColor, this.#colorSettings.axisColor, this.#colorSettings.labelColor, this.#colorSettings.titleColor)
+  }
+
+  /**
+   * Get the axis titles of the graph.
+   *
+   * @readonly
+   * @returns {AxisTitles} The axis titles of the graph.
+   */
+  get axisTitles () {
+    // Return a copy of the axis titles.
+    return new AxisTitles(this.#axisTitles.xAxis, this.#axisTitles.yAxis)
   }
 })

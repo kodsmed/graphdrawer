@@ -26,6 +26,7 @@ export class ColorSettings {
    * @returns {ColorSettings} - An object containing the color settings.
    */
   constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor) {
+    const defaultColor = 'black'
     const validColors = [
       'red',
       'green',
@@ -57,12 +58,12 @@ export class ColorSettings {
     if (!validColors.includes(titleColor.toLowerCase())) {
       throw new TypeError('titleColor must be a valid color')
     }
-    this.#graphLineColor = graphLineColor.toLowerCase()
-    this.#graphDotColor = graphDotColor.toLowerCase()
-    this.#zeroLineColor = zeroLineColor.toLowerCase()
-    this.#axisColor = axisColor.toLowerCase()
-    this.#labelColor = labelColor.toLowerCase()
-    this.#titleColor = titleColor.toLowerCase()
+    this.#graphLineColor = graphLineColor.toLowerCase() || defaultColor
+    this.#graphDotColor = graphDotColor.toLowerCase() || defaultColor
+    this.#zeroLineColor = zeroLineColor.toLowerCase() || defaultColor
+    this.#axisColor = axisColor.toLowerCase() || defaultColor
+    this.#labelColor = labelColor.toLowerCase() || defaultColor
+    this.#titleColor = titleColor.toLowerCase() || defaultColor
   }
 
   /**
