@@ -77,11 +77,21 @@ export class GraphAndCanvasData {
       throw new TypeError('graphProperties must be an instance of GraphProperties')
     }
     this.verifyDatasetIntegrity(dataset)
-    if (typeof maxNumberOfLabelsOnXAxis !== 'number') {
-      throw new TypeError('maxNumberOfLabelsOnXAxis must be a number')
+    if (maxNumberOfLabelsOnXAxis === undefined
+      || maxNumberOfLabelsOnXAxis === null
+      || typeof maxNumberOfLabelsOnXAxis !== 'number'
+      || isNaN(maxNumberOfLabelsOnXAxis
+      || maxNumberOfLabelsOnXAxis < 0
+      || maxNumberOfLabelsOnXAxis >= Math.max(dataset.length, 20))
+      ) {
+      throw new TypeError('maxNumberOfLabelsOnXAxis must be a number between 0 and the length of the dataset, or at least 20')
     }
-    if (typeof numberOfLabelsOnYAxis !== 'number') {
-      throw new TypeError('numberOfLabelsOnYAxis must be a number')
+    if (numberOfLabelsOnYAxis === undefined
+      || numberOfLabelsOnYAxis === null
+      || numberOfLabelsOnYAxis !== 'number'
+      || isNaN(numberOfLabelsOnYAxis)
+      || numberOfLabelsOnYAxis !== 10) {
+      throw new TypeError('numberOfLabelsOnYAxis must be a number, 10')
     }
     if (!(fontSettings instanceof FontSettings)) {
       throw new TypeError('fontSettings must be an instance of FontSettings')

@@ -145,12 +145,161 @@ describe('GraphAndCanvasData', () => {
         expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, Infinity, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
         expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, -Infinity, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError)
       })
-      // TODO: test if numberOfLabelsOnYAxis can be invalid.
-      // TODO: test if fontSettings can be invalid.
-      // TODO: test if colorSettings can be invalid.
-      // TODO: test if ctx can be invalid.
-      // TODO: test if axisTitles can be invalid.
-      // TODO: test getters on all properties.
+    }),
+    it('should throw a TypeError if numberOfLabelsOnYAxis is not a valid number', () => {
+      // Wait for the canvas to be created
+      requestAnimationFrame(() => {
+        const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+        const validGraphProperties = new GraphProperties([1,2,3])
+        const validDataset = [1,2,3]
+        const validMaxNumberOfLabelsOnXAxis = 20
+        //const validNumberOfLabelsOnYAxis = 10
+        const validFontSettings = new FontSettings('Arial', 12, 'black')
+        const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+        const validCtx = document.getElementById('canvas').getContext('2d')
+        const validAxisTitles = new AxisTitles('x', 'y')
+
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis,
+           'nonValid', validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, null, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, undefined, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, {}, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, true, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, false, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, [], validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, NaN, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, Infinity, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, -Infinity, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError)
+        })
+      }),
+      it('should throw a TypeError if fontSettings is not a valid FontSettings object', () => {
+        // Wait for the canvas to be created
+        requestAnimationFrame(() => {
+          const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+          const validGraphProperties = new GraphProperties([1,2,3])
+          const validDataset = [1,2,3]
+          const validMaxNumberOfLabelsOnXAxis = 20
+          const validNumberOfLabelsOnYAxis = 10
+          //const validFontSettings = new FontSettings('Arial', 12, 'black')
+          const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+          const validCtx = document.getElementById('canvas').getContext('2d')
+          const validAxisTitles = new AxisTitles('x', 'y')
+
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, 'nonValid', validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, 1, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, null, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, undefined, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError)
+        })
+      }),
+      it('should throw a TypeError if colorSettings is not a valid ColorSettings object', () => {
+        // Wait for the canvas to be created
+        requestAnimationFrame(() => {
+          const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+          const validGraphProperties = new GraphProperties([1,2,3])
+          const validDataset = [1,2,3]
+          const validMaxNumberOfLabelsOnXAxis = 20
+          const validNumberOfLabelsOnYAxis = 10
+          const validFontSettings = new FontSettings('Arial', 12, 'black')
+          //const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+          const validCtx = document.getElementById('canvas').getContext('2d')
+          const validAxisTitles = new AxisTitles('x', 'y')
+
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, 'nonValid', validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, 1, validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, null, validCtx, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, undefined, validCtx, validAxisTitles)).toThrow(TypeError)
+        })
+      }),
+      it('should throw a TypeError if ctx is not a valid context', () => {
+        // Wait for the canvas to be created
+        requestAnimationFrame(() => {
+          const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+          const validGraphProperties = new GraphProperties([1,2,3])
+          const validDataset = [1,2,3]
+          const validMaxNumberOfLabelsOnXAxis = 20
+          const validNumberOfLabelsOnYAxis = 10
+          const validFontSettings = new FontSettings('Arial', 12, 'black')
+          const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+          //const validCtx = document.getElementById('canvas').getContext('2d')
+          const validAxisTitles = new AxisTitles('x', 'y')
+
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, 'nonValid', validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, 1, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, null, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, undefined, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, {}, validAxisTitles)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, [], validAxisTitles)).toThrow(TypeError)
+        })
+      }),
+      it('should throw a TypeError if axisTitles is not a valid AxisTitles object', () => {
+        // Wait for the canvas to be created
+        requestAnimationFrame(() => {
+          const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+          const validGraphProperties = new GraphProperties([1,2,3])
+          const validDataset = [1,2,3]
+          const validMaxNumberOfLabelsOnXAxis = 20
+          const validNumberOfLabelsOnYAxis = 10
+          const validFontSettings = new FontSettings('Arial', 12, 'black')
+          const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+          const validCtx = document.getElementById('canvas').getContext('2d')
+          //const validAxisTitles = new AxisTitles('x', 'y')
+
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, 'nonValid')).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, 1)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, null)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, undefined)).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, {})).toThrow(TypeError),
+          expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, [])).toThrow(TypeError)
+        })
+      })
+    })
+
+    describe('getters', () => {
+
+      // Wait for the canvas to be created
+      requestAnimationFrame(() => {
+        const validCanvasProperties = new CanvasProperties(document.getElementById('canvas'))
+        const validGraphProperties = new GraphProperties([1,2,3])
+        const validDataset = [1,2,3]
+        const validMaxNumberOfLabelsOnXAxis = 20
+        const validNumberOfLabelsOnYAxis = 10
+        const validFontSettings = new FontSettings('Arial', 12, 'black')
+        const validColorSettings = new ColorSettings('black', 'white', 'red', 'green', 'blue', 'black')
+        const validCtx = document.getElementById('canvas').getContext('2d')
+        const validAxisTitles = new AxisTitles('x', 'y')
+
+        const graphAndCanvasData = new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, validMaxNumberOfLabelsOnXAxis, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)
+
+        it('should return the correct value for nonMagicZero', () => {
+          expect(graphAndCanvasData.nonMagicZero).toBe(0)
+        }),
+        it('should return the correct value for canvasProperties', () => {
+          expect(graphAndCanvasData.canvasProperties).toBe(validCanvasProperties)
+        }),
+        it('should return the correct value for graphProperties', () => {
+          expect(graphAndCanvasData.graphProperties).toBe(validGraphProperties)
+        }),
+        it('should return the correct value for dataset', () => {
+          expect(graphAndCanvasData.dataset).toBe(validDataset)
+        }),
+        it('should return the correct value for maxNumberOfLabelsOnXAxis', () => {
+          expect(graphAndCanvasData.maxNumberOfLabelsOnXAxis).toBe(validMaxNumberOfLabelsOnXAxis)
+        }),
+        it('should return the correct value for numberOfLabelsOnYAxis', () => {
+          expect(graphAndCanvasData.numberOfLabelsOnYAxis).toBe(validNumberOfLabelsOnYAxis)
+        }),
+        it('should return the correct value for fontSettings', () => {
+          expect(graphAndCanvasData.fontSettings).toBe(validFontSettings)
+        }),
+        it('should return the correct value for colorSettings', () => {
+          expect(graphAndCanvasData.colorSettings).toBe(validColorSettings)
+        }),
+        it('should return the correct value for ctx', () => {
+          expect(graphAndCanvasData.ctx).toBe(validCtx)
+        }),
+        it('should return the correct value for axisTitles', () => {
+          expect(graphAndCanvasData.axisTitles).toBe(validAxisTitles)
+        })
+      })
     })
   })
-})
