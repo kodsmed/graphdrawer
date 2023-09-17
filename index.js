@@ -42,6 +42,12 @@ import './components/graphdrawer/index.js'
  *
  *@example
  */
-const dataset2 = [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
+// the default dataset
+const defaultDataset = [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
+// render overflow dataset if you want to experiment with very large datasets
+const overflowDataset = [0]
+for (let i = 0; i < 1000; i++) {
+  overflowDataset.push(Math.floor(Math.random() * 100))
+}
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
-graphdrawerElement.render(dataset2)
+graphdrawerElement.render(defaultDataset)

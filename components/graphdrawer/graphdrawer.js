@@ -124,8 +124,8 @@ export default customElements.define('jk224jv-graphdrawer',
     // Extract the desired objects from the graphAndCanvasData master-object.
     const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
 
-    ctx.beginPath()
     ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.beginPath()
     ctx.strokeStyle = graphAndCanvasData.colorSettings.graphLineColor
     const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
     for (let index = 0; index < dataset.length; index++) {
@@ -164,6 +164,7 @@ export default customElements.define('jk224jv-graphdrawer',
       const stopAngle = 2 * Math.PI // A full circle.
       ctx.beginPath()
       ctx.arc(x, y, dotRadius, startAngle, stopAngle)
+      ctx.fillStyle = graphAndCanvasData.colorSettings.graphDotColor
       ctx.fill()
     }
   }
