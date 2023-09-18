@@ -82,15 +82,16 @@ export class GraphAndCanvasData {
       || typeof maxNumberOfLabelsOnXAxis !== 'number'
       || isNaN(maxNumberOfLabelsOnXAxis
       || maxNumberOfLabelsOnXAxis < 0
-      || maxNumberOfLabelsOnXAxis >= Math.max(dataset.length, 20))
+      || maxNumberOfLabelsOnXAxis > 50)
       ) {
-      throw new TypeError('maxNumberOfLabelsOnXAxis must be a number between 0 and the length of the dataset, or at least 20')
+      throw new TypeError('maxNumberOfLabelsOnXAxis must be a number between 0 and 50')
     }
     if (numberOfLabelsOnYAxis === undefined
       || numberOfLabelsOnYAxis === null
-      || numberOfLabelsOnYAxis !== 'number'
+      || typeof numberOfLabelsOnYAxis !== 'number'
       || isNaN(numberOfLabelsOnYAxis)
       || numberOfLabelsOnYAxis !== 10) {
+        console.log(numberOfLabelsOnYAxis)
       throw new TypeError('numberOfLabelsOnYAxis must be a number, 10')
     }
     if (!(fontSettings instanceof FontSettings)) {

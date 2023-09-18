@@ -109,7 +109,7 @@ describe ('GraphDrawer', () => {
 
   describe('render', () => {
     it('should have a render method', () => {
-      expect(graphdrawerElement.render).toBeDefined()
+      expect(graphdrawerElement.renderArrayAsGraph).toBeDefined()
     }),
     it('should call the verifyDatasetIntegrity method', () => {
       const spy = jest.spyOn(graphdrawerElement, 'verifyDatasetIntegrity')

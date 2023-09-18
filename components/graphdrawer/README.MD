@@ -11,9 +11,9 @@ only the graphdrawer folder is required. However, I encourage you to also includ
 
 ## Testing
 
-The test suite is written in Jest for the jsdom test environment and can be run with the command `npm run test`.
-If you want to include the test suite in your project, copy the /test folder into your project and import it into your code.
+The test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
 If you want to change the test environment, the test suit may need to be adapted.
+
 If you want to run the test suite in your project, make sure to include the following scripts in your package.json:
 
 ```json
@@ -27,9 +27,18 @@ Make sure to also include the test dependencies in your project:
 * jest
 * jest-environment-jsdom
 
+```json
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+```
+
+Install the dependencies with `npm install` and run the test suite with `npm run test`.
+
 ## How to render?
 
-Call the method "render(number[])" on the GraphDrawer object. The array of numbers will be rendered as a graph.
+Call the method "renderArrayAsGraph(number[])" on the GraphDrawer object. The array of numbers will be rendered as a graph.
 The X axis will be the index of the array, the Y axis will be the value of the array at the given index.
 The graph will be scaled to fit the canvas element.
 The Y-axis will be scaled according to the range of the values in the array.

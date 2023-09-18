@@ -2,6 +2,19 @@
 
 A web component that draws a graph from an array of numbers using the canvas element.
 
+## Dependencies
+
+The component will work in any browser that supports the following:
+
+* Custom Elements - [https://caniuse.com/custom-elementsv1](https://caniuse.com/custom-elementsv1)
+* Shadow DOM - [https://caniuse.com/shadowdomv1](https://caniuse.com/shadowdomv1)
+* Canvas API - [https://caniuse.com/canvas](https://caniuse.com/canvas)
+
+## Demo
+
+Easiest way to use the demo is to serve the root folder with a web server, for example the VS Code Live Server extension.
+If that is not an option for you, you can use any other web server to serve the root folder, and then open the index.html file in your browser.
+
 ## Usage
 
 Copy the /components/graphdrawer folder into your project and import it into your code.
@@ -22,9 +35,9 @@ there you will find the following information:
 
 ## Testing
 
-The test suite is written in Jest for the jsdom test environment and can be run with the command `npm run test`.
-If you want to include the test suite in your project, copy the /test folder into your project and import it into your code.
+The test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
 If you want to change the test environment, the test suit may need to be adapted.
+
 If you want to run the test suite in your project, make sure to include the following scripts in your package.json:
 
 ```json
@@ -44,3 +57,9 @@ Make sure to also include the test dependencies in your project:
     "jest-environment-jsdom": "^29.7.0"
   },
 ```
+
+Install the dependencies with `npm install` and run the test suite with `npm run test`.
+
+## License
+
+MIT License, Jimmy Karlsson 2023

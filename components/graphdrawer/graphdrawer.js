@@ -84,7 +84,7 @@ export default customElements.define('jk224jv-graphdrawer',
    *
    * @param {Array} dataset - The dataset to render.
    */
-  render (dataset) {
+  renderArrayAsGraph (dataset) {
     // Verify the types of the parameters.
     this.verifyDatasetIntegrity(dataset)
 

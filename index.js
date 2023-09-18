@@ -50,4 +50,4 @@ for (let i = 0; i < 1000; i++) {
   overflowDataset.push(Math.floor(Math.random() * 100))
 }
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
-graphdrawerElement.render(defaultDataset)
+graphdrawerElement.renderArrayAsGraph(defaultDataset)
