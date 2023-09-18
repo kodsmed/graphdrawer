@@ -15,12 +15,14 @@ The component will work in any browser that supports the following:
 Easiest way to use the demo is to serve the root folder with a web server, for example the VS Code Live Server extension.
 If that is not an option for you, you can use any other web server to serve the root folder, and then open the index.html file in your browser.
 
+// TODO: check if this can run of Netlify
+
 ## Usage
 
 Copy the /components/graphdrawer folder into your project and import it into your code.
 An example of usage is provided in the root index.html and index.js files.
 The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work,
-only the graphdrawer folder is required. However, I encourage you to also include the test suite in your project.
+only the graphdrawer folder is required.
 
 ### FOR DETAILED USAGE INSTRUCTIONS SEE THE README.MD IN THE COMPONENTS/GRAPHDRAWER FOLDER
 
@@ -62,4 +64,4 @@ Install the dependencies with `npm install` and run the test suite with `npm run
 
 ## License
 
-MIT License, Jimmy Karlsson 2023
+MIT License, Jimmy Karlsson 2023, [LICENSE](LICENSE)
