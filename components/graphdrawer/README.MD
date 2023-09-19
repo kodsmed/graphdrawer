@@ -15,7 +15,7 @@ The component will work in any browser that supports the following:
 Easiest way to use the demo is to serve the root folder with a web server, for example the VS Code Live Server extension.
 If that is not an option for you, you can use any other web server to serve the root folder, and then open the index.html file in your browser.
 
-A live demo (with a fixed array) is available at [https://graphdrawerdemo.netlify.app/](https://graphdrawerdemo.netlify.app/)
+A live demo is available at [https://graphdrawerdemo.netlify.app/](https://graphdrawerdemo.netlify.app/)
 
 ## Usage
 
