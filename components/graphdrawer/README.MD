@@ -164,3 +164,5 @@ graphDrawer.clear();
 ### Open issues
 
 * I would like the graph to center on the graphline, so that the graphline medium is always in the middle of the canvas element. Currently the graphs minimum value is always at the bottom of the canvas element.
+* Add the ability to select an algorithm for scaling the Y-axis, for example logarithmic scaling, x^2, etc.
+* Add the ability to approximate the curve of the graph, for example with a bezier-curve, logarithmic, x^2.
