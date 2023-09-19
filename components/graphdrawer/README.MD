@@ -11,7 +11,7 @@ only the graphdrawer folder is required. However, I encourage you to also includ
 
 ## Testing
 
-The test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
+The automatic test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
 If you want to change the test environment, the test suit may need to be adapted.
 
 If you want to run the test suite in your project, make sure to include the following scripts in your package.json:
@@ -35,6 +35,8 @@ Make sure to also include the test dependencies in your project:
 ```
 
 Install the dependencies with `npm install` and run the test suite with `npm run test`.
+
+For manual testing see even numbered test reports.
 
 ## How to render?
 
@@ -132,8 +134,18 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.clear();
 ```
 
-## Known bugs and issues
+## Known bugs, limitations and open issues
+
+### Buggs
 
 * If the length of the array is a prime number, the X-axis will not limit the amount of labels rendered.
+* There is a bug that occurs when the range of the array is exactly 0, this will result in the Y-axis being scaled to 0 all labels will be the identical.
+
+### Limitations
+
 * There is currently no handling of an array that contains more values than the canvas element can reasonably display. This will result in a graph that is too small to be useful. On a full-size screen, you can fit about 1000 values on the X-axis.
 * There is currently no setters for the options, see the above sections marked "Not Yet implemented".
+
+### Open issues
+
+* I would like the graph to center on the graphline, so that the graphline medium is always in the middle of the canvas element. Currently the graphs minimum value is always at the bottom of the canvas element.
