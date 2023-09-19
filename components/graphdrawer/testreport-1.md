@@ -1,6 +1,6 @@
-# Test Report
+# Test Report 1 - Automated Test Suite for GraphDrawer Component
 
-This is the test report for the GraphDrawer component and its included classes.
+This is a test report for the GraphDrawer component and its included classes.
 The test suite is written in Jest for the jsdom test environment and can after installation of the npm packages be run straight out of the repo with the command `npm run test`.
 
 Test: Jest
@@ -189,6 +189,8 @@ All tests should pass.
 ### Actual output from the test suite
 
 All tests passed.
+
+## Test Results
 
 Test Suites: 7 passed, 7 total
 Tests:       90 passed, 90 total
