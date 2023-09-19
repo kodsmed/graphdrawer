@@ -49,8 +49,81 @@ const overflowTestDataSet = []
 for (let i = 0; i < 1000; i++) {
   overflowTestDataSet.push(Math.floor(Math.random() * 100))
 }
+// arrays used for testing
 const veryShortRangeTestDataset = [4.0001, 5, 5.0001]
 const zeroRangeTestDataset = [5,5,5,5]
 const floatNumberTestDataset = [1.1, 1.2, 1.5, 1.9, 1.15, 1.45]
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
-graphdrawerElement.renderArrayAsGraph(floatNumberTestDataset)
+
+// Set up the demopage functions
+const renderButton = document.querySelector('#renderbutton')
+renderButton.addEventListener('click', () => clickHandler())
+
+/**
+ * Clickhandler for the render button.
+ * This function is called when the render button is clicked.
+ * It validates the userinput and renders the graph if the input is valid.
+ * If the input is invalid, it shows the default dataset rendering instead.
+ */
+function clickHandler () {
+  const untrustedInput = `${document.querySelector('#input').value}` // I don't care what you was. Now you are a string.
+  let arrayToRender
+
+  if(verifiableInputIntegrity(untrustedInput.trim())){
+    const trustedInput = untrustedInput // Yes overkill, but indicated that we now have checked the input.
+    arrayToRender = stringToArrayConverter(trustedInput)
+  } else {
+    arrayToRender = defaultDataset
+  }
+
+  graphdrawerElement.renderArrayAsGraph(arrayToRender)
+}
+
+/**
+ * Validate the userinput and returns TRUE if it is an array of numbers,
+ * and false if it is anything else.
+ *
+ * @param {sting} untrustedUserInput
+ */
+
+function verifiableInputIntegrity (untrustedUserInput) {
+  if (untrustedUserInput === undefined || untrustedUserInput === null || untrustedUserInput.length === 0) {
+    return false
+  }
+
+  // Check if the input contains anything but [ ], numbers, commas, dots and spaces.
+  const containsUnexpectedCharacters = untrustedUserInput.match(/[^0-9\[\]\,\.\s]/g) !== null
+  if (containsUnexpectedCharacters) {
+    return false
+  }
+
+  // Check if its properly formatted as an array of numbers.
+  const containsMultipleBrackets = untrustedUserInput.match(/\[/g).length > 1 || untrustedUserInput.match(/\]/g).length > 1
+  const firstCharacterIsBracket = untrustedUserInput[0] === '['
+  const lastCharacterIsBracket = untrustedUserInput[untrustedUserInput.length - 1] === ']'
+  const secondCharacterIsNotANumber = isNaN(untrustedUserInput[1])
+  if (containsMultipleBrackets || !firstCharacterIsBracket || !lastCharacterIsBracket || secondCharacterIsNotANumber) {
+    return false
+  }
+
+  // The input is safe and can be parsed to an array of numbers.
+  return true
+}
+
+/**
+ * Converts a string to an array of numbers.
+ * The string should be formatted as a javascript array of numbers.
+ * The string should be validated before calling this function.
+ * @param {string} stringToConvert
+ */
+function stringToArrayConverter (stringToConvert) {
+  const arrayToRender = []
+  // remove the brackets and split the string into an array of strings
+  const stringArray = stringToConvert.slice(1, stringToConvert.length - 1).split(',')
+  stringArray.forEach(element => {
+    // convert each string to a number and push it to the arrayToRender
+    // we can't use parseInt or parseFloat since we want to be able to render both.
+    arrayToRender.push(Number(element))
+  })
+  return arrayToRender
+}

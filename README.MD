@@ -1,21 +1,8 @@
 # jk224jv-graphdrawer
 
 A web component that draws a graph from an array of numbers using the canvas element.
+Please see the readme in the components/graphdrawer folder.
 
-## Dependencies
-
-The component will work in any browser that supports the following:
-
-* Custom Elements - [https://caniuse.com/custom-elementsv1](https://caniuse.com/custom-elementsv1)
-* Shadow DOM - [https://caniuse.com/shadowdomv1](https://caniuse.com/shadowdomv1)
-* Canvas API - [https://caniuse.com/canvas](https://caniuse.com/canvas)
-
-## Demo
-
-Easiest way to use the demo is to serve the root folder with a web server, for example the VS Code Live Server extension.
-If that is not an option for you, you can use any other web server to serve the root folder, and then open the index.html file in your browser.
-
-// TODO: check if this can run of Netlify
 
 ## Usage
 
