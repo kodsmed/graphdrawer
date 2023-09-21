@@ -108,16 +108,17 @@ graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { z
 
 ![./readme/setColorExample.png](./readme/setColorExample.png)
 
-## How to change the size? Not Yet implemented
+## How to change the size?
 
-Call the method "setSize({width: number}, {height: number})" on the GraphDrawer element.
-Objects not included in the object will be ignored, so you can set only the size you want to change.
+Call the method "setSize({width: 'cssValue', height: 'cssValue'})" on the GraphDrawer element.
+Will throw an error if it receives invalid properties or values.
+Must have both width and height properties, and they must be valid css values in px or % (ex. '500px', '50%').
 
 example usage:
 
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.setSize({ width: 500 }, { height: 500 });
+graphDrawer.setSize({ width: '500px', height: '500px' });
 ```
 
 ## How to change the axistitles?

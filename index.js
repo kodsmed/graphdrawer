@@ -77,6 +77,7 @@ function clickHandler () {
   }
 
   graphdrawerElement.clear()
+  graphdrawerElement.setSize({width: '80%', height: '80%'})
   graphdrawerElement.renderArrayAsGraph(arrayToRender)
 }
 

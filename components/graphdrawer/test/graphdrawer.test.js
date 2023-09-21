@@ -305,6 +305,58 @@ describe ('GraphDrawer', () => {
         expect (graphdrawerElement.fontSettings.label).toBe('10px Arial')
         expect (graphdrawerElement.fontSettings.title).toBe('12px Arial')
       })
+    }),
+    describe('set Size', () => {
+      it('should have a setSize method', () => {
+        expect(graphdrawerElement.setSize).toBeDefined()
+      }),
+      it('should throw TypeError if the argument is not an object', () => {
+        expect(() => graphdrawerElement.setSize(1)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize(null)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize(undefined)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize([])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize('string')).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize(NaN)).toThrow(TypeError)
+      }),
+      it('should throw TypeError if the argument is an empty object', () => {
+        expect(() => graphdrawerElement.setSize({})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if the argument does not contain a width or height property', () => {
+        expect(() => graphdrawerElement.setSize({width: 1})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({height: 1})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if any other property is passed in', () => {
+        expect(() => graphdrawerElement.setSize({width: 1, height: 1, extraProperty: 'string'})).toThrow(TypeError)
+        expect(() => graphdrawerElement.setSize({width: 1, extraProperty: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({height: 1, extraProperty: 'string'})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if the width or height property is not a string', () => {
+        expect(() => graphdrawerElement.setSize({width: '100%', height: 1})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: 1, height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: null, height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: null})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: undefined, height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: undefined})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: [], height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: []})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: {}, height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: {}})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: NaN, height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: NaN})).toThrow(TypeError)
+      }),
+      it ('should throw TypeError if the width or height property is not a valid css value', () => {
+        expect(() => graphdrawerElement.setSize({width: '100', height: '100%'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100%', height: '100'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100', height: '100px'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setSize({width: '100px', height: '100'})).toThrow(TypeError)
+      }),
+      it('should set the width and height of the canvas element', () => {
+        graphdrawerElement.setSize({width: '100px', height: '200px'})
+        requestAnimationFrame(() => {
+          expect(graphdrawerElement.shadowRoot.querySelector('canvas').width).toBe(100)
+          expect(graphdrawerElement.shadowRoot.querySelector('canvas').height).toBe(200)
+        })
+      })
     })
   })
 })

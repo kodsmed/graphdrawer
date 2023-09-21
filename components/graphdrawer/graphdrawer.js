@@ -246,6 +246,18 @@ export default customElements.define('jk224jv-graphdrawer',
     this.#fontSettings = new FontSettings(fontSettings.fontFamily, fontSettings.labelFontSize, fontSettings.titleFontSize)
   }
 
+  /**
+   * Set the size of the component.
+   *
+   * @param {Object} size - example: {width: '100%', height: '250px'}
+   */
+  setSize (size) {
+    this.#validateSizeObject(size)
+    const container = this.shadowRoot.querySelector('#container')
+    container.style.width = size.width
+    container.style.height = size.height
+  }
+
   /******************************************************************************************************************************
    * GETTERS
    ******************************************************************************************************************************/
@@ -463,6 +475,56 @@ export default customElements.define('jk224jv-graphdrawer',
     }
   }
 
+  #validateSizeObject (size) {
+    if (size === undefined || size === null || typeof size !== 'object' || Array.isArray(size)) {
+      throw new TypeError('size must be an object, but is: ' + typeof size)
+    }
+
+    if (Object.keys(size).length !== 2) {
+      throw new TypeError('size may have two properties, but contains: ' + Object.keys(size).length + ' properties')
+    }
+
+    if (size.width === undefined || size.height === undefined) {
+      throw new TypeError('size must width and height properties')
+    }
+
+    if ('width' in size
+      && (size.width === undefined
+        || size.width === null
+        || typeof size.width !== 'string'
+        || Array.isArray(size.width)
+      )
+    ) {
+      throw new TypeError('width value must be a string, but is: ' + typeof size.width)
+    }
+
+    if ('height' in size
+      && (size.height === undefined
+        || size.height === null
+        || typeof size.height !== 'string'
+        || Array.isArray(size.height)
+      )
+    ) {
+      throw new TypeError('height value must be a string, but is: ' + typeof size.height)
+    }
+
+    if (size.width === '') {
+      throw new TypeError('width value must not be empty')
+    }
+
+    if (size.height === '') {
+      throw new TypeError('height value must not be empty')
+    }
+
+    if (!size.width.endsWith('%') && !size.width.endsWith('px')) {
+      throw new TypeError('width value must end in % or px')
+    }
+
+    if (!size.height.endsWith('%') && !size.height.endsWith('px')) {
+      throw new TypeError('height value must end in % or px')
+    }
+  }
+
   #drawGraphLines (graphAndCanvasData) {
     const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
 
@@ -503,20 +565,12 @@ export default customElements.define('jk224jv-graphdrawer',
   }
 
   #drawXAxisWithLabelsAndTitle (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, dataset, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-    // Draw the x-axis.
     this.#drawXAxis(graphAndCanvasData)
-
-    // Draw the x-axis labels.
     this.#drawXAxisLabels(graphAndCanvasData)
-
-    // Draw the x-axis title.
     this.#drawXAxisTitle(graphAndCanvasData)
   }
 
   #drawXAxis (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
     const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
     ctx.beginPath()
     ctx.strokeStyle = colorSettings.axisColor
@@ -566,16 +620,8 @@ export default customElements.define('jk224jv-graphdrawer',
   }
 
   #drawYAxisWithLabelsAndTitle (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-
-    // Draw the y-axis.
     this.#drawYAxis(graphAndCanvasData)
-
-    // Draw the y-axis labels.
     this.#drawYAxisLabels(graphAndCanvasData)
-
-    // Draw the y-axis title.
     this.#drawYAxisTitle(graphAndCanvasData)
   }
 
