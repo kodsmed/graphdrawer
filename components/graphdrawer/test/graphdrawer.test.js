@@ -195,6 +195,58 @@ describe ('GraphDrawer', () => {
         expect(newColors.zeroLineColor).toBe(previousColors.zeroLineColor)
         expect(newColors.axisColor).toBe(previousColors.axisColor)
       })
+    }),
+    describe('setAxisTitles', () => {
+      it('should have a setAxisTitles method', () => {
+        expect(graphdrawerElement.setAxisTitles).toBeDefined()
+      }),
+      it('should throw TypeError if the argument is not an object', () => {
+        expect(() => graphdrawerElement.setAxisTitles(1)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles(null)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles(undefined)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles([])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles('string')).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles(NaN)).toThrow(TypeError)
+      }),
+      it('should throw TypeError if the argument is an empty object', () => {
+        expect(() => graphdrawerElement.setAxisTitles({})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if either argument contains a non-string', () => {
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 1, yAxis: 2})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: null, yAxis: null})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: undefined, yAxis: undefined})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: [], yAxis: []})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: {}, yAxis: {}})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: NaN, yAxis: NaN})).toThrow(TypeError)
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: 2})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 1, yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: null})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: null, yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: undefined})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: undefined, yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: []})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: [], yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: {}})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: {}, yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: NaN})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: NaN, yAxis: 'string'})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if a non-valid property is passed in', () => {
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', yAxis: 'string', zAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({unvalidProperty: 'string', yAxis: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setAxisTitles({xAxis: 'string', unvalidProperty: 'string'})).toThrow(TypeError)
+      }),
+      it('should set the axisTitles property', () => {
+        graphdrawerElement.setAxisTitles({xAxis: 'x', yAxis: 'y'})
+        expect(graphdrawerElement.axisTitles.xAxis).toBe('x')
+        expect(graphdrawerElement.axisTitles.yAxis).toBe('y')
+        graphdrawerElement.setAxisTitles({xAxis: 'x2'})
+        expect(graphdrawerElement.axisTitles.xAxis).toBe('x2')
+        expect(graphdrawerElement.axisTitles.yAxis).toBe('y')
+        graphdrawerElement.setAxisTitles({yAxis: 'y2'})
+        expect(graphdrawerElement.axisTitles.xAxis).toBe('x2')
+        expect(graphdrawerElement.axisTitles.yAxis).toBe('y2')
+      })
     })
   })
 })

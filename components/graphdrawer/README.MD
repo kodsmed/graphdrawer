@@ -78,6 +78,7 @@ see the projects root-folder index.html and index.js files for a more complete e
 Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}])" on the GraphDrawer element.
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
 Order of the objects in the array is not important.
+The method will throw an error if it receives invalid values.
 Default values are: 'black' for everything except the zeroLineColor that is 'gray'.
 
 Valid values are:
@@ -119,17 +120,22 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setSize({ width: 500 }, { height: 500 });
 ```
 
-## How to change the axistitles? Not Yet implemented
+## How to change the axistitles?
 
-Call the method "setAxisTitles({xAxis: 'string'}, {yAxis: 'string'})" on the GraphDrawer element.
-Objects not included in the object will be ignored, so you can set only the size you want to change.
+Call the method "setAxisTitles({xAxis: 'string', yAxis: 'string'})" on the GraphDrawer element.
+Will throw an error if it receives invalid properties values.
 Default values are "Value" for the Y-axis and "Index" for the X-axis.
 
 example usage:
 
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.setAxis({ xAxis: 'Time' }, { yAxis: 'Value' });
+graphDrawer.setAxis({ xAxis: 'Time', yAxis: 'Value' });
+```
+
+```javascript
+const graphDrawer = document.querySelector('jk224jv-graphdrawer');
+graphDrawer.setAxis({ yAxis: 'Units' });
 ```
 
 ## Hot to change the size of the dots? Not Yet implemented

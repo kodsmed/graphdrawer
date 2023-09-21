@@ -404,7 +404,6 @@ export default customElements.define('jk224jv-graphdrawer',
    * @returns {AxisTitles} The axis titles of the graph.
    */
   get axisTitles () {
-    // Return a copy of the axis titles.
     return new AxisTitles(this.#axisTitles.xAxis, this.#axisTitles.yAxis)
   }
 
@@ -483,6 +482,84 @@ export default customElements.define('jk224jv-graphdrawer',
       requestedAxisColor ?? currentColorSettings.axisColor,
       requestedLabelColor ?? currentColorSettings.labelColor,
       requestedTitleColor ?? currentColorSettings.titleColor
+    )
+  }
+
+  /**
+   * Set the axis titles of the graph.
+   * The titles are set by passing an object with the properties xAxis and yAxis.
+   * Valid values: Any string.
+   * Order of the properties does not matter.
+   *
+   * @param {Object} axisTitles - example: {xAxis: 'Index', yAxis: 'Values'}
+   */
+  setAxisTitles (axisTitles) {
+    const currentAxisTitles = this.axisTitles
+    const validProperties = ['xAxis', 'yAxis']
+
+    if (axisTitles === undefined
+      || axisTitles === null
+      || typeof axisTitles !== 'object'
+      || Array.isArray(axisTitles)
+    ) {
+      throw new TypeError('axisTitles must be an object, but is: ' + typeof axisTitles)
+    }
+
+    if (Object.keys(axisTitles).length > 2) {
+      throw new TypeError('axisTitles may have up to two properties, but contains: ' + Object.keys(axisTitles).length + ' properties')
+    }
+
+    if(Object.keys(axisTitles).length === 0) {
+      throw new TypeError('axisTitles must have at least one property to set, object is empty')
+    }
+
+    for (const property of Object.keys(axisTitles)) {
+      if (!validProperties.includes(property)) {
+        throw new TypeError('axisTitles must be an object with one-two of the following properties: ' + validProperties.join(', ') + ' but contains: ' + property)
+      }
+    }
+
+    if (axisTitles.xAxis === undefined && axisTitles.yAxis === undefined) {
+      throw new TypeError('axisTitles must have at least one property to set, both properties are undefined')
+    }
+
+    if (axisTitles.xAxis !== undefined
+      && (axisTitles.xAxis === undefined
+        || axisTitles.xAxis === null
+        || typeof axisTitles.xAxis !== 'string'
+        || Array.isArray(axisTitles.xAxis)
+      )
+    ) {
+      throw new TypeError('xAxis value must be a string, but is: ' + typeof axisTitles.xAxis)
+    }
+
+    if ('xAxis' in axisTitles
+      && (axisTitles.xAxis === undefined
+        || axisTitles.xAxis === null
+        || typeof axisTitles.xAxis !== 'string'
+        || Array.isArray(axisTitles.xAxis)
+      )
+    ) {
+      throw new TypeError('yAxis value must be a string, but is: ' + typeof axisTitles.yAxis)
+    }
+
+    if('yAxis' in axisTitles
+      && (axisTitles.yAxis === undefined
+        || axisTitles.yAxis === null
+        || typeof axisTitles.yAxis !== 'string'
+        || Array.isArray(axisTitles.yAxis)
+      )
+    ) {
+      throw new TypeError('yAxis value must be a string, but is: ' + typeof axisTitles.yAxis)
+    }
+
+    /**
+     * @ developer: Uses the relatively new nullish coalescing operator to set the axis titles.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
+     */
+    this.#axisTitles = new AxisTitles(
+      axisTitles.xAxis ?? currentAxisTitles.xAxis,
+      axisTitles.yAxis ?? currentAxisTitles.yAxis
     )
   }
 })
