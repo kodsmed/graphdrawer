@@ -21,7 +21,7 @@ Ange även en kort reflektion kring innehållet i kapitel 2. Ni kanske upptäcke
 | | Ordvitsa inte | nope, helt humorbefriat. |
 | nonMagicZero | Don't be cute | hmmm, ja, kanske. Skall man vara helt ärlig så hade origo varit ett bättre namn. |
 
-## Reflektion  // TODO: skriv om, skall bara vara om kapitel 2, och inte om min kod, samt en halv sida långt.
+## Reflektion  // TODO: skriv om, skall bara vara om kapitel 2, och inte om min kod, samt en halv sida långt
 
 Kapitel två är 13 sidor med utfyllnad, och skulle troligtvis kunna sammanfattas till en eller ett par meningar... om jag skall försöka på rak arm; "dina namn skall vara relevanta i sammanhanget", mer utvecklat bör ett variabelnamn tala om vad variabeln representerar och kanske även innehåller: ex. "numberOfStepsOnYAxis" är bättre än "steps" eller "ySteps". Klasser är Objekt och skall därför ha sak/enhetsnamn, metoder gör saker och bör därför innehålla verb.
 

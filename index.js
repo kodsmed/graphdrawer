@@ -42,8 +42,9 @@ import './components/graphdrawer/index.js'
  *
  *@example
  */
-// the default dataset
-const defaultDataset = [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]
+// the default dataset 23 values between -10 and 10
+const defaultDataset = [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,3,]
+
 // render overflow dataset if you want to experiment with very large datasets
 const overflowTestDataSet = []
 for (let i = 0; i < 1000; i++) {
@@ -78,7 +79,7 @@ function clickHandler () {
 
   graphdrawerElement.clear()
   graphdrawerElement.setSize({width: '80%', height: '80%'})
-  graphdrawerElement.renderArrayAsGraph(arrayToRender)
+  graphdrawerElement.renderArrayAsGraph(defaultDataset)
 }
 
 /**

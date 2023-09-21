@@ -184,7 +184,6 @@ graphDrawer.clear();
 
 ### Buggs
 
-* If the length of the array is a prime number, the X-axis will not limit the amount of labels rendered.
 * There is a bug that occurs when the range of the array is exactly 0, this will result in the Y-axis being scaled to 0 all labels will be the identical.
 
 ### Limitations

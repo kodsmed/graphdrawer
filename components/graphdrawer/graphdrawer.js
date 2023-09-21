@@ -526,43 +526,44 @@ export default customElements.define('jk224jv-graphdrawer',
   }
 
   #drawGraphLines (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-
+    const { canvasProperties, dataset, ctx } = graphAndCanvasData
     ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
     ctx.beginPath()
     ctx.strokeStyle = graphAndCanvasData.colorSettings.graphLineColor
-    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
+    const pointGenerator = this.#pointGenerator(graphAndCanvasData)
     for (let index = 0; index < dataset.length; index++) {
-      // TODO: This needs to be refactored and frankly rewritten, should be a point generator instead.
-      const pixelToIndexRatio = canvasProperties.renderAreaWidth / (dataset.length - 1)
-      const x = canvasProperties.marginWidth + index * pixelToIndexRatio
-
-      const pixelToValueStepSize = canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis
-      const calculatedValueSteps = (dataset[index] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
-      const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
-      const y = bottomOfGraph - (calculatedValueSteps * (pixelToValueStepSize))
-      ctx.lineTo(x, y)
+      const point = pointGenerator.next().value
+      ctx.lineTo(point.xCoordinate, point.yCoordinate)
     }
     ctx.stroke()
   }
 
   #drawDataPoints (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-
-    const datasetLength = dataset.length
-    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
-    for (let i = 0; i < datasetLength; i++) {
-      const x = canvasProperties.marginWidth + i * canvasProperties.renderAreaWidth / (datasetLength - 1)
-      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight - (dataset[i] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis) * (canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
+    const { dataset, ctx } = graphAndCanvasData
+    const pointGenerator = this.#pointGenerator(graphAndCanvasData)
+    for (let i = 0; i < dataset.length; i++) {
+      const point = pointGenerator.next().value
       const dotRadius = 3
       const startAngle = 0
       const stopAngle = 2 * Math.PI // A full circle.
       ctx.beginPath()
-      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
+      ctx.arc(point.xCoordinate, point.yCoordinate, dotRadius, startAngle, stopAngle)
       ctx.fillStyle = graphAndCanvasData.colorSettings.graphDotColor
       ctx.fill()
     }
   }
+
+  #drawDottedVerticalLine (graphAndCanvasData, xCoordinate) {
+    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+    ctx.beginPath()
+    ctx.strokeStyle = colorSettings.axisColor
+    ctx.setLineDash([1, 5])
+    ctx.moveTo(xCoordinate, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.lineTo(xCoordinate, canvasProperties.marginHeight)
+    ctx.stroke()
+    ctx.setLineDash([])
+  }
+
 
   #drawXAxisWithLabelsAndTitle (graphAndCanvasData) {
     this.#drawXAxis(graphAndCanvasData)
@@ -580,27 +581,50 @@ export default customElements.define('jk224jv-graphdrawer',
   }
 
   #drawXAxisLabels (graphAndCanvasData) {
-    const { canvasProperties, dataset, colorSettings, fontSettings, ctx } = graphAndCanvasData
+    const { canvasProperties, graphProperties, dataset, colorSettings, fontSettings, ctx } = graphAndCanvasData
 
     ctx.font = fontSettings.label
     ctx.fillStyle = colorSettings.labelColor
     ctx.textAlign = 'center'
     ctx.textBaseline = 'top'
-    const numberOfLabelsToDraw = this.#calculateLabelCount(graphAndCanvasData)
-    const pixelsBetweenLabels = Math.ceil(canvasProperties.renderAreaWidth / numberOfLabelsToDraw)
-    const indexStepsPerLabel = Math.max(Math.floor(dataset.length / numberOfLabelsToDraw), 1)
+    let numberOfLabelsToDraw = this.#calculateLabelCount(graphAndCanvasData)
+    console.log('numberOfLabelsToDraw: ' + numberOfLabelsToDraw)
+    const indexStepsPerLabel = Math.max(Math.ceil(dataset.length / numberOfLabelsToDraw), 1)
     const labelFontSize = parseInt(fontSettings.label, 10)
+    const pointGenerator = this.#pointGenerator(graphAndCanvasData)
+    let point = pointGenerator.next().value
+    let lastPoint
+    let pointerOutOfBounds = false
     for (let labelNumber = 0; labelNumber <= numberOfLabelsToDraw; labelNumber++) {
-      const x = canvasProperties.marginWidth + labelNumber * pixelsBetweenLabels
-      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
-
-      const label = (labelNumber * indexStepsPerLabel).toString()
-      // Only draw the label if it fits. This is done to avoid overlapping labels in case the canvas is too small, generally this should not be a problem but prime number lengths cause this.
-      if (ctx.measureText(1).width > pixelsBetweenLabels) {
-        continue
+        const x = point.xCoordinate
+        const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
+        this.#drawDottedVerticalLine(graphAndCanvasData, x)
+        const label = ((labelNumber) * indexStepsPerLabel).toString()
+        for (let character = 0; character < label.length; character++) {
+          ctx.fillText(label[character], x, y + character * labelFontSize)
+        }
+        for(let i = 0; i < indexStepsPerLabel; i++) {
+          point = pointGenerator.next().value
+          // since we round up the indexStepsPerLabel we need to check if we have reached the end of the dataset.
+          if(point === undefined) {
+            pointerOutOfBounds = true
+            break
+          } else {
+          lastPoint = point
+          }
+        }
+        if(pointerOutOfBounds) {
+          break
+        }
       }
-      for (let character = 0; character < label.length; character++) {
-        ctx.fillText(label[character], x, y + character * labelFontSize)
+      if(pointerOutOfBounds) {
+        const x = lastPoint.xCoordinate
+        const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
+        this.#drawDottedVerticalLine(graphAndCanvasData, x)
+        const label = (dataset.length - 1).toString()
+        console.log('label: ' + label)
+        for (let character = 0; character < label.length; character++) {
+          ctx.fillText(label[character], x, y + character * labelFontSize)
       }
     }
   }
@@ -678,19 +702,11 @@ export default customElements.define('jk224jv-graphdrawer',
    * #drawXAxisLabels method have code that prevents labels from overlapping.
    */
   #calculateLabelCount (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-    let numberOfLabelsToDraw = Math.min(dataset.length, graphAndCanvasData.maxNumberOfLabelsOnXAxis)
-
-    // reduce the number of labels to draw until the dataset length is divisible by the number of labels to draw.
-    while (dataset.length % numberOfLabelsToDraw !== 0) {
-      numberOfLabelsToDraw--
+    const { graphProperties } = graphAndCanvasData
+    let numberOfLabelsToDraw = graphProperties.primeAdjustedLength
+    while (numberOfLabelsToDraw > this.#maxNumberOfStepsOnXAxis) {
+      numberOfLabelsToDraw = numberOfLabelsToDraw / 2
     }
-    if (numberOfLabelsToDraw === 1) {
-      // prime number, draw all labels. There is no way to get these labels to align nicely.
-      numberOfLabelsToDraw = dataset.length
-    }
-
     return numberOfLabelsToDraw
   }
 
@@ -719,5 +735,31 @@ export default customElements.define('jk224jv-graphdrawer',
 
     // clear the canvas.
     ctx.clearRect(origoX, origoY, canvasProperties.width, canvasProperties.height)
+  }
+
+  /**
+   * Generates the coordinates of the points to be drawn.
+   * Important: The points are calculated on the prime adjusted length of the dataset,
+   * meaning the renderArea width will be divided by the datasets length + 1 if its a prime number,
+   * thus ensuring that it will always be possible to draw the graph and the labels will always be aligned with the data points.
+   */
+  *#pointGenerator (graphAndCanvasData) {
+    const { canvasProperties, graphProperties, dataset } = graphAndCanvasData
+    const graphAreaWidth = canvasProperties.renderAreaWidth
+    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
+    const numberOfPoints = graphProperties.primeAdjustedLength
+    const pointDistance = Math.floor(graphAreaWidth / numberOfPoints)
+
+    for (let i = 0; i < dataset.length; i++) {
+      // x is simple
+      const x = canvasProperties.marginWidth + i * pointDistance
+      // y is a bit more complicated
+      const yOrigin = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
+      const yOffset = dataset[i] - graphProperties.min
+      const yScaleFactor = Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
+      const yScaleProduct = Math.ceil(canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
+      const y = yOrigin - (yOffset) / yScaleFactor * yScaleProduct
+      yield { xCoordinate: Math.floor(x), yCoordinate: Math.floor(y) }
+    }
   }
 })
