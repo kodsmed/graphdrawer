@@ -73,10 +73,11 @@ graphDrawer.render([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 see the projects root-folder index.html and index.js files for a more complete example.
 
-## How to change the colors? Not Yet implemented
+## How to change the colors?
 
-Call the method "setColors(string[{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}])" on the GraphDrawer element.
+Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}])" on the GraphDrawer element.
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
+Order of the objects in the array is not important.
 Default values are: 'black' for everything except the zeroLineColor that is 'gray'.
 
 Valid values are:
@@ -95,8 +96,13 @@ Valid values are:
 example usage:
 
 ```javascript
-const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { zeroLineColor: 'black' }, { axisColor: 'green' }, { labelColor: 'orange' }, { titleColor: 'lime' }]);
+const graphDrawer = document.querySelector('jk224jv-graphdrawer')
+graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { zeroLineColor: 'black' }, { axisColor: 'green' }, { labelColor: 'orange' }, { titleColor: 'lime' }])
+```
+
+```javascript
+const graphDrawer = document.querySelector('jk224jv-graphdrawer')
+graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { zeroLineColor: 'black' }])
 ```
 
 ![./readme/setColorExample.png](./readme/setColorExample.png)
@@ -159,7 +165,7 @@ graphDrawer.clear();
 ### Limitations
 
 * There is currently no handling of an array that contains more values than the canvas element can reasonably display. This will result in a graph that is too small to be useful. On a full-size screen, you can fit about 1000 values on the X-axis.
-* There is currently no setters for the options, see the above sections marked "Not Yet implemented".
+* Some of the setter methods are not yet implemented.
 
 ### Open issues
 

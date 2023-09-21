@@ -24,6 +24,7 @@ describe ('GraphDrawer', () => {
   beforeEach(() => {
     graphdrawerElement = document.createElement('jk224jv-graphdrawer')
     document.body.appendChild(graphdrawerElement)
+    graphdrawerElement.setColors([{graphLineColor: 'black'}, {graphDotColor: 'black'}, {zeroLineColor: 'gray'}, {axisColor: 'black'}, {labelColor: 'black'}, {titleColor: 'black'}])
   })
 
   afterEach(() => {
@@ -122,5 +123,78 @@ describe ('GraphDrawer', () => {
     })
   })
 
+  describe('setters', () => {
+    describe('setColors', () => {
+      it('should have a setColors method', () => {
+        expect(graphdrawerElement.setColors).toBeDefined()
+      }),
+      it('should throw TypeError if the argument is not an array of objects', () => {
+        expect(() => graphdrawerElement.setColors(1)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors(null)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors(undefined)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([1, 2, 3])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([null, null, null])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([undefined, undefined, undefined])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors(['string', 'string', 'string'])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([NaN, NaN, NaN])).toThrow(TypeError)
+      }),
+      it('should throw TypeError on faulty objects in the array', () => {
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, 1, {graphDotColor: 'blue'}])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, null, {graphDotColor: 'blue'}])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, undefined, {graphDotColor: 'blue'}])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, 'string', {graphDotColor: 'blue'}])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, NaN, {graphDotColor: 'blue'}])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, {graphDotColor: 'blue'}, 1])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, {graphDotColor: 'blue'}, null])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, {graphDotColor: 'blue'}, undefined])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, {graphDotColor: 'blue'}, 'string'])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setColors([{graphLineColor: 'red'}, {graphDotColor: 'blue'}, NaN])).toThrow(TypeError)
+      }),
 
+      it('should only affect the colors that are passed in', () => {
+        let previousColors = graphdrawerElement.colorSettings
+        graphdrawerElement.setColors([
+          {graphLineColor: 'red'},
+          {graphDotColor: 'blue'}
+        ])
+        let newColors = graphdrawerElement.colorSettings
+
+        expect(newColors.graphLineColor).toBe('red')
+        expect(newColors.graphDotColor).toBe('blue')
+        expect(newColors.zeroLineColor).toBe(previousColors.zeroLineColor)
+        expect(newColors.axisColor).toBe(previousColors.axisColor)
+        expect(newColors.labelColor).toBe(previousColors.labelColor)
+        expect(newColors.titleColor).toBe(previousColors.titleColor)
+
+        previousColors = graphdrawerElement.colorSettings
+        graphdrawerElement.setColors([
+          {zeroLineColor: 'red'},
+          {axisColor: 'blue'}
+        ])
+        newColors = graphdrawerElement.colorSettings
+
+        expect(newColors.zeroLineColor).toBe('red')
+        expect(newColors.axisColor).toBe('blue')
+        expect(newColors.graphLineColor).toBe(previousColors.graphLineColor)
+        expect(newColors.graphDotColor).toBe(previousColors.graphDotColor)
+        expect(newColors.labelColor).toBe(previousColors.labelColor)
+        expect(newColors.titleColor).toBe(previousColors.titleColor)
+
+        previousColors = graphdrawerElement.colorSettings
+        graphdrawerElement.setColors([
+          {labelColor: 'red'},
+          {titleColor: 'blue'}
+        ])
+        newColors = graphdrawerElement.colorSettings
+
+        expect(newColors.labelColor).toBe('red')
+        expect(newColors.titleColor).toBe('blue')
+        expect(newColors.graphLineColor).toBe(previousColors.graphLineColor)
+        expect(newColors.graphDotColor).toBe(previousColors.graphDotColor)
+        expect(newColors.zeroLineColor).toBe(previousColors.zeroLineColor)
+        expect(newColors.axisColor).toBe(previousColors.axisColor)
+      })
+    })
+  })
 })

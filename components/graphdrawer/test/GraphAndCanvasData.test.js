@@ -143,7 +143,9 @@ describe('GraphAndCanvasData', () => {
         expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, [], validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
         expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, NaN, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
         expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, Infinity, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
-        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, -Infinity, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError)
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, -Infinity, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, 51, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError),
+        expect(()=> new GraphAndCanvasData(validCanvasProperties, validGraphProperties, validDataset, 0, validNumberOfLabelsOnYAxis, validFontSettings, validColorSettings, validCtx, validAxisTitles)).toThrow(TypeError)
       })
     }),
     it('should throw a TypeError if numberOfLabelsOnYAxis is not a valid number', () => {
