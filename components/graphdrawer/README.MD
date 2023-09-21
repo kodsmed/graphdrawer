@@ -123,7 +123,7 @@ graphDrawer.setSize({ width: 500 }, { height: 500 });
 ## How to change the axistitles?
 
 Call the method "setAxisTitles({xAxis: 'string', yAxis: 'string'})" on the GraphDrawer element.
-Will throw an error if it receives invalid properties values.
+Will throw an error if it receives invalid properties or values.
 Default values are "Value" for the Y-axis and "Index" for the X-axis.
 
 example usage:
@@ -136,6 +136,24 @@ graphDrawer.setAxis({ xAxis: 'Time', yAxis: 'Value' });
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setAxis({ yAxis: 'Units' });
+```
+
+## How to change the font?
+
+Call the method "setFontSettings({fontFamily: 'string', labelFontSize: 'number', titleFontSize:'number'})" on the GraphDrawer element.
+Will throw an error if it receives invalid properties or values.
+
+If you enter a font that is not installed on the users computer,
+the browser will render the graph with a default font,
+this is built in the browser and beyond the control of the component.
+
+Default values for the component are "Arial" for the font, 12 for the labelFontSize and 16 for the titleFontSize.
+
+example usage:
+
+```javascript
+const graphDrawer = document.querySelector('jk224jv-graphdrawer');
+graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
 ```
 
 ## Hot to change the size of the dots? Not Yet implemented

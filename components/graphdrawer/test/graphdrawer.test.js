@@ -248,5 +248,63 @@ describe ('GraphDrawer', () => {
         expect(graphdrawerElement.axisTitles.yAxis).toBe('y2')
       })
     })
+    describe('setFontSettings', () => {
+      it('should have a setFontSettings method', () => {
+        expect(graphdrawerElement.setFontSettings).toBeDefined()
+      }),
+      it('should throw TypeError if the argument is not an object', () => {
+        expect(() => graphdrawerElement.setFontSettings(1)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings(null)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings(undefined)).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings([])).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings('string')).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings(NaN)).toThrow(TypeError)
+      }),
+      it('should throw TypeError if the argument is an empty object', () => {
+        expect(() => graphdrawerElement.setFontSettings({})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if any of the properties are missing or invalid', () => {
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 1, labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: null, labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: undefined, labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: [], labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: {}, labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: NaN, labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 'string', titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: 'string'})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: null, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: null})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: undefined, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: undefined})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: [], titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: []})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: {}, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: {}})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: NaN, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: NaN})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: -1, titleFontSize: 10})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: -1})).toThrow(TypeError),
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: '', labelFontSize: 10, titleFontSize: 10})).toThrow(TypeError)
+      }),
+      it('should throw TypeError if there are any extra properties', () => {
+        expect(() => graphdrawerElement.setFontSettings({fontFamily: 'string', labelFontSize: 10, titleFontSize: 10, extraProperty: 'string'})).toThrow(TypeError)
+      }),
+      it('should set the fontSettings property', () => {
+        const fontSettings = new FontSettings('string', 20, 30)
+        const oldLabelFontStyle = fontSettings.label
+        const oldTitleFontStyle = fontSettings.title
+
+        expect (oldLabelFontStyle).toBe('20px string')
+        expect (oldTitleFontStyle).toBe('30px string')
+
+        graphdrawerElement.setFontSettings({fontFamily: 'Arial', labelFontSize: 10, titleFontSize: 12})
+
+        expect (graphdrawerElement.fontSettings.label).toBe('10px Arial')
+        expect (graphdrawerElement.fontSettings.title).toBe('12px Arial')
+      })
+    })
   })
 })

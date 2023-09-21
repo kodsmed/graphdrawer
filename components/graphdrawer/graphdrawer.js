@@ -573,4 +573,81 @@ export default customElements.define('jk224jv-graphdrawer',
     const origoY = 0
     ctx.clearRect(origoX, origoY, canvas.width, canvas.height)
   }
+
+  /**
+   * Set the font settings of the graph.
+   * The font settings are set by passing an object with the properties fontFamily, labelFontSize and titleFontSize.
+   *
+   * @param {Object} fontSettings - example: {fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16}
+   * @throws {TypeError} - If the fontSettings is not a valid objekt.
+   */
+  setFontSettings (fontSettings) {
+    const validProperties = ['fontFamily', 'labelFontSize', 'titleFontSize']
+    if (fontSettings === undefined || fontSettings === null || typeof fontSettings !== 'object' || Array.isArray(fontSettings)) {
+      throw new TypeError('fontSettings must be an object, but is: ' + typeof fontSettings)
+    }
+
+    if (Object.keys(fontSettings).length > 3) {
+      throw new TypeError('fontSettings may have up to three properties, but contains: ' + Object.keys(fontSettings).length + ' properties')
+    }
+
+    if (Object.keys(fontSettings).length === 0) {
+      throw new TypeError('fontSettings must have at least one property to set, object is empty')
+    }
+
+    for (const property of Object.keys(fontSettings)) {
+      if (!validProperties.includes(property)) {
+        throw new TypeError('fontSettings must be an object with all of the following properties: ' + validProperties.join(', ') + ' but contains: ' + property)
+      }
+    }
+
+    if (fontSettings.fontFamily === undefined
+      || fontSettings.fontFamily === null
+      || typeof fontSettings.fontFamily !== 'string'
+      || Array.isArray(fontSettings.fontFamily)
+    ) {
+      throw new TypeError('fontFamily value must be a string, but is: ' + typeof fontSettings.fontFamily)
+    }
+
+    if (fontSettings.labelFontSize === undefined
+      || fontSettings.labelFontSize === null
+      || typeof fontSettings.labelFontSize !== 'number'
+      || Array.isArray(fontSettings.labelFontSize)
+      || isNaN(fontSettings.labelFontSize)
+    ) {
+      if (isNaN(fontSettings.labelFontSize)) {
+        throw new TypeError('labelFontSize value must be a number, but is: NaN')
+      } else {
+        throw new TypeError('labelFontSize value must be a number, but is: ' + typeof fontSettings.labelFontSize)
+      }
+    }
+
+    if (fontSettings.titleFontSize === undefined
+      || fontSettings.titleFontSize === null
+      || typeof fontSettings.titleFontSize !== 'number'
+      || Array.isArray(fontSettings.titleFontSize)
+      || isNaN(fontSettings.titleFontSize)
+    ) {
+      if (isNaN(fontSettings.titleFontSize)) {
+        throw new TypeError('titleFontSize value must be a number, but is: NaN')
+      } else {
+        throw new TypeError('titleFontSize value must be a number, but is: ' + typeof fontSettings.titleFontSize)
+      }
+    }
+
+    if (fontSettings.labelFontSize < 0) {
+      throw new TypeError('labelFontSize value must be a positive number, but is: ' + fontSettings.labelFontSize)
+    }
+
+    if (fontSettings.titleFontSize < 0) {
+      throw new TypeError('titleFontSize value must be a positive number, but is: ' + fontSettings.titleFontSize)
+    }
+
+    if (fontSettings.fontFamily === '') {
+      throw new TypeError('fontFamily value must not be empty')
+    }
+
+    this.#fontSettings = new FontSettings(fontSettings.fontFamily, fontSettings.labelFontSize, fontSettings.titleFontSize)
+  }
+
 })
