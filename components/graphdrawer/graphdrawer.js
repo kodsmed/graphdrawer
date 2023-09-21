@@ -562,4 +562,15 @@ export default customElements.define('jk224jv-graphdrawer',
       axisTitles.yAxis ?? currentAxisTitles.yAxis
     )
   }
+
+  /**
+   * Clear the canvas.
+   */
+  clear () {
+    const canvas = this.shadowRoot.querySelector('#canvas')
+    const ctx = canvas.getContext('2d')
+    const origoX = 0
+    const origoY = 0
+    ctx.clearRect(origoX, origoY, canvas.width, canvas.height)
+  }
 })

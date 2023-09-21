@@ -150,7 +150,7 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setDataPointDotsSize(5);
 ```
 
-## How to clear the canvas? Not Yet implemented
+## How to clear the canvas?
 
 Call the method "clear()" on the GraphDrawer element.
 

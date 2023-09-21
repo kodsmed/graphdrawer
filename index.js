@@ -76,6 +76,7 @@ function clickHandler () {
     arrayToRender = defaultDataset
   }
 
+  graphdrawerElement.clear()
   graphdrawerElement.renderArrayAsGraph(arrayToRender)
 }
 
