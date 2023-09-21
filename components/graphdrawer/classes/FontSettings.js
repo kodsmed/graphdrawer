@@ -10,19 +10,19 @@ export class FontSettings {
   #fontSizeTitle
   /**
    * @param {string} font - The font to use.
-   * @param {number} fontSizeLabel - The size of the font for the labels.
-   * @param {number} fontSizeTitle - The size of the font for the title.
+   * @param {number} fontSizeLabel - The size of the font for the labels must be a positive number.
+   * @param {number} fontSizeTitle - The size of the font for the title must be a positive number.
    * @returns {FontSettings} - An object containing the font settings.
    */
   constructor (font, fontSizeLabel, fontSizeTitle) {
     if (typeof font !== 'string') {
       throw new TypeError('font must be a string')
     }
-    if (typeof fontSizeLabel !== 'number') {
-      throw new TypeError('fontSizeLabel must be a number')
+    if (typeof fontSizeLabel !== 'number' || fontSizeLabel < 0) {
+      throw new TypeError('fontSizeLabel must be a positiv number')
     }
-    if (typeof fontSizeTitle !== 'number') {
-      throw new TypeError('fontSizeTitle must be a number')
+    if (typeof fontSizeTitle !== 'number' || fontSizeTitle < 0) {
+      throw new TypeError('fontSizeTitle must be a positiv number')
     }
     this.#font = font
     this.#fontSizeLabel = fontSizeLabel

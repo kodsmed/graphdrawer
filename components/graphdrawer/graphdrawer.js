@@ -4,7 +4,7 @@
  * @author Jimmy Karlsson <jk224jv@student.lnu.se>
  *
  * @ all users:
- * @see Please see the readme file for usage.
+ * @see Please see the readme file for usage. The public interface is starts below the constructor.
  *
  * @ developer: I use destructuring assignment in this file. It's a newer and uncommon feature of JavaScript so here is the doc for it
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
@@ -78,6 +78,21 @@ export default customElements.define('jk224jv-graphdrawer',
   disconnectedCallback () {
   }
 
+  /******************************************************************************************************************************
+   * PUBLIC INTERFACE
+   ******************************************************************************************************************************/
+
+  /**
+   * Clear the canvas.
+   */
+  clear () {
+    const canvas = this.shadowRoot.querySelector('#canvas')
+    const ctx = canvas.getContext('2d')
+    const origoX = 0
+    const origoY = 0
+    ctx.clearRect(origoX, origoY, canvas.width, canvas.height)
+  }
+
   /**
    * Takes a dataset of numbers and renders a graph of it on the canvas.
    *
@@ -110,220 +125,6 @@ export default customElements.define('jk224jv-graphdrawer',
     this.#drawDataPoints(graphAndCanvasData)
   }
 
-  #drawGraphLines (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-
-    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
-    ctx.beginPath()
-    ctx.strokeStyle = graphAndCanvasData.colorSettings.graphLineColor
-    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
-    for (let index = 0; index < dataset.length; index++) {
-      // TODO: This needs to be refactored and frankly rewritten, should be a point generator instead.
-      const pixelToIndexRatio = canvasProperties.renderAreaWidth / (dataset.length - 1)
-      const x = canvasProperties.marginWidth + index * pixelToIndexRatio
-
-      const pixelToValueStepSize = canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis
-      const calculatedValueSteps = (dataset[index] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
-      const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
-      const y = bottomOfGraph - (calculatedValueSteps * (pixelToValueStepSize))
-      ctx.lineTo(x, y)
-    }
-    ctx.stroke()
-  }
-
-  #drawDataPoints (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-
-    const datasetLength = dataset.length
-    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
-    for (let i = 0; i < datasetLength; i++) {
-      const x = canvasProperties.marginWidth + i * canvasProperties.renderAreaWidth / (datasetLength - 1)
-      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight - (dataset[i] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis) * (canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
-      const dotRadius = 3
-      const startAngle = 0
-      const stopAngle = 2 * Math.PI // A full circle.
-      ctx.beginPath()
-      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
-      ctx.fillStyle = graphAndCanvasData.colorSettings.graphDotColor
-      ctx.fill()
-    }
-  }
-
-  #drawYAxisWithLabelsAndTitle (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-
-    // Draw the y-axis.
-    this.#drawYAxis(graphAndCanvasData)
-
-    // Draw the y-axis labels.
-    this.#drawYAxisLabels(graphAndCanvasData)
-
-    // Draw the y-axis title.
-    this.#drawYAxisTitle(graphAndCanvasData)
-  }
-
-
-  #drawYAxis (graphAndCanvasData) {
-    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
-
-    ctx.beginPath()
-    ctx.strokeStyle = colorSettings.axisColor
-    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight)
-    ctx.lineTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
-    ctx.stroke()
-  }
-
-  #drawYAxisLabels (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx } = graphAndCanvasData
-
-    ctx.font = fontSettings.label
-    ctx.fillStyle = colorSettings.labelColor
-    ctx.textAlign = 'right'
-    ctx.textBaseline = 'middle'
-    const axisToLabelMargin = 5
-    const totalNrOfLabels = graphAndCanvasData.numberOfLabelsOnYAxis
-    for (let labelNumber = 0; labelNumber <= totalNrOfLabels; labelNumber++) {
-      const x = canvasProperties.marginWidth - axisToLabelMargin
-      const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
-      const y = bottomOfGraph - labelNumber / totalNrOfLabels * canvasProperties.renderAreaHeight
-      const rangeToHeightRatio = Math.ceil(graphProperties.range / totalNrOfLabels)
-      ctx.fillText(graphProperties.min + (labelNumber * rangeToHeightRatio), x, y)
-    }
-  }
-
-  #drawYAxisTitle (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-
-    const titleFontSize = parseInt(fontSettings.title, 10)
-
-    ctx.save()
-    // Translate the canvas to the y-axis title position.
-    ctx.translate(canvasProperties.marginWidth - titleFontSize * 3, canvasProperties.marginHeight + canvasProperties.renderAreaHeight / 2)
-    ctx.rotate(-Math.PI / 2) // Rotate the canvas 90 degrees counter clockwise.
-    ctx.font = fontSettings.title
-    ctx.fillStyle = colorSettings.titleColor
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'bottom'
-    ctx.fillText(axisTitles.yAxis, 0, 0)
-    ctx.restore()
-  }
-
-  #drawXAxisWithLabelsAndTitle (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, dataset, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-    // Draw the x-axis.
-    this.#drawXAxis(graphAndCanvasData)
-
-    // Draw the x-axis labels.
-    this.#drawXAxisLabels(graphAndCanvasData)
-
-    // Draw the x-axis title.
-    this.#drawXAxisTitle(graphAndCanvasData)
-  }
-
-  #drawXAxis (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
-    ctx.beginPath()
-    ctx.strokeStyle = colorSettings.axisColor
-    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
-    ctx.lineTo(canvasProperties.marginWidth + canvasProperties.renderAreaWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
-    ctx.stroke()
-  }
-
-  #drawXAxisLabels (graphAndCanvasData) {
-    const { canvasProperties, dataset, colorSettings, fontSettings, ctx } = graphAndCanvasData
-
-    ctx.font = fontSettings.label
-    ctx.fillStyle = colorSettings.labelColor
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'top'
-    const numberOfLabelsToDraw = this.#calculateLabelCount(graphAndCanvasData)
-    const pixelsBetweenLabels = Math.ceil(canvasProperties.renderAreaWidth / numberOfLabelsToDraw)
-    const indexStepsPerLabel = Math.max(Math.floor(dataset.length / numberOfLabelsToDraw), 1)
-    const labelFontSize = parseInt(fontSettings.label, 10)
-    for (let labelNumber = 0; labelNumber <= numberOfLabelsToDraw; labelNumber++) {
-      const x = canvasProperties.marginWidth + labelNumber * pixelsBetweenLabels
-      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
-
-      const label = (labelNumber * indexStepsPerLabel).toString()
-      // Only draw the label if it fits. This is done to avoid overlapping labels in case the canvas is too small, generally this should not be a problem but prime number lengths cause this.
-      if (ctx.measureText(1).width > pixelsBetweenLabels) {
-        continue
-      }
-      for (let character = 0; character < label.length; character++) {
-        ctx.fillText(label[character], x, y + character * labelFontSize)
-      }
-    }
-  }
-
-
-  #drawXAxisTitle (graphAndCanvasData) {
-    const { canvasProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
-    const titleFontSize = parseInt(fontSettings.title, 10)
-
-    ctx.save()
-    ctx.translate(canvasProperties.marginWidth + ctx.measureText(axisTitles.xAxis).width / 2, canvasProperties.marginHeight + canvasProperties.renderAreaHeight + titleFontSize * 3)
-    ctx.font = fontSettings.title
-    ctx.fillStyle = colorSettings.titleColor
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'bottom'
-    ctx.fillText(axisTitles.xAxis, 0, 0)
-    ctx.restore()
-  }
-
-  /**
-   * There is currently a bug that makes this function unable to handle prime number lengths.
-   * Since no even division can be made rounding would have to be used causing the labels to not align with the data points.
-   * The workaround is to draw all labels in this case,
-   * #drawXAxisLabels method have code that prevents labels from overlapping.
-   */
-  #calculateLabelCount (graphAndCanvasData) {
-    // Extract the desired objects from the graphAndCanvasData master-object.
-    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
-    let numberOfLabelsToDraw = Math.min(dataset.length, graphAndCanvasData.maxNumberOfLabelsOnXAxis)
-
-    // reduce the number of labels to draw until the dataset length is divisible by the number of labels to draw.
-    while (dataset.length % numberOfLabelsToDraw !== 0) {
-      numberOfLabelsToDraw--
-    }
-    if (numberOfLabelsToDraw === 1) {
-      // prime number, draw all labels. There is no way to get these labels to align nicely.
-      numberOfLabelsToDraw = dataset.length
-    }
-
-    return numberOfLabelsToDraw
-  }
-
-  #drawZeroLineIfInRange (graphAndCanvasData) {
-    const { canvasProperties, graphProperties, colorSettings, ctx } = graphAndCanvasData
-    const mathematicalZero = 0
-    if (graphProperties.min < graphAndCanvasData.nonMagicZero && graphProperties.max > mathematicalZero) {
-      ctx.beginPath()
-      ctx.strokeStyle = colorSettings.zeroLineColor
-      const heightStep = Math.ceil(graphProperties.range / graphAndCanvasData.numberOfLabelsOnYAxis)
-      const yCoordinate = canvasProperties.marginHeight + canvasProperties.renderAreaHeight - (mathematicalZero - graphProperties.min) / heightStep * (canvasProperties.renderAreaHeight / graphAndCanvasData.numberOfLabelsOnYAxis)
-      ctx.moveTo(
-        canvasProperties.marginWidth, yCoordinate
-      )
-      ctx.lineTo(
-        canvasProperties.marginWidth + canvasProperties.renderAreaWidth, yCoordinate
-      )
-      ctx.stroke()
-    }
-  }
-
-  #clearCanvas (graphAndCanvasData) {
-    const { ctx, canvasProperties } = graphAndCanvasData
-    const origoX = 0
-    const origoY = 0
-
-    // clear the canvas.
-    ctx.clearRect(origoX, origoY, canvasProperties.width, canvasProperties.height)
-  }
-
   /**
    * Verify the the dataset is an array of numbers.
    * Throws an error if the dataset is invalid.
@@ -351,60 +152,30 @@ export default customElements.define('jk224jv-graphdrawer',
     }
   }
 
-  /**
-   * Get the number of steps on the y-axis.
-   *
-   * @readonly
-   * @returns {number} The number of steps on the y-axis.
-   */
-  get numberOfStepsOnYAxis () {
-    return this.#numberOfStepsOnYAxis
-  }
+  /******************************************************************************************************************************
+   * SETTERS
+   ******************************************************************************************************************************/
 
   /**
-   * Get the maximum number of steps on the x-axis.
+   * Set the axis titles of the graph.
+   * The titles are set by passing an object with the properties xAxis and yAxis.
+   * Valid values: Any string.
+   * Order of the properties does not matter.
    *
-   * @readonly
-   * @returns {number} The maximum number of steps on the x-axis.
+   * @param {Object} axisTitles - example: {xAxis: 'Index', yAxis: 'Values'}
    */
-  get maxNumberOfStepsOnXAxis () {
-    return this.#maxNumberOfStepsOnXAxis
-  }
+  setAxisTitles (axisTitles) {
+    this.#validateAxisTitles(axisTitles)
+    const currentAxisTitles = this.axisTitles
 
-  /**
-   * Get the font settings of the graph.
-   *
-   * @readonly
-   * @returns {FontSettings} The font settings of the graph.
-   */
-  get fontSettings () {
-    // Return a copy of the font settings.
-    return new FontSettings(
-      this.#fontSettings.label.split(' ')[1],
-      parseInt(this.#fontSettings.label),
-      parseInt(this.#fontSettings.title)
-      )
-  }
-
-  /**
-   * Get the color settings of the graph.
-   *
-   * @readonly
-   * @returns {ColorSettings} The color settings of the graph.
-   */
-  get colorSettings () {
-    // Return a copy of the color settings.
-    return new ColorSettings(this.#colorSettings.graphLineColor, this.#colorSettings.graphDotColor, this.#colorSettings.zeroLineColor, this.#colorSettings.axisColor, this.#colorSettings.labelColor, this.#colorSettings.titleColor)
-  }
-
-  /**
-   * Get the axis titles of the graph.
-   *
-   * @readonly
-   * @returns {AxisTitles} The axis titles of the graph.
-   */
-  get axisTitles () {
-    return new AxisTitles(this.#axisTitles.xAxis, this.#axisTitles.yAxis)
+    /**
+     * @ developer: Uses the relatively new nullish coalescing operator to set the axis titles.
+     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
+     */
+    this.#axisTitles = new AxisTitles(
+      axisTitles.xAxis ?? currentAxisTitles.xAxis,
+      axisTitles.yAxis ?? currentAxisTitles.yAxis
+    )
   }
 
   /**
@@ -419,35 +190,13 @@ export default customElements.define('jk224jv-graphdrawer',
    * @see README.MD file for more extensive examples.
    */
   setColors (colorSettings) {
+    this.#validateColorSettings(colorSettings)
     let requestedGraphLineColor = null
     let requestedGraphDotColor = null
     let requestedZeroLineColor = null
     let requestedAxisColor = null
     let requestedLabelColor = null
     let requestedTitleColor = null
-
-    const validColorStrings = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
-    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor']
-
-    if(colorSettings === undefined || colorSettings === null || !Array.isArray(colorSettings) || colorSettings.length === 0) {
-      throw new TypeError('colorSettings must be an array of objects')
-    }
-
-    for (const unverifiedObject of colorSettings) {
-      if (unverifiedObject === null || unverifiedObject === undefined || typeof unverifiedObject !== 'object') {
-        throw new TypeError('colorSettings must be an array of objects, but contains: ' + typeof object)
-      }
-      if (Object.keys(unverifiedObject).length !== 1) {
-        throw new TypeError('colorSettings must be an array of objects with only one property, but contains: ' + Object.keys(unverifiedObject).length + ' properties')
-      }
-      if (!validColorProperties.includes(Object.keys(unverifiedObject)[0])) {
-        throw new TypeError('colorSettings must be an array of objects with one of the following properties each: ' + validColorProperties.join(', ') + ' but contains: ' + Object.keys(unverifiedObject)[0])
-      }
-
-      if (!validColorStrings.includes(Object.values(unverifiedObject)[0])) {
-        throw new TypeError('colorSettings must be an array of objects with one of the following colors: ' + validColorStrings.join(', ') + ' but contains: ' + Object.values(unverifiedObject)[0])
-      }
-    }
 
     for (const colorSetting of colorSettings) {
       if (colorSetting.graphLineColor !== undefined) {
@@ -486,15 +235,83 @@ export default customElements.define('jk224jv-graphdrawer',
   }
 
   /**
-   * Set the axis titles of the graph.
-   * The titles are set by passing an object with the properties xAxis and yAxis.
-   * Valid values: Any string.
-   * Order of the properties does not matter.
+   * Set the font settings of the graph.
+   * The font settings are set by passing an object with the properties fontFamily, labelFontSize and titleFontSize.
    *
-   * @param {Object} axisTitles - example: {xAxis: 'Index', yAxis: 'Values'}
+   * @param {Object} fontSettings - example: {fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16}
+   * @throws {TypeError} - If the fontSettings is not a valid objekt.
    */
-  setAxisTitles (axisTitles) {
-    const currentAxisTitles = this.axisTitles
+  setFontSettings (fontSettings) {
+    this.#validateFontSettings(fontSettings)
+    this.#fontSettings = new FontSettings(fontSettings.fontFamily, fontSettings.labelFontSize, fontSettings.titleFontSize)
+  }
+
+  /******************************************************************************************************************************
+   * GETTERS
+   ******************************************************************************************************************************/
+
+  /**
+   * Get the axis titles of the graph.
+   *
+   * @readonly
+   * @returns {AxisTitles} The axis titles of the graph.
+   */
+  get axisTitles () {
+    return new AxisTitles(this.#axisTitles.xAxis, this.#axisTitles.yAxis)
+  }
+
+  /**
+   * Get the color settings of the graph.
+   *
+   * @readonly
+   * @returns {ColorSettings} The color settings of the graph.
+   */
+  get colorSettings () {
+    // Return a copy of the color settings.
+    return new ColorSettings(this.#colorSettings.graphLineColor, this.#colorSettings.graphDotColor, this.#colorSettings.zeroLineColor, this.#colorSettings.axisColor, this.#colorSettings.labelColor, this.#colorSettings.titleColor)
+  }
+
+  /**
+   * Get the font settings of the graph.
+   *
+   * @readonly
+   * @returns {FontSettings} The font settings of the graph.
+   */
+  get fontSettings () {
+    // Return a copy of the font settings.
+    return new FontSettings(
+      this.#fontSettings.label.split(' ')[1],
+      parseInt(this.#fontSettings.label),
+      parseInt(this.#fontSettings.title)
+    )
+  }
+
+  /**
+   * Get the number of steps on the y-axis.
+   *
+   * @readonly
+   * @returns {number} The number of steps on the y-axis.
+   */
+  get numberOfStepsOnYAxis () {
+    return this.#numberOfStepsOnYAxis
+  }
+
+  /**
+   * Get the maximum number of steps on the x-axis.
+   *
+   * @readonly
+   * @returns {number} The maximum number of steps on the x-axis.
+   */
+  get maxNumberOfStepsOnXAxis () {
+    return this.#maxNumberOfStepsOnXAxis
+  }
+
+  /******************************************************************************************************************************
+   * END OF PUBLIC INTERFACE
+   * @ developer - The rest of the methods are private and should not be used by the user.
+   */
+
+  #validateAxisTitles (axisTitles) {
     const validProperties = ['xAxis', 'yAxis']
 
     if (axisTitles === undefined
@@ -552,36 +369,34 @@ export default customElements.define('jk224jv-graphdrawer',
     ) {
       throw new TypeError('yAxis value must be a string, but is: ' + typeof axisTitles.yAxis)
     }
-
-    /**
-     * @ developer: Uses the relatively new nullish coalescing operator to set the axis titles.
-     * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
-     */
-    this.#axisTitles = new AxisTitles(
-      axisTitles.xAxis ?? currentAxisTitles.xAxis,
-      axisTitles.yAxis ?? currentAxisTitles.yAxis
-    )
   }
 
-  /**
-   * Clear the canvas.
-   */
-  clear () {
-    const canvas = this.shadowRoot.querySelector('#canvas')
-    const ctx = canvas.getContext('2d')
-    const origoX = 0
-    const origoY = 0
-    ctx.clearRect(origoX, origoY, canvas.width, canvas.height)
+  #validateColorSettings (colorSettings) {
+    const validColorStrings = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
+    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor']
+
+    if(colorSettings === undefined || colorSettings === null || !Array.isArray(colorSettings) || colorSettings.length === 0) {
+      throw new TypeError('colorSettings must be an array of objects')
+    }
+
+    for (const unverifiedObject of colorSettings) {
+      if (unverifiedObject === null || unverifiedObject === undefined || typeof unverifiedObject !== 'object') {
+        throw new TypeError('colorSettings must be an array of objects, but contains: ' + typeof object)
+      }
+      if (Object.keys(unverifiedObject).length !== 1) {
+        throw new TypeError('colorSettings must be an array of objects with only one property, but contains: ' + Object.keys(unverifiedObject).length + ' properties')
+      }
+      if (!validColorProperties.includes(Object.keys(unverifiedObject)[0])) {
+        throw new TypeError('colorSettings must be an array of objects with one of the following properties each: ' + validColorProperties.join(', ') + ' but contains: ' + Object.keys(unverifiedObject)[0])
+      }
+
+      if (!validColorStrings.includes(Object.values(unverifiedObject)[0])) {
+        throw new TypeError('colorSettings must be an array of objects with one of the following colors: ' + validColorStrings.join(', ') + ' but contains: ' + Object.values(unverifiedObject)[0])
+      }
+    }
   }
 
-  /**
-   * Set the font settings of the graph.
-   * The font settings are set by passing an object with the properties fontFamily, labelFontSize and titleFontSize.
-   *
-   * @param {Object} fontSettings - example: {fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16}
-   * @throws {TypeError} - If the fontSettings is not a valid objekt.
-   */
-  setFontSettings (fontSettings) {
+  #validateFontSettings (fontSettings) {
     const validProperties = ['fontFamily', 'labelFontSize', 'titleFontSize']
     if (fontSettings === undefined || fontSettings === null || typeof fontSettings !== 'object' || Array.isArray(fontSettings)) {
       throw new TypeError('fontSettings must be an object, but is: ' + typeof fontSettings)
@@ -646,8 +461,217 @@ export default customElements.define('jk224jv-graphdrawer',
     if (fontSettings.fontFamily === '') {
       throw new TypeError('fontFamily value must not be empty')
     }
-
-    this.#fontSettings = new FontSettings(fontSettings.fontFamily, fontSettings.labelFontSize, fontSettings.titleFontSize)
   }
 
+  #drawGraphLines (graphAndCanvasData) {
+    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
+
+    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.beginPath()
+    ctx.strokeStyle = graphAndCanvasData.colorSettings.graphLineColor
+    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
+    for (let index = 0; index < dataset.length; index++) {
+      // TODO: This needs to be refactored and frankly rewritten, should be a point generator instead.
+      const pixelToIndexRatio = canvasProperties.renderAreaWidth / (dataset.length - 1)
+      const x = canvasProperties.marginWidth + index * pixelToIndexRatio
+
+      const pixelToValueStepSize = canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis
+      const calculatedValueSteps = (dataset[index] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
+      const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
+      const y = bottomOfGraph - (calculatedValueSteps * (pixelToValueStepSize))
+      ctx.lineTo(x, y)
+    }
+    ctx.stroke()
+  }
+
+  #drawDataPoints (graphAndCanvasData) {
+    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
+
+    const datasetLength = dataset.length
+    const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
+    for (let i = 0; i < datasetLength; i++) {
+      const x = canvasProperties.marginWidth + i * canvasProperties.renderAreaWidth / (datasetLength - 1)
+      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight - (dataset[i] - graphProperties.min) / Math.ceil(graphProperties.range / numberOfLabelsOnYAxis) * (canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
+      const dotRadius = 3
+      const startAngle = 0
+      const stopAngle = 2 * Math.PI // A full circle.
+      ctx.beginPath()
+      ctx.arc(x, y, dotRadius, startAngle, stopAngle)
+      ctx.fillStyle = graphAndCanvasData.colorSettings.graphDotColor
+      ctx.fill()
+    }
+  }
+
+  #drawXAxisWithLabelsAndTitle (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, graphProperties, dataset, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
+    // Draw the x-axis.
+    this.#drawXAxis(graphAndCanvasData)
+
+    // Draw the x-axis labels.
+    this.#drawXAxisLabels(graphAndCanvasData)
+
+    // Draw the x-axis title.
+    this.#drawXAxisTitle(graphAndCanvasData)
+  }
+
+  #drawXAxis (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+    ctx.beginPath()
+    ctx.strokeStyle = colorSettings.axisColor
+    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.lineTo(canvasProperties.marginWidth + canvasProperties.renderAreaWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.stroke()
+  }
+
+  #drawXAxisLabels (graphAndCanvasData) {
+    const { canvasProperties, dataset, colorSettings, fontSettings, ctx } = graphAndCanvasData
+
+    ctx.font = fontSettings.label
+    ctx.fillStyle = colorSettings.labelColor
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'top'
+    const numberOfLabelsToDraw = this.#calculateLabelCount(graphAndCanvasData)
+    const pixelsBetweenLabels = Math.ceil(canvasProperties.renderAreaWidth / numberOfLabelsToDraw)
+    const indexStepsPerLabel = Math.max(Math.floor(dataset.length / numberOfLabelsToDraw), 1)
+    const labelFontSize = parseInt(fontSettings.label, 10)
+    for (let labelNumber = 0; labelNumber <= numberOfLabelsToDraw; labelNumber++) {
+      const x = canvasProperties.marginWidth + labelNumber * pixelsBetweenLabels
+      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
+
+      const label = (labelNumber * indexStepsPerLabel).toString()
+      // Only draw the label if it fits. This is done to avoid overlapping labels in case the canvas is too small, generally this should not be a problem but prime number lengths cause this.
+      if (ctx.measureText(1).width > pixelsBetweenLabels) {
+        continue
+      }
+      for (let character = 0; character < label.length; character++) {
+        ctx.fillText(label[character], x, y + character * labelFontSize)
+      }
+    }
+  }
+
+  #drawXAxisTitle (graphAndCanvasData) {
+    const { canvasProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
+    const titleFontSize = parseInt(fontSettings.title, 10)
+
+    ctx.save()
+    ctx.translate(canvasProperties.marginWidth + ctx.measureText(axisTitles.xAxis).width / 2, canvasProperties.marginHeight + canvasProperties.renderAreaHeight + titleFontSize * 3)
+    ctx.font = fontSettings.title
+    ctx.fillStyle = colorSettings.titleColor
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'bottom'
+    ctx.fillText(axisTitles.xAxis, 0, 0)
+    ctx.restore()
+  }
+
+  #drawYAxisWithLabelsAndTitle (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
+
+    // Draw the y-axis.
+    this.#drawYAxis(graphAndCanvasData)
+
+    // Draw the y-axis labels.
+    this.#drawYAxisLabels(graphAndCanvasData)
+
+    // Draw the y-axis title.
+    this.#drawYAxisTitle(graphAndCanvasData)
+  }
+
+  #drawYAxis (graphAndCanvasData) {
+    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+
+    ctx.beginPath()
+    ctx.strokeStyle = colorSettings.axisColor
+    ctx.moveTo(canvasProperties.marginWidth, canvasProperties.marginHeight)
+    ctx.lineTo(canvasProperties.marginWidth, canvasProperties.marginHeight + canvasProperties.renderAreaHeight)
+    ctx.stroke()
+  }
+
+  #drawYAxisLabels (graphAndCanvasData) {
+    const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx } = graphAndCanvasData
+
+    ctx.font = fontSettings.label
+    ctx.fillStyle = colorSettings.labelColor
+    ctx.textAlign = 'right'
+    ctx.textBaseline = 'middle'
+    const axisToLabelMargin = 5
+    const totalNrOfLabels = graphAndCanvasData.numberOfLabelsOnYAxis
+    for (let labelNumber = 0; labelNumber <= totalNrOfLabels; labelNumber++) {
+      const x = canvasProperties.marginWidth - axisToLabelMargin
+      const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
+      const y = bottomOfGraph - labelNumber / totalNrOfLabels * canvasProperties.renderAreaHeight
+      const rangeToHeightRatio = Math.ceil(graphProperties.range / totalNrOfLabels)
+      ctx.fillText(graphProperties.min + (labelNumber * rangeToHeightRatio), x, y)
+    }
+  }
+
+  #drawYAxisTitle (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, colorSettings, fontSettings, ctx, axisTitles } = graphAndCanvasData
+
+    const titleFontSize = parseInt(fontSettings.title, 10)
+
+    ctx.save()
+    // Translate the canvas to the y-axis title position.
+    ctx.translate(canvasProperties.marginWidth - titleFontSize * 3, canvasProperties.marginHeight + canvasProperties.renderAreaHeight / 2)
+    ctx.rotate(-Math.PI / 2) // Rotate the canvas 90 degrees counter clockwise.
+    ctx.font = fontSettings.title
+    ctx.fillStyle = colorSettings.titleColor
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'bottom'
+    ctx.fillText(axisTitles.yAxis, 0, 0)
+    ctx.restore()
+  }
+
+  /**
+   * There is currently a bug that makes this function unable to handle prime number lengths.
+   * Since no even division can be made rounding would have to be used causing the labels to not align with the data points.
+   * The workaround is to draw all labels in this case,
+   * #drawXAxisLabels method have code that prevents labels from overlapping.
+   */
+  #calculateLabelCount (graphAndCanvasData) {
+    // Extract the desired objects from the graphAndCanvasData master-object.
+    const { canvasProperties, graphProperties, dataset, ctx } = graphAndCanvasData
+    let numberOfLabelsToDraw = Math.min(dataset.length, graphAndCanvasData.maxNumberOfLabelsOnXAxis)
+
+    // reduce the number of labels to draw until the dataset length is divisible by the number of labels to draw.
+    while (dataset.length % numberOfLabelsToDraw !== 0) {
+      numberOfLabelsToDraw--
+    }
+    if (numberOfLabelsToDraw === 1) {
+      // prime number, draw all labels. There is no way to get these labels to align nicely.
+      numberOfLabelsToDraw = dataset.length
+    }
+
+    return numberOfLabelsToDraw
+  }
+
+  #drawZeroLineIfInRange (graphAndCanvasData) {
+    const { canvasProperties, graphProperties, colorSettings, ctx } = graphAndCanvasData
+    const mathematicalZero = 0
+    if (graphProperties.min < graphAndCanvasData.nonMagicZero && graphProperties.max > mathematicalZero) {
+      ctx.beginPath()
+      ctx.strokeStyle = colorSettings.zeroLineColor
+      const heightStep = Math.ceil(graphProperties.range / graphAndCanvasData.numberOfLabelsOnYAxis)
+      const yCoordinate = canvasProperties.marginHeight + canvasProperties.renderAreaHeight - (mathematicalZero - graphProperties.min) / heightStep * (canvasProperties.renderAreaHeight / graphAndCanvasData.numberOfLabelsOnYAxis)
+      ctx.moveTo(
+        canvasProperties.marginWidth, yCoordinate
+      )
+      ctx.lineTo(
+        canvasProperties.marginWidth + canvasProperties.renderAreaWidth, yCoordinate
+      )
+      ctx.stroke()
+    }
+  }
+
+  #clearCanvas (graphAndCanvasData) {
+    const { ctx, canvasProperties } = graphAndCanvasData
+    const origoX = 0
+    const origoY = 0
+
+    // clear the canvas.
+    ctx.clearRect(origoX, origoY, canvasProperties.width, canvasProperties.height)
+  }
 })
