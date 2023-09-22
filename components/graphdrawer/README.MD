@@ -184,7 +184,7 @@ graphDrawer.clear();
 
 ### Buggs
 
-* There is a bug that occurs when the range of the array is exactly 0, this will result in the Y-axis being scaled to 0 all labels will be the identical.
+* None known at this time.
 
 ### Limitations
 
@@ -196,3 +196,4 @@ graphDrawer.clear();
 * I would like the graph to center on the graphline, so that the graphline medium is always in the middle of the canvas element. Currently the graphs minimum value is always at the bottom of the canvas element.
 * Add the ability to select an algorithm for scaling the Y-axis, for example logarithmic scaling, x^2, etc.
 * Add the ability to approximate the curve of the graph, for example with a bezier-curve, logarithmic, x^2.
+* Add mouseover events to the graph, for example to display the value of the data point under the mouse.

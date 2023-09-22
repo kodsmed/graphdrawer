@@ -242,6 +242,15 @@ export default customElements.define('jk224jv-graphdrawer',
     }
 
     /**
+     * Set the size of the datapoint dots.
+     * The size is set by passing a number.
+     * Valid values: Any positive number.
+     */
+    setDataPointDotsSize(number) {
+      throw new Error('Not implemented yet')
+    }
+
+    /**
      * Set the font settings of the graph.
      * The font settings are set by passing an object with the properties fontFamily, labelFontSize and titleFontSize.
      *
