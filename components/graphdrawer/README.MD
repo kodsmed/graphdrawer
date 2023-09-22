@@ -79,7 +79,7 @@ Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'},
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
 Order of the objects in the array is not important.
 The method will throw an error if it receives invalid values.
-Default values are: 'black' for everything except the zeroLineColor that is 'gray'.
+Default values are: 'black' for everything except the zeroLineColor that is 'gray', and the backgroundColor that is 'white'.
 
 Valid values are:
 
