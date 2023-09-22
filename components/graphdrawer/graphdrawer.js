@@ -60,7 +60,8 @@ export default customElements.define('jk224jv-graphdrawer',
     const axisColor = 'black'
     const labelColor = 'black'
     const titleColor = 'black'
-    this.#colorSettings = new ColorSettings(graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor)
+    const backgroundColor = 'white'
+    this.#colorSettings = new ColorSettings(graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor)
 
     this.#axisTitles = new AxisTitles('Index', 'Values')
 
@@ -116,8 +117,7 @@ export default customElements.define('jk224jv-graphdrawer',
     // Any changes to the attributes after this point will not affect the current graph rendering.
     const graphAndCanvasData = new GraphAndCanvasData(canvasProperties, graphProperties, dataset, this.#maxNumberOfStepsOnXAxis, this.#numberOfStepsOnYAxis, this.#fontSettings, this.#colorSettings, ctx, this.#axisTitles)
 
-    this.#clearCanvas(graphAndCanvasData)
-
+    this.#drawBackground(graphAndCanvasData)
     this.#drawZeroLineIfInRange(graphAndCanvasData)
     this.#drawXAxisWithLabelsAndTitle(graphAndCanvasData)
     this.#drawYAxisWithLabelsAndTitle(graphAndCanvasData)
@@ -182,7 +182,7 @@ export default customElements.define('jk224jv-graphdrawer',
    * Set the colors used to render the graph, the zero line, the axis, the labels and the titles.
    * The colors are set by passing an array of 0-6 colors objects.
    * Order of the objects does not matter.
-   * Property names: graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor.
+   * Property names: graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor.
    * Valid colors: 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white'.
    *
    * @param {Array} colorSettings - example: [{graphLineColor: 'purple'}]
@@ -197,6 +197,7 @@ export default customElements.define('jk224jv-graphdrawer',
     let requestedAxisColor = null
     let requestedLabelColor = null
     let requestedTitleColor = null
+    let requestedBackgroundColor = null
 
     for (const colorSetting of colorSettings) {
       if (colorSetting.graphLineColor !== undefined) {
@@ -217,6 +218,9 @@ export default customElements.define('jk224jv-graphdrawer',
       if (colorSetting.titleColor !== undefined) {
         requestedTitleColor = colorSetting.titleColor
       }
+      if (colorSetting.backgroundColor !== undefined) {
+        requestedBackgroundColor = colorSetting.backgroundColor
+      }
     }
     const currentColorSettings = this.colorSettings
     /**
@@ -230,7 +234,9 @@ export default customElements.define('jk224jv-graphdrawer',
       requestedZeroLineColor ?? currentColorSettings.zeroLineColor,
       requestedAxisColor ?? currentColorSettings.axisColor,
       requestedLabelColor ?? currentColorSettings.labelColor,
-      requestedTitleColor ?? currentColorSettings.titleColor
+      requestedTitleColor ?? currentColorSettings.titleColor,
+      requestedBackgroundColor ?? currentColorSettings.backgroundColor
+
     )
   }
 
@@ -280,7 +286,7 @@ export default customElements.define('jk224jv-graphdrawer',
    */
   get colorSettings () {
     // Return a copy of the color settings.
-    return new ColorSettings(this.#colorSettings.graphLineColor, this.#colorSettings.graphDotColor, this.#colorSettings.zeroLineColor, this.#colorSettings.axisColor, this.#colorSettings.labelColor, this.#colorSettings.titleColor)
+    return new ColorSettings(this.#colorSettings.graphLineColor, this.#colorSettings.graphDotColor, this.#colorSettings.zeroLineColor, this.#colorSettings.axisColor, this.#colorSettings.labelColor, this.#colorSettings.titleColor, this.#colorSettings.backgroundColor)
   }
 
   /**
@@ -385,7 +391,7 @@ export default customElements.define('jk224jv-graphdrawer',
 
   #validateColorSettings (colorSettings) {
     const validColorStrings = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
-    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor']
+    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor', 'backgroundColor']
 
     if(colorSettings === undefined || colorSettings === null || !Array.isArray(colorSettings) || colorSettings.length === 0) {
       throw new TypeError('colorSettings must be an array of objects')
@@ -523,6 +529,14 @@ export default customElements.define('jk224jv-graphdrawer',
     if (!size.height.endsWith('%') && !size.height.endsWith('px')) {
       throw new TypeError('height value must end in % or px')
     }
+  }
+
+  #drawBackground (graphAndCanvasData) {
+    const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+    ctx.fillStyle = colorSettings.backgroundColor
+    ctx.globalCompositeOperation = 'destination-under'
+    ctx.fillRect(0, 0, canvasProperties.width, canvasProperties.height)
+    ctx.globalCompositeOperation = 'source-over'
   }
 
   #drawGraphLines (graphAndCanvasData) {
@@ -726,15 +740,6 @@ export default customElements.define('jk224jv-graphdrawer',
       )
       ctx.stroke()
     }
-  }
-
-  #clearCanvas (graphAndCanvasData) {
-    const { ctx, canvasProperties } = graphAndCanvasData
-    const origoX = 0
-    const origoY = 0
-
-    // clear the canvas.
-    ctx.clearRect(origoX, origoY, canvasProperties.width, canvasProperties.height)
   }
 
   /**

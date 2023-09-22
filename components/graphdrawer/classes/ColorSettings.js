@@ -7,6 +7,7 @@
  * @property {string} axisColor - The color of the axis.
  * @property {string} labelColor - The color of the labels.
  * @property {string} titleColor - The color of the title.
+ * @property {string} backgroundColor - The color of the background.
  */
 export class ColorSettings {
   #graphLineColor
@@ -15,6 +16,7 @@ export class ColorSettings {
   #axisColor
   #labelColor
   #titleColor
+  #backgroundColor
 
   /**
    * @param {string} graphLineColor - The color of the graph line.
@@ -23,9 +25,10 @@ export class ColorSettings {
    * @param {string} axisColor - The color of the axis.
    * @param {string} labelColor - The color of the labels.
    * @param {string} titleColor - The color of the title.
+   * @param {string} backgroundColor - The color of the background.
    * @returns {ColorSettings} - An object containing the color settings.
    */
-  constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor) {
+  constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor) {
     const defaultColor = 'black'
     const validColors = [
       'red',
@@ -58,12 +61,16 @@ export class ColorSettings {
     if (!validColors.includes(titleColor.toLowerCase())) {
       throw new TypeError('titleColor must be a valid color')
     }
+    if (!validColors.includes(backgroundColor.toLowerCase())) {
+      throw new TypeError('backgroundColor must be a valid color')
+    }
     this.#graphLineColor = graphLineColor.toLowerCase() || defaultColor
     this.#graphDotColor = graphDotColor.toLowerCase() || defaultColor
     this.#zeroLineColor = zeroLineColor.toLowerCase() || defaultColor
     this.#axisColor = axisColor.toLowerCase() || defaultColor
     this.#labelColor = labelColor.toLowerCase() || defaultColor
     this.#titleColor = titleColor.toLowerCase() || defaultColor
+    this.#backgroundColor = backgroundColor.toLowerCase() || defaultColor
   }
 
   /**
@@ -118,5 +125,14 @@ export class ColorSettings {
    */
   get titleColor () {
     return this.#titleColor
+  }
+
+  /**
+   * Get the color of the background.
+   * @readonly
+   * @returns {string} - the color of the background.
+   */
+  get backgroundColor () {
+    return this.#backgroundColor
   }
 }

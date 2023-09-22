@@ -56,14 +56,14 @@ const zeroRangeTestDataset = [5,5,5,5]
 const floatNumberTestDataset = [1.1, 1.2, 1.5, 1.9, 1.15, 1.45]
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
 
-// Set up the demopage functions
+// Set up the demo-page functions
 const renderButton = document.querySelector('#renderbutton')
 renderButton.addEventListener('click', () => clickHandler())
 
 /**
- * Clickhandler for the render button.
+ * Click handler for the render button.
  * This function is called when the render button is clicked.
- * It validates the userinput and renders the graph if the input is valid.
+ * It validates the user input and renders the graph if the input is valid.
  * If the input is invalid, it shows the default dataset rendering instead.
  */
 function clickHandler () {
@@ -79,6 +79,7 @@ function clickHandler () {
 
   graphdrawerElement.clear()
   graphdrawerElement.setSize({width: '80%', height: '80%'})
+  graphdrawerElement.setColors([{graphDotColor: 'gray'}, {graphLineColor: 'lime'}, {zeroLineColor: 'white'}, {axisColor: 'white'}, {labelColor: 'white'}, {titleColor: 'white'}, {backgroundColor: 'black'}])
   graphdrawerElement.renderArrayAsGraph(defaultDataset)
 }
 
