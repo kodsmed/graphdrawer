@@ -9,6 +9,7 @@ import { GraphProperties } from "../classes/GraphProperties"
  * @property {number} min - The minimum value of the dataset.
  * @property {number} max - The maximum value of the dataset.
  * @property {number} range - The range of the dataset.
+ * @property {number} average - The average value.
  * @property {number} primeAdjustedLength - The length of the graph adjusted for the prime numbers over 20.
  */
 
@@ -43,6 +44,16 @@ describe('GraphProperties', () => {
     const graphProperties = new GraphProperties([1, 2, 3])
     expect(graphProperties.range).toBe(2)
   }),
+  it('should set the average property', () => {
+    let graphProperties = new GraphProperties([1, 2, 3])
+    expect(graphProperties.average).toBe(2)
+    graphProperties = new GraphProperties([1, 2, 3, 4])
+    expect(graphProperties.average).toBe(2.5)
+    graphProperties = new GraphProperties([1, 2, 3, 4, 5])
+    expect(graphProperties.average).toBe(3)
+  }),
+
+
   it('should set the primeAdjustedLength property', () => {
     let graphProperties = new GraphProperties([1, 2, 3])
     expect(graphProperties.primeAdjustedLength).toBe(3)

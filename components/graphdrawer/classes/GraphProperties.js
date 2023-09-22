@@ -4,12 +4,14 @@
    * @property {number} max - The maximum value of the dataset.
    * @property {number} min - The minimum value of the dataset.
    * @property {number} range - The range of the dataset.
+   * @property {number} average - The average value.
    * @property {number} primeAdjustedLength - The length of the graph adjusted for the prime numbers over 20.
    */
   export class GraphProperties {
   #max
   #min
   #range
+  #average
   #primeAdjustedLength
     /**
      * @param {Array} dataset - The dataset to calculate the graph properties from.
@@ -19,6 +21,7 @@
       this.#max = Math.max(...dataset)
       this.#min = Math.min(...dataset)
       this.#range = Math.max(this.#max - this.#min, 1)
+      this.#average = dataset.reduce((accumulatedValue, currentValue) => accumulatedValue + currentValue, 0) / dataset.length
       this.#primeAdjustedLength = this.#calculatePrimeAdjustedLength(dataset)
     }
 
@@ -47,6 +50,15 @@
      */
     get range () {
       return this.#range
+    }
+
+    /**
+     * Get average.
+     * @readonly
+     * @return {number} The average value.
+     */
+    get average () {
+      return this.#average
     }
 
     /**

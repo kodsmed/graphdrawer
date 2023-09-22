@@ -685,21 +685,29 @@ export default customElements.define('jk224jv-graphdrawer',
     }
 
     #drawYAxisLabels(graphAndCanvasData) {
-      const { canvasProperties, graphProperties, colorSettings, fontSettings, ctx } = graphAndCanvasData
+      const { canvasProperties, graphProperties, dataset, colorSettings, fontSettings, ctx } = graphAndCanvasData
 
       ctx.font = fontSettings.label
       ctx.fillStyle = colorSettings.labelColor
       ctx.textAlign = 'right'
       ctx.textBaseline = 'middle'
       const axisToLabelMargin = 5
-      const midRange = Math.ceil(graphProperties.range / 2)
       const totalNrOfLabels = graphAndCanvasData.numberOfLabelsOnYAxis
+      let adjustedMin, adjustedRange
+      // Check if the range is very small, in that case adjust the properties.
+      if (graphProperties.range < 2) {
+        adjustedMin = Math.floor(graphProperties.average) - 5
+        adjustedRange = 10
+      } else {
+        adjustedMin = graphProperties.min
+        adjustedRange = graphProperties.range
+      }
       for (let labelNumber = 0; labelNumber <= totalNrOfLabels; labelNumber++) {
         const x = canvasProperties.marginWidth - axisToLabelMargin
         const bottomOfGraph = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
         const y = bottomOfGraph - labelNumber / totalNrOfLabels * canvasProperties.renderAreaHeight
-        const rangeToHeightRatio = Math.ceil(graphProperties.range / totalNrOfLabels)
-        ctx.fillText(graphProperties.min + (labelNumber * rangeToHeightRatio), x, y)
+        const rangeToHeightRatio = Math.ceil((adjustedRange) / totalNrOfLabels)
+        ctx.fillText(adjustedMin + (labelNumber * rangeToHeightRatio), x, y)
       }
     }
 
@@ -761,13 +769,24 @@ export default customElements.define('jk224jv-graphdrawer',
       const numberOfPoints = graphProperties.primeAdjustedLength
       const pointDistance = Math.floor(graphAreaWidth / numberOfPoints)
 
+      let adjustedMin, adjustedRange
+
+      // Check if the range is very small, in that case adjust the properties.
+      if (graphProperties.range < 2) {
+        adjustedMin = Math.floor(graphProperties.average) - 5
+        adjustedRange = 10
+      } else {
+        adjustedMin = graphProperties.min
+        adjustedRange = graphProperties.range
+      }
+
       for (let i = 0; i < dataset.length; i++) {
         // x is simple
         const x = canvasProperties.marginWidth + i * pointDistance
         // y is a bit more complicated
         const yOrigin = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
-        const yOffset = dataset[i] - graphProperties.min
-        const yScaleFactor = Math.ceil(graphProperties.range / numberOfLabelsOnYAxis)
+        const yOffset = dataset[i] - adjustedMin
+        const yScaleFactor = Math.ceil(adjustedRange / numberOfLabelsOnYAxis)
         const yScaleProduct = Math.ceil(canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
         const y = yOrigin - (yOffset) / yScaleFactor * yScaleProduct
         yield { xCoordinate: Math.floor(x), yCoordinate: Math.floor(y) }

@@ -96,7 +96,7 @@ function verifiableInputIntegrity (untrustedUserInput) {
   }
 
   // Check if the input contains anything but [ ], numbers, commas, dots and spaces.
-  const containsUnexpectedCharacters = untrustedUserInput.match(/[^0-9\[\]\,\.\s]/g) !== null
+  const containsUnexpectedCharacters = untrustedUserInput.match(/[^0-9\[\]\,\.-\s]/g) !== null
   if (containsUnexpectedCharacters) {
     return false
   }
