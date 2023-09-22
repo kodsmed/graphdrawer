@@ -106,11 +106,12 @@ export default customElements.define('jk224jv-graphdrawer',
     const ctx = canvas.getContext('2d')
 
     const canvasProperties = new CanvasProperties(canvas)
+    const devicePixelRatio = window.devicePixelRatio || 1
 
     // Set the rending resolution to the display resolution.
-    canvas.width = canvasProperties.width
-    canvas.height = canvasProperties.height
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+    canvas.width = canvasProperties.width * devicePixelRatio
+    canvas.height = canvasProperties.height * devicePixelRatio
+    ctx.scale(devicePixelRatio, devicePixelRatio)
 
     const graphProperties = new GraphProperties(dataset)
 
