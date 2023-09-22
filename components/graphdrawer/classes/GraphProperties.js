@@ -18,7 +18,7 @@
       this.#validateDataset(dataset)
       this.#max = Math.max(...dataset)
       this.#min = Math.min(...dataset)
-      this.#range = this.#max - this.#min
+      this.#range = Math.max(this.#max - this.#min, 1)
       this.#primeAdjustedLength = this.#calculatePrimeAdjustedLength(dataset)
     }
 
