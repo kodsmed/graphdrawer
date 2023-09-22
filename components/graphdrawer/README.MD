@@ -98,7 +98,7 @@ example usage:
 
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer')
-graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { zeroLineColor: 'black' }, { axisColor: 'green' }, { labelColor: 'orange' }, { titleColor: 'lime' }])
+graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { zeroLineColor: 'black' }, { axisColor: 'green' }, { labelColor: 'orange' }, { titleColor: 'lime' }, { backgroundColor: 'white' }])
 ```
 
 ```javascript
