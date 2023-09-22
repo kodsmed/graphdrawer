@@ -631,7 +631,7 @@ export default customElements.define('jk224jv-graphdrawer',
           break
         }
       }
-      if(pointerOutOfBounds) {
+      if(pointerOutOfBounds) { // Make sure the last label is always drawn.
         const x = lastPoint.xCoordinate
         const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
         this.#drawDottedVerticalLine(graphAndCanvasData, x)

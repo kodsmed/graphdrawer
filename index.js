@@ -80,7 +80,7 @@ function clickHandler () {
   graphdrawerElement.clear()
   graphdrawerElement.setSize({width: '80%', height: '80%'})
   graphdrawerElement.setColors([{graphDotColor: 'gray'}, {graphLineColor: 'lime'}, {zeroLineColor: 'white'}, {axisColor: 'white'}, {labelColor: 'white'}, {titleColor: 'white'}, {backgroundColor: 'black'}])
-  graphdrawerElement.renderArrayAsGraph(defaultDataset)
+  graphdrawerElement.renderArrayAsGraph(arrayToRender)
 }
 
 /**
