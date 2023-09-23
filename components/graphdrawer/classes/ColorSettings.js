@@ -30,6 +30,7 @@ export class ColorSettings {
    */
   constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor) {
     const defaultColor = 'black'
+    const backgroundDefaultColor = 'white'
     const validColors = [
       'red',
       'green',
@@ -70,7 +71,7 @@ export class ColorSettings {
     this.#axisColor = axisColor.toLowerCase() || defaultColor
     this.#labelColor = labelColor.toLowerCase() || defaultColor
     this.#titleColor = titleColor.toLowerCase() || defaultColor
-    this.#backgroundColor = backgroundColor.toLowerCase() || defaultColor
+    this.#backgroundColor = backgroundColor.toLowerCase() || backgroundDefaultColor
   }
 
   /**
