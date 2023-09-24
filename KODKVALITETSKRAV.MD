@@ -113,9 +113,9 @@ Ironically after the extensive verbal flow of words about names in the previous 
 the main focus of ‘functions’ is that functions and methods should be as concise as possible, ideally, one row, but less than twenty.
 
 Indeed the school of singular purposes almost come across as Zen-Buddhistic,  
-“when hungry eat, when tired sleep”,  
-you might be able to sum up chapter three in the proverbial Latin moto “Age quod agis” (Act then you act).  
-Meaning what you do, let that be your entire focus.
+“when hungry eat, when tired sleep”.  
+You might be able to sum up chapter three in the proverbial Latin motto “Age quod agis” (Act then you act).  
+Meaning whatever you are doing, let that be your entire focus.
 
 If you follow this to the extreme, all the other rules of the chapter really become redundant.  
 A fully focused method will only do one thing,  
@@ -123,23 +123,23 @@ it will not have side effects,
 it will by its nature take the minimum of arguments,  
 and the very thought of doing and answering in the same method becomes unthinkable.
 
-Wholly I have and take few exceptions to the ideals portrayed in ‘Functions’,  
+While I take few exceptions to the ideals portrayed in ‘Functions’,  
 I do think that there is some undefined upper limit to how many abstractions levels is reasonable to delve into to go from the highest function to the actual implementation.  
-The risk of quite frankly becoming apar to Alice rabbit hole,  
+It risks becoming akin to Alice's rabbit hole,  
 a frustrating dive into the code through minutely coarser levels of abstraction,  
 looking for the final function where the work is conducted.
 
-Indeed any quick google search on ‘critique clean code’ will tell you that there is an active and alive debate in the coding community on the proper level of abstraction,  
+Indeed any quick google search on ‘critique clean code’ will tell you that there is an active and lively debate in the coding community on the proper level of abstraction,  
 the dangers of losing understanding through over abstraction,  
 and the performance hit from doing X levels of needless function calls.
 
 The ideal balance point I believe is down to a combination of experience and personal preference.
 
 My inclination is to also not agree wholeheartedly with the ideal of zero arguments.  
-The objection I make is, provided they are properly named, the arguments actually clarifies what the function is working on or with,  
+The objection I make is, provided they are properly named, the arguments actually clarify what the function is working on or with,  
 and having that being presented in a clear way on the call line, rather than having to go into the function and look what ‘this.propertie’s are being accessed, improves understanding.
 
-In conclusion, these rules have many good points and following them will improve readability… with the risk of loosing understandability if taken too far.
+In conclusion, these rules have many good points and following them will improve readability… with the risk of diminishing understandability if taken too far.
 
 ## Reflektion över våra erfarenheter
 
