@@ -793,9 +793,9 @@ export default customElements.define('jk224jv-graphdrawer',
         // y is a bit more complicated
         const yOrigin = canvasProperties.marginHeight + canvasProperties.renderAreaHeight
         const yOffset = dataset[i] - adjustedMin
-        const yScaleFactor = Math.ceil(adjustedRange / numberOfLabelsOnYAxis)
-        const yScaleProduct = Math.ceil(canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
-        const y = yOrigin - (yOffset) / yScaleFactor * yScaleProduct
+        const yRangeScaleFactor = Math.ceil(adjustedRange / numberOfLabelsOnYAxis)
+        const yAvailableHeightScaleFactor = Math.ceil(canvasProperties.renderAreaHeight / numberOfLabelsOnYAxis)
+        const y = yOrigin - (yOffset) / yRangeScaleFactor * yAvailableHeightScaleFactor
         yield { xCoordinate: Math.floor(x), yCoordinate: Math.floor(y) }
       }
     }
