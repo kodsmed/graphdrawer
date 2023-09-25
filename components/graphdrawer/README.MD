@@ -170,7 +170,7 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
 ```
 
-## Hot to change the size of the dots? Not Yet implemented
+## How to change the size of the dots? Not Yet implemented
 
 Call the method "setDataPointDotsSize(number)" on the GraphDrawer element.
 The size of the dots must be a number 0 to 10. 0 means no dots will be rendered. Defaults to 3 pixels.
@@ -195,7 +195,7 @@ graphDrawer.clear();
 
 ## Known bugs, limitations and open issues
 
-### Buggs
+### Bugs
 
 * None known at this time.
 
