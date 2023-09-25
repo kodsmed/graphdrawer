@@ -1,6 +1,6 @@
 import './components/graphdrawer/index.js'
 /**
- * This page shows the usage of the graphdrawer element.
+ * This page shows an example usage of the graphdrawer element.
  *
  * Simply import the element and use it like this:
  *   1) Import the element.
@@ -56,7 +56,8 @@ const zeroRangeTestDataset = [5,5,5,5]
 const floatNumberTestDataset = [1.1, 1.2, 1.5, 1.9, 1.15, 1.45]
 const graphdrawerElement = document.querySelector('jk224jv-graphdrawer')
 
-// Set up the demo-page functions
+// Set up the demo-page functions, buttons and eventlisteners.
+// It is up to you how you want to use the element, this is just an example.
 const renderButton = document.querySelector('#renderbutton')
 renderButton.addEventListener('click', () => clickHandler())
 
@@ -84,7 +85,9 @@ function clickHandler () {
 }
 
 /**
- * Validate the userinput and returns TRUE if it is an array of numbers,
+ * Validate the userinput and returns TRUE if it is an array of numbers.
+ * Be aware that this function is not bulletproof and can be bypassed,
+ * you should always validate user input on the server. This is just an example.
  * and false if it is anything else.
  *
  * @param {sting} untrustedUserInput
