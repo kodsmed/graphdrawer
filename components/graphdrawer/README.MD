@@ -88,7 +88,7 @@ see the projects root-folder index.html and index.js files for a more complete e
 
 ## How to change the colors?
 
-Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}])" on the GraphDrawer element.
+Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}, {backgroundColor: 'color'}])" on the GraphDrawer element.
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
 Order of the objects in the array is not important.
 The method will throw an error if it receives invalid values.
