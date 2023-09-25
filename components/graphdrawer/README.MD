@@ -74,8 +74,7 @@ The graph will be scaled to fit the canvas element.
 The Y-axis will be scaled according to the range of the values in the array.
 
 The X-axis will be scaled according to the length of the array.
-A maximum of 20 labels will be rendered on the X-axis
-(however there is a bug in the current implementation, so if the length is a prime number, as many labels as will fit will be rendered).
+A maximum of 20 labels will be rendered on the X-axis.
 
 example usage:
 
