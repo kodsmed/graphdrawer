@@ -4,7 +4,7 @@
  * @author Jimmy Karlsson <jk224jv@student.lnu.se>
  *
  * @ all users:
- * @see Please see the readme file for usage. The public interface is starts below the constructor.
+ * @see Please see the readme file for usage. The public interface starts below the constructor.
  *
  * @ developer: I use destructuring assignment in this file. It's a newer and uncommon feature of JavaScript so here is the doc for it
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
