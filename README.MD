@@ -8,8 +8,9 @@ Please see the readme in the components/graphdrawer folder.
 
 Copy the /components/graphdrawer folder into your project and import it into your code.
 An example of usage is provided in the root index.html and index.js files.
-The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work,
-only the graphdrawer folder is required.
+Only the graphdrawer folder is required.  
+The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work.
+
 
 ### FOR DETAILED USAGE INSTRUCTIONS SEE THE README.MD IN THE COMPONENTS/GRAPHDRAWER FOLDER
 

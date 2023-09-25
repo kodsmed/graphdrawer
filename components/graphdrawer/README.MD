@@ -21,8 +21,8 @@ A live demo is available at [https://graphdrawerdemo.netlify.app/](https://graph
 
 Copy the /components/graphdrawer folder into your project and import it into your code.
 An example of usage is provided in the root index.html and index.js files.
-The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work,
-only the graphdrawer folder is required. However, I encourage you to also include the test suite in your project.
+Only the graphdrawer folder is required.  
+The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work.
 
 ## Testing
 
@@ -210,3 +210,7 @@ graphDrawer.clear();
 * Add the ability to select an algorithm for scaling the Y-axis, for example logarithmic scaling, x^2, etc.
 * Add the ability to approximate the curve of the graph, for example with a bezier-curve, logarithmic, x^2.
 * Add mouseover events to the graph, for example to display the value of the data point under the mouse.
+
+## License
+
+MIT License, Jimmy Karlsson 2023, [LICENSE](LICENSE)
