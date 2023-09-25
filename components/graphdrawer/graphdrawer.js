@@ -46,7 +46,7 @@ export default customElements.define('jk224jv-graphdrawer',
 
     constructor() {
       super()
-      // Warning: Changing this value will may cause unexpected results, you may have to rewrite the entire graph rendering algorithm if you want to change this value.
+      // Warning: Changing this value will cause unexpected results, you may have to rewrite the entire graph rendering algorithm if you want to change this value.
       const ten = 10
       this.#numberOfStepsOnYAxis = ten
 
