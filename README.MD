@@ -50,7 +50,7 @@ Make sure to also include the test dependencies in your projects package.json:
 
 If you are not using the provided example file create a jest.config.js in the projects root-folder , and include the following:
 
-```json
+```javascript
 export default {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'mjs'],
