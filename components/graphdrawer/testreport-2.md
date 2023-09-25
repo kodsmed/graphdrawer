@@ -1,6 +1,7 @@
 # Test report 2 - Manual test report
 
 This is a test report for the GraphDrawer component and its included classes.
+Before all tests, make sure the component appears correctly in the browser.
 
 Test: Manual testing
 Version: 1.0.0

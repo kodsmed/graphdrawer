@@ -37,7 +37,20 @@ If you want to run the test suite in your project, make sure to include the foll
 }
 ```
 
-Make sure to also include the test dependencies in your project:
+If you are not using the provided example file create a jest.config.js in the projects root-folder , and include the following:
+
+```json
+export default {
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'mjs'],
+  testMatch: ['**/test/**/*.test.js'],
+  verbose: true,
+  transform: {},
+  resolver: null,
+}
+```
+
+Make sure to also include the test dependencies in your projects package.json:
 
 * jest
 * jest-environment-jsdom
