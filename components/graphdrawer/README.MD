@@ -74,6 +74,7 @@ The graph will be scaled to fit the canvas element.
 The Y-axis will be scaled according to the range of the values in the array.
 
 The X-axis will be scaled according to the length of the array.
+The method will throw an error if it receives invalid values.
 A maximum of 20 labels will be rendered on the X-axis.
 
 example usage:
