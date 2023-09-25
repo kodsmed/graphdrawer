@@ -38,7 +38,7 @@ import './components/graphdrawer/index.js'
 /**
  * Example of how to use the element in HTML/JS.
  * This code is active by default in this document.
- * Note that the element is already imported in the  of this document and already present in the DOM via the index.html file.
+ * Note that the element is already imported and already present in the DOM via the index.html file.
  *
  *@example
  */
