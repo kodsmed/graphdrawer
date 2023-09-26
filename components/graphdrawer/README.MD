@@ -1,6 +1,16 @@
 # Graphdrawer
 
 Uses the canvas element to render an array of numerical data using the canvas element.
+It also does some automatic scaling of the data to fit the canvas element,  
+adapt the Y-axis to the range of the data, and the X-axis to the length of the data,  
+and it will render the data as a graph with a graphline and dots at the data points.  
+If zero is included in the data, it will also render a zero-line.
+
+You can also change several settings, like colors, font, size, etc.  
+All this are done by calling methods on the GraphDrawer element,  
+no bulky attributes,  
+no css, no javascript,  
+just a simple method call.
 
 ## Dependencies
 
@@ -12,17 +22,15 @@ The component will work in any browser that supports the following:
 
 ## Demo
 
-Easiest way to use the demo is to serve the root folder with a web server, for example the VS Code Live Server extension.
-If that is not an option for you, you can use any other web server to serve the root folder, and then open the index.html file in your browser.
+There is a demo application available at [https://github.com/kodsmed/graphdrawer-demopage](https://github.com/kodsmed/graphdrawer-demopage)
 
 A live demo is available at [https://graphdrawerdemo.netlify.app/](https://graphdrawerdemo.netlify.app/)
 
 ## Usage
 
 Copy the /components/graphdrawer folder into your project and import it into your code.
-An example of usage is provided in the root index.html and index.js files.
-Only the graphdrawer folder is required.  
-The surrounding code is just for test and demonstration purposes and not required for the graphdrawer to work.
+Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in this readme.
+If you are unsure how to use the custom elements and call its methods, see the example usage in the demo application.
 
 ## Testing
 
