@@ -16,6 +16,7 @@ import { FontSettings } from './classes/FontSettings.js'
 import { ColorSettings } from './classes/ColorSettings.js'
 import { AxisTitles } from './classes/AxisTitles.js'
 import { GraphAndCanvasData } from './classes/GraphAndCanvasData.js'
+import { ValidationCollection } from './classes/ValidationCollection.js'
 
 
 const template = document.createElement('template')
@@ -339,187 +340,77 @@ export default customElements.define('jk224jv-graphdrawer',
 
     #validateAxisTitles(axisTitles) {
       const validProperties = ['xAxis', 'yAxis']
+      const validators = new ValidationCollection({ validProperties: validProperties, minimumLength: 1 })
 
-      if (axisTitles === undefined
-        || axisTitles === null
-        || typeof axisTitles !== 'object'
-        || Array.isArray(axisTitles)
-      ) {
-        throw new TypeError('axisTitles must be an object, but is: ' + typeof axisTitles)
-      }
-
-      if (Object.keys(axisTitles).length > 2) {
-        throw new TypeError('axisTitles may have up to two properties, but contains: ' + Object.keys(axisTitles).length + ' properties')
-      }
-
-      if (Object.keys(axisTitles).length === 0) {
-        throw new TypeError('axisTitles must have at least one property to set, object is empty')
-      }
-
-      for (const property of Object.keys(axisTitles)) {
-        if (!validProperties.includes(property)) {
-          throw new TypeError('axisTitles must be an object with one-two of the following properties: ' + validProperties.join(', ') + ' but contains: ' + property)
+      if(!validators.isAnObjectThatMayHavePropertiesAndMustHaveMinLength(axisTitles)) {
+        console.log(validators.unexpectedProperties)
+        if(validators.unexpectedProperties.length > 0) {
+          throw new TypeError('axisTitles must be an object with one-two of the following properties: ' + validProperties.join(', ') + ' but contains: ' + validators.unexpectedProperties.join(', '))
+        } else {
+          throw new TypeError('axisTitles must be an object with one-two of the following properties: ' + validProperties.join(', ') + ' but contains: ' + Object.keys(axisTitles).length + ' properties')
         }
       }
 
-      if (axisTitles.xAxis === undefined && axisTitles.yAxis === undefined) {
-        throw new TypeError('axisTitles must have at least one property to set, both properties are undefined')
-      }
-
-      if (axisTitles.xAxis !== undefined
-        && (axisTitles.xAxis === undefined
-          || axisTitles.xAxis === null
-          || typeof axisTitles.xAxis !== 'string'
-          || Array.isArray(axisTitles.xAxis)
-        )
-      ) {
-        throw new TypeError('xAxis value must be a string, but is: ' + typeof axisTitles.xAxis)
-      }
-
-      if ('xAxis' in axisTitles
-        && (axisTitles.xAxis === undefined
-          || axisTitles.xAxis === null
-          || typeof axisTitles.xAxis !== 'string'
-          || Array.isArray(axisTitles.xAxis)
-        )
-      ) {
-        throw new TypeError('yAxis value must be a string, but is: ' + typeof axisTitles.yAxis)
-      }
-
-      if ('yAxis' in axisTitles
-        && (axisTitles.yAxis === undefined
-          || axisTitles.yAxis === null
-          || typeof axisTitles.yAxis !== 'string'
-          || Array.isArray(axisTitles.yAxis)
-        )
-      ) {
-        throw new TypeError('yAxis value must be a string, but is: ' + typeof axisTitles.yAxis)
+      for (const key of Object.keys(axisTitles)) {
+        if (!validators.isString(axisTitles[key])) {
+          throw new TypeError(key + ' value must be a string, but is: ' + typeof axisTitles[key])
+        }
       }
     }
 
     #validateColorSettings(colorSettings) {
       const validColorStrings = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
       const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor', 'backgroundColor']
-
-      if (colorSettings === undefined || colorSettings === null || !Array.isArray(colorSettings) || colorSettings.length === 0) {
-        throw new TypeError('colorSettings must be an array of objects')
+      let validators = new ValidationCollection({ minimumLength: 1 })
+      if (!validators.isArrayThatMustHaveMinLength(colorSettings)) {
+        throw new TypeError('colorSettings must be an array of objects with one of the following properties each: ' + validColorProperties.join(', '))
       }
 
-      for (const unverifiedObject of colorSettings) {
-        if (unverifiedObject === null || unverifiedObject === undefined || typeof unverifiedObject !== 'object') {
-          throw new TypeError('colorSettings must be an array of objects, but contains: ' + typeof object)
-        }
-        if (Object.keys(unverifiedObject).length !== 1) {
-          throw new TypeError('colorSettings must be an array of objects with only one property, but contains: ' + Object.keys(unverifiedObject).length + ' properties')
-        }
-        if (!validColorProperties.includes(Object.keys(unverifiedObject)[0])) {
-          throw new TypeError('colorSettings must be an array of objects with one of the following properties each: ' + validColorProperties.join(', ') + ' but contains: ' + Object.keys(unverifiedObject)[0])
-        }
+      validators = new ValidationCollection({ validProperties: validColorProperties, validValues: validColorStrings })
+      if(!validators.isArrayOfObjects(colorSettings)) {
+        throw new TypeError('colorSettings must be an array of objects. But is: ' + validators.typeThatFailed)
+      }
 
-        if (!validColorStrings.includes(Object.values(unverifiedObject)[0])) {
-          throw new TypeError('colorSettings must be an array of objects with one of the following colors: ' + validColorStrings.join(', ') + ' but contains: ' + Object.values(unverifiedObject)[0])
+      for (const colorSetting of colorSettings) {
+        if (!validators.isAnObjectThatMayHaveProperties) {
+          throw new TypeError('colorSettings must be an array of objects with one of the following properties each: ' + validColorProperties.join(', ') + ' but contains: ' + validators.unexpectedProperties.join(', '))
+        }
+        if (!validators.isObjectThatMustHaveSanctionedValues(colorSetting)) {
+          throw new TypeError('colorSettings must be an array of objects with one of the following colors: ' + validColorStrings.join(', ') + ' but contains: ' + validators.unexpectedValues.join(', '))
         }
       }
     }
 
     #validateFontSettings(fontSettings) {
       const validProperties = ['fontFamily', 'labelFontSize', 'titleFontSize']
-      if (fontSettings === undefined || fontSettings === null || typeof fontSettings !== 'object' || Array.isArray(fontSettings)) {
-        throw new TypeError('fontSettings must be an object, but is: ' + typeof fontSettings)
+      const validators = new ValidationCollection({ validProperties: validProperties })
+      if(!validators.isAnObjectThatMustHaveProperties(fontSettings)){
+        throw new TypeError('fontSettings must be an object with the following properties: ' + validProperties.join(', ') + ' but contains: ' + validators.unexpectedProperties.join(', ') + ', and missing: ' + validators.missingProperties.join(', '))
       }
 
-      if (Object.keys(fontSettings).length > 3) {
-        throw new TypeError('fontSettings may have up to three properties, but contains: ' + Object.keys(fontSettings).length + ' properties')
+      if (!validators.isString(fontSettings.fontFamily)) {
+        throw new TypeError('fontFamily value must be a string, but is: ' + validators.typeThatFailed)
       }
-
-      if (Object.keys(fontSettings).length === 0) {
-        throw new TypeError('fontSettings must have at least one property to set, object is empty')
+      if (!validators.isPositiveNumber(fontSettings.labelFontSize)) {
+        throw new TypeError('labelFontSize value must be a positive number.')
       }
-
-      for (const property of Object.keys(fontSettings)) {
-        if (!validProperties.includes(property)) {
-          throw new TypeError('fontSettings must be an object with all of the following properties: ' + validProperties.join(', ') + ' but contains: ' + property)
-        }
+      if (!validators.isPositiveNumber(fontSettings.titleFontSize)) {
+        throw new TypeError('titleFontSize value must be a positive number.')
       }
-
-      if (fontSettings.fontFamily === undefined
-        || fontSettings.fontFamily === null
-        || typeof fontSettings.fontFamily !== 'string'
-        || Array.isArray(fontSettings.fontFamily)
-      ) {
-        throw new TypeError('fontFamily value must be a string, but is: ' + typeof fontSettings.fontFamily)
-      }
-
-      if (fontSettings.labelFontSize === undefined
-        || fontSettings.labelFontSize === null
-        || typeof fontSettings.labelFontSize !== 'number'
-        || Array.isArray(fontSettings.labelFontSize)
-        || isNaN(fontSettings.labelFontSize)
-      ) {
-        if (isNaN(fontSettings.labelFontSize)) {
-          throw new TypeError('labelFontSize value must be a number, but is: NaN')
-        } else {
-          throw new TypeError('labelFontSize value must be a number, but is: ' + typeof fontSettings.labelFontSize)
-        }
-      }
-
-      if (fontSettings.titleFontSize === undefined
-        || fontSettings.titleFontSize === null
-        || typeof fontSettings.titleFontSize !== 'number'
-        || Array.isArray(fontSettings.titleFontSize)
-        || isNaN(fontSettings.titleFontSize)
-      ) {
-        if (isNaN(fontSettings.titleFontSize)) {
-          throw new TypeError('titleFontSize value must be a number, but is: NaN')
-        } else {
-          throw new TypeError('titleFontSize value must be a number, but is: ' + typeof fontSettings.titleFontSize)
-        }
-      }
-
-      if (fontSettings.labelFontSize < 0) {
-        throw new TypeError('labelFontSize value must be a positive number, but is: ' + fontSettings.labelFontSize)
-      }
-
-      if (fontSettings.titleFontSize < 0) {
-        throw new TypeError('titleFontSize value must be a positive number, but is: ' + fontSettings.titleFontSize)
-      }
-
-      if (fontSettings.fontFamily === '') {
+      if(fontSettings.fontFamily === '') {
         throw new TypeError('fontFamily value must not be empty')
       }
     }
 
     #validateSizeObject(size) {
-      if (size === undefined || size === null || typeof size !== 'object' || Array.isArray(size)) {
-        throw new TypeError('size must be an object, but is: ' + typeof size)
+      const validProperties = ['width', 'height']
+      const validators = new ValidationCollection({ validProperties: validProperties })
+      if(!validators.isAnObjectThatMustHaveProperties(size)){
+        throw new TypeError('size must be an object with the following properties: ' + validProperties.join(', ') + ' but contains: ' + validators.unexpectedProperties.join(', ') + ', and missing: ' + validators.missingProperties.join(', '))
       }
 
-      if (Object.keys(size).length !== 2) {
-        throw new TypeError('size may have two properties, but contains: ' + Object.keys(size).length + ' properties')
-      }
-
-      if (size.width === undefined || size.height === undefined) {
-        throw new TypeError('size must width and height properties')
-      }
-
-      if ('width' in size
-        && (size.width === undefined
-          || size.width === null
-          || typeof size.width !== 'string'
-          || Array.isArray(size.width)
-        )
-      ) {
-        throw new TypeError('width value must be a string, but is: ' + typeof size.width)
-      }
-
-      if ('height' in size
-        && (size.height === undefined
-          || size.height === null
-          || typeof size.height !== 'string'
-          || Array.isArray(size.height)
-        )
-      ) {
-        throw new TypeError('height value must be a string, but is: ' + typeof size.height)
+      if (!validators.isString(size.width) || !validators.isString(size.height)) {
+        throw new TypeError('width and height values must be strings, but are: ' + typeof size.width + ' and ' + typeof size.height)
       }
 
       if (size.width === '') {
