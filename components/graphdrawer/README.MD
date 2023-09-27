@@ -9,7 +9,7 @@ If zero is included in the data, it will also render a zero-line.
 You can also change several settings, like colors, font, size, etc.  
 All this are done by calling methods on the GraphDrawer element,  
 no bulky attributes,  
-no css, no javascript,  
+no css, no complicated javascript calculations, height this and width that,  
 just a simple method call.
 
 ## Dependencies
