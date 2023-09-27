@@ -16,6 +16,8 @@ no bulky attributes,
 no css, no complicated javascript calculations, height this and width that,  
 just a simple method call.
 
+Here we see the graphdrawer element in action,  
+rendering the array [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5].
 ![./readme/screenshot-module.png](./readme/screenshot-module.png)
 
 ## Dependencies
