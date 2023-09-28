@@ -6,9 +6,10 @@
  * @ all users:
  * @see Please see the readme file for usage. The public interface starts below the constructor.
  *
- * @ developer: I use destructuring assignment in this file. It's a newer and uncommon feature of JavaScript so here is the doc for it
+ * @ developer: I use destructuring assignment and the nullish operator in this file.
+ * They are newer and still uncommon feature of JavaScript so here is the docs for them:
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
- *
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
  */
 import { CanvasProperties } from './classes/CanvasProperties.js'
 import { GraphProperties } from './classes/GraphProperties.js'
@@ -55,14 +56,16 @@ export default customElements.define('jk224jv-graphdrawer',
 
       this.#fontSettings = new FontSettings('Arial', 12, 16) // {fontFamily, labelFontSize, titleFontSize}
 
-      const graphLineColor = 'black'
-      const graphDotColor = 'black'
-      const zeroLineColor = 'gray'
-      const axisColor = 'black'
-      const labelColor = 'black'
-      const titleColor = 'black'
-      const backgroundColor = 'white'
-      this.#colorSettings = new ColorSettings(graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor)
+      const initialColors = {
+        graphLineColor: 'black',
+        graphDotColor: 'black',
+        zeroLineColor: 'gray',
+        axisColor: 'black',
+        labelColor: 'black',
+        titleColor: 'black',
+        backgroundColor: 'white'
+      }
+      this.#colorSettings = new ColorSettings(initialColors.graphLineColor, initialColors.graphDotColor, initialColors.zeroLineColor, initialColors.axisColor, initialColors.labelColor, initialColors.titleColor, initialColors.backgroundColor)
 
       this.#axisTitles = new AxisTitles('Index', 'Values')
 
@@ -191,52 +194,30 @@ export default customElements.define('jk224jv-graphdrawer',
      */
     setColors(colorSettings) {
       this.#validateColorSettings(colorSettings)
-      let requestedGraphLineColor = null
-      let requestedGraphDotColor = null
-      let requestedZeroLineColor = null
-      let requestedAxisColor = null
-      let requestedLabelColor = null
-      let requestedTitleColor = null
-      let requestedBackgroundColor = null
 
-      for (const colorSetting of colorSettings) {
-        if (colorSetting.graphLineColor !== undefined) {
-          requestedGraphLineColor = colorSetting.graphLineColor
-        }
-        if (colorSetting.graphDotColor !== undefined) {
-          requestedGraphDotColor = colorSetting.graphDotColor
-        }
-        if (colorSetting.zeroLineColor !== undefined) {
-          requestedZeroLineColor = colorSetting.zeroLineColor
-        }
-        if (colorSetting.axisColor !== undefined) {
-          requestedAxisColor = colorSetting.axisColor
-        }
-        if (colorSetting.labelColor !== undefined) {
-          requestedLabelColor = colorSetting.labelColor
-        }
-        if (colorSetting.titleColor !== undefined) {
-          requestedTitleColor = colorSetting.titleColor
-        }
-        if (colorSetting.backgroundColor !== undefined) {
-          requestedBackgroundColor = colorSetting.backgroundColor
-        }
+      const previousColors = {
+        graphLineColor: this.#colorSettings.graphLineColor,
+        graphDotColor: this.#colorSettings.graphDotColor,
+        zeroLineColor: this.#colorSettings.zeroLineColor,
+        axisColor: this.#colorSettings.axisColor,
+        labelColor: this.#colorSettings.labelColor,
+        titleColor: this.#colorSettings.titleColor,
+        backgroundColor: this.#colorSettings.backgroundColor
       }
-      const currentColorSettings = this.colorSettings
-      /**
-       * @ developer: Uses the relatively new nullish coalescing operator to set the color settings.
-       * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing_operator
-       * constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor)
-       */
-      this.#colorSettings = new ColorSettings(
-        requestedGraphLineColor ?? currentColorSettings.graphLineColor,
-        requestedGraphDotColor ?? currentColorSettings.graphDotColor,
-        requestedZeroLineColor ?? currentColorSettings.zeroLineColor,
-        requestedAxisColor ?? currentColorSettings.axisColor,
-        requestedLabelColor ?? currentColorSettings.labelColor,
-        requestedTitleColor ?? currentColorSettings.titleColor,
-        requestedBackgroundColor ?? currentColorSettings.backgroundColor
 
+      for (const colorRequestObject of colorSettings) {
+        const key = Object.keys(colorRequestObject)[0]
+        previousColors[key] = colorRequestObject[key]
+      }
+
+      this.#colorSettings = new ColorSettings(
+        previousColors.graphLineColor,
+        previousColors.graphDotColor,
+        previousColors.zeroLineColor,
+        previousColors.axisColor,
+        previousColors.labelColor,
+        previousColors.titleColor,
+        previousColors.backgroundColor
       )
     }
 
