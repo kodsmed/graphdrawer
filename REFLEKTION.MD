@@ -16,13 +16,17 @@ Jag har valt att låta reflektioner kring min moduls namngivning inte vara en de
 | --- | --- | --- |
 | GraphDrawer | Classnames should be a noun | A class is a thing, a drawer is a thing. To give it the name of the component felt natural since its the class that defines the HTML component. |
 | | Avoid Misinformation | Initially, it was named GraphDrawer2000... to cool it. I renamed it after the seminar. |
+| - | - | - | - | - | - |
 | renderArrayAsGraph | Methods should be verbs | The name of the method reflects what it does. |
 | | Use Intention based naming |  Yes, what it says is what it does. |
 | | Add meaningful context | Thou maybe superfluous, the added Array in the name gives the information, for free, that the input should be an array. |
+| - | - | - | - | - | - |
 | FontSetting.title | Use Intention based naming | This getter is not the best example, it returns a cxt.font string '12px Arial' and that is not obvious from the name. titleFontStyleString could be better. |
+| - | - | - | - | - | - |
 | verifyDatasetIntegrity | Methods should be verb | The name of the method describes what it does, validated the array dataset and its entries.|
 | | Use Intention based naming | The name of the method describes what id does. |
 | | Do not pun | No pun here. |
+| - | - | - | - | - | - |
 | nonMagicZero | Don't be cute | Well... guilty as charged on this one. Origo would have been better... and |
 | | Use Problem Domain Names | ... I should have used that name instead. |
 
