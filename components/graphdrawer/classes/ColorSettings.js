@@ -1,3 +1,4 @@
+import { ValidationCollection } from './ValidationCollection.js'
 /**
  * This class is used to store the color settings for the graph.
  * @typedef {Object} ColorSettings
@@ -31,47 +32,20 @@ export class ColorSettings {
   constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor) {
     const defaultColor = 'black'
     const backgroundDefaultColor = 'white'
-    const validColors = [
-      'red',
-      'green',
-      'lime',
-      'blue',
-      'yellow',
-      'orange',
-      'purple',
-      'black',
-      'gray',
-      'white'
-    ]
+    const validColors = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
+    const mockArgumentObject = { graphLineColor: graphLineColor, graphDotColor: graphDotColor, zeroLineColor: zeroLineColor, axisColor: axisColor, labelColor: labelColor, titleColor: titleColor, backgroundColor: backgroundColor }
+    const validator = new ValidationCollection({ validValues: validColors })
 
-    if (!validColors.includes(graphLineColor.toLowerCase())) {
-      throw new TypeError('graphLineColor must be a valid color')
+    if(!validator.isObjectThatMustHaveSanctionedValues(mockArgumentObject)) {
+      throw new TypeError('ColorSettings constructor: One or more parameters are not valid: ' + validator.unexpectedValues.join(', '))
     }
-    if (!validColors.includes(graphDotColor.toLowerCase())) {
-      throw new TypeError('graphDotColor must be a valid color')
-    }
-    if (!validColors.includes(zeroLineColor.toLowerCase())) {
-      throw new TypeError('zeroLineColor must be a valid color')
-    }
-    if (!validColors.includes(axisColor.toLowerCase())) {
-      throw new TypeError('axisColor must be a valid color')
-    }
-    if (!validColors.includes(labelColor.toLowerCase())) {
-      throw new TypeError('labelColor must be a valid color')
-    }
-    if (!validColors.includes(titleColor.toLowerCase())) {
-      throw new TypeError('titleColor must be a valid color')
-    }
-    if (!validColors.includes(backgroundColor.toLowerCase())) {
-      throw new TypeError('backgroundColor must be a valid color')
-    }
-    this.#graphLineColor = graphLineColor.toLowerCase() || defaultColor
-    this.#graphDotColor = graphDotColor.toLowerCase() || defaultColor
-    this.#zeroLineColor = zeroLineColor.toLowerCase() || defaultColor
-    this.#axisColor = axisColor.toLowerCase() || defaultColor
-    this.#labelColor = labelColor.toLowerCase() || defaultColor
-    this.#titleColor = titleColor.toLowerCase() || defaultColor
-    this.#backgroundColor = backgroundColor.toLowerCase() || backgroundDefaultColor
+    this.#graphLineColor = graphLineColor || defaultColor
+    this.#graphDotColor = graphDotColor || defaultColor
+    this.#zeroLineColor = zeroLineColor || defaultColor
+    this.#axisColor = axisColor || defaultColor
+    this.#labelColor = labelColor || defaultColor
+    this.#titleColor = titleColor || defaultColor
+    this.#backgroundColor = backgroundColor || backgroundDefaultColor
   }
 
   /**
