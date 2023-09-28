@@ -3,6 +3,7 @@ import { GraphProperties } from './GraphProperties.js'
 import { FontSettings } from './FontSettings.js'
 import { ColorSettings } from './ColorSettings.js'
 import { AxisTitles } from './AxisTitles.js'
+import { ValidationCollection } from './ValidationCollection.js'
 
 /**
  * This class is used to store everything that is needed to draw the graph.
@@ -70,6 +71,8 @@ export class GraphAndCanvasData {
    * @throws {Error} - Throws an error if the parameters are invalid.
    */
   verifyParameterTypes (canvasProperties, graphProperties, dataset, maxNumberOfLabelsOnXAxis, numberOfLabelsOnYAxis, fontSettings, colorSettings, ctx, axisTitles) {
+    const validator = new ValidationCollection({})
+
     if (!(canvasProperties instanceof CanvasProperties)) {
       throw new TypeError('canvasProperties must be an instance of CanvasProperties')
     }
@@ -77,20 +80,10 @@ export class GraphAndCanvasData {
       throw new TypeError('graphProperties must be an instance of GraphProperties')
     }
     this.verifyDatasetIntegrity(dataset)
-    if (maxNumberOfLabelsOnXAxis === undefined
-      || maxNumberOfLabelsOnXAxis === null
-      || typeof maxNumberOfLabelsOnXAxis !== 'number'
-      || isNaN(maxNumberOfLabelsOnXAxis
-      || maxNumberOfLabelsOnXAxis < 0
-      || maxNumberOfLabelsOnXAxis > 50)
-      ) {
+    if (!validator.isNumberBetweenMinMax(maxNumberOfLabelsOnXAxis, 0, 50)) {
       throw new TypeError('maxNumberOfLabelsOnXAxis must be a number between 0 and 50')
     }
-    if (numberOfLabelsOnYAxis === undefined
-      || numberOfLabelsOnYAxis === null
-      || typeof numberOfLabelsOnYAxis !== 'number'
-      || isNaN(numberOfLabelsOnYAxis)
-      || numberOfLabelsOnYAxis !== 10) {
+    if (!validator.isNumber(numberOfLabelsOnYAxis || numberOfLabelsOnYAxis !== 10)) {
         console.log(numberOfLabelsOnYAxis)
       throw new TypeError('numberOfLabelsOnYAxis must be a number, 10')
     }
@@ -100,7 +93,7 @@ export class GraphAndCanvasData {
     if (!(colorSettings instanceof ColorSettings)) {
       throw new TypeError('colorSettings must be an instance of ColorSettings')
     }
-    if (typeof ctx !== 'object') {
+    if (!validator.isAnObject(ctx)) {
       throw new TypeError('ctx must be an object')
     }
     if (!(axisTitles instanceof AxisTitles)) {

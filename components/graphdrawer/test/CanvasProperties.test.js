@@ -1,4 +1,4 @@
-import { CanvasProperties } from "../classes/CanvasProperties.js"
+import { CanvasProperties } from '../classes/CanvasProperties.js'
 
 /**
  * Test the CanvasProperties class.

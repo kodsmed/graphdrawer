@@ -1,4 +1,4 @@
-import { FontSettings } from "../classes/FontSettings.js";
+import { FontSettings } from '../classes/FontSettings.js'
 
 /**
  * Test the FontSettings class.

@@ -1,4 +1,4 @@
-import { GraphProperties } from "../classes/GraphProperties"
+import { GraphProperties } from '../classes/GraphProperties.js'
 
 /**
  * Test the GraphProperties class.

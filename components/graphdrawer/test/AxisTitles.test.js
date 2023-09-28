@@ -1,4 +1,4 @@
-import { AxisTitles } from "../classes/AxisTitles.js"
+import { AxisTitles } from '../classes/AxisTitles.js'
 
 /**
  * Test the AxisTitles class.

@@ -1,4 +1,4 @@
-import { ColorSettings } from "../classes/ColorSettings.js"
+import { ColorSettings } from '../classes/ColorSettings.js'
 
 /**
  * Test the ColorSettings class.

@@ -1,7 +1,7 @@
-import jk224jvGraphdrawer from '../graphdrawer.js'
-import { AxisTitles } from "../classes/AxisTitles.js"
-import { ColorSettings } from "../classes/ColorSettings.js"
-import { FontSettings } from "../classes/FontSettings.js"
+import jk224jvGraphdrawer from '../graphdrawer.js' // is marked as never used by IDE, but defines the custom element so it is needed.
+import { AxisTitles } from '../classes/AxisTitles.js'
+import { ColorSettings } from '../classes/ColorSettings.js'
+import { FontSettings } from '../classes/FontSettings.js'
 import { expect, jest } from '@jest/globals'
 
 /**
