@@ -79,27 +79,53 @@ Jag har valt att låta reflektioner kring min moduls funktioner och metoder inte
 
 ### Tabell över funktioner/metoder
 
-| Funktion/metod | Längd rader | Tomma rader | // | Regel | Reflektion |
-| --- | --- | --- | --- | --- | --- |
-| validateFontSettings(fontSettings) | 65 | 8 | 0 | Small! (Smaller!) | The function is a bit long, but it is a validation function, and it is not overly complex. However I do see possibility of breaking out 'is' methods isOfSameType(object, object) isObject, isString etc that would shorten it quite a bit. |
-||||| Prefer Exceptions to Returning Error Codes | The function does not return an error code, it throws exceptions. |
-||||| Error Handling is One Thing | The function does not handle errors, it just throws exceptions. |
-|validateAxisTitles(axisTitles)| 58 | 8 | 0 | Small! (Smaller!) | The function is a bit long, but it is a validation function, and it is not overly complex. However I do see possibility of breaking out 'is' methods isOfSameType(object, object), isObject, isString etc that would shorten it quite a bit.|
-||||| Do one thing | The function does one thing, it validates the axisTitles array. |
-||||| Use descriptive names | The name of the function describes what it does. |
-||||| Function arguments | The function takes one argument, the object to be validated. |
-||||| DRY | The function does repeat itself, see Small! (Smaller!) |
-| validateSizeObject(sizeObject) | 48 | 8 | 0 | Small! (Smaller!) | The function is a bit long, but its a validation function, and it is not overly complex. However on review, I see the possibility of creating a datatype ccsStyleString. With that, the function could be shortened quite a bit by a simple instance of check.|
-||||| Argument objects | I did see the opportunity to create an argument object here, both for clarity and to reduce the amount of arguments required. |
-| ColorSettings.constructor | 43 | 1 | 0 | Small! (Smaller!) | This is bad... It has not gone through nearly enough incarnations to be nice, but it works. However is not clean. It is semi prepared to take an argument object, but not completely rendering it over all messy. |
-||||| Do one thing | The constructor also validates, this should be extracted. |
-||||| Function arguments | The constructor takes a whooping 7 arguments, this should be rewritten to take an argument object. |
-| drawXAxisLabelsAndVerticalLines | 39 | 1 | 1 | Small! (Smaller!) | I've lost track of how many times I refactored and rewritten this method. It drawsLabels and a dotted vertical guideline above each label, but since its not doing this for every data the function becomes quite complex. The length of the dataset being unknown and special steps needs to be taken with datasets that have a length that is a prime number and there for not evenly dividable by anything adds to the complexity. |
-||||| Do one thing | Ish... one could argue that this is two things, but since the guideline is so closely tied to the label, on a certain abstraction level I consider this to be one. Also, splitting them would mean having another function looping over the array to find the proper places to draw, and that would A impact performance and B not be DRY.|
+Jag har inte tagit hänsyn till om metoderna är publika eller privata utan bara tagit de fem längsta metoderna i min modul, ordagrant som de står i instruktionen. Ett billigt erkännande; jag har inte räknat ut längden på samtliga funktioner utan bara de som okulärt sticker ut som långa. Efter att ha skrivit tabellen framgick ett uppenbart refaktoringsbehov som jag framgångsrikt genomfört... jag har därför valt att ha med detta i tabellen. Därav är också tabellen mer än fem metoder lång, då den inkluderar både de metoder som är längst nu, och de som var längst innan refaktoriseringen.
+Tabellen är sorterad efter nuvarande längd.
+
+| Funktion/metod | Nuvarande rader | Rader innan refaktorisering | Regel | Reflektion |
+| --- | --- | --- | --- | --- |
+| drawXAxisLabelsAndVerticalLines | 39 | 39 |  Small! (Smaller!) | I've lost track of how many times I refactored and rewritten this method. It drawsLabels and a dotted vertical guideline above each label, but since its not doing this for every data the function becomes quite complex. The length of the dataset being unknown and special steps needs to be taken with datasets that have a length that is a prime number and there for not evenly dividable by anything adds to the complexity (You can't paint to .something of a pixel and rounding causes alignment issues). The one refactoring that made this smaller was extracting the pointGenerator. |
+|||| Do one thing | Ish... one could argue that this is two things, but since the guideline is so closely tied to the label, on a certain abstraction level I consider this to be one, and the book tells us that it is up to us to define what constitutes one thing. "So what I told you was true... from a certain point of view" - Obi-Wan Kenobi. Additionally, splitting them would mean having another function looping over the array to find the proper places to draw, and that would A: impact performance, B: needlessly using electricity to do pointless repeated calculations (HOW DARE YOU!?!) and C: not be DRY.|
+| - | - | - | - | - | - |
+| GraphAndCanvasData.verifyParameterTypes | 29 | 37 | Small! (Smaller!!!) | This is still a bit long, but I've refactored it using the new isThisThatOrTheOther methods, that shortened it significantly. Further shortening is possible if I rewrite the method to take an argument-object, but this assignment have a limited allotted time, so the line must be drawn somewhere. |
+|||| Argument objects | The method does not take an argument object, doing so would enable me to make it smaller. |
+|||| Function arguments | It takes 9 arguments, every argument passed to the constructor. An argument object would be better. |
+|||| Prefer Exceptions to Returning Error Codes | The function does not return an error code, it throws exceptions. |
+|||| Error Handling is One Thing | The function does not handle errors, it just throws exceptions. |
+| - | - | - | - | - | - |
+| *pointGenerator | 29 | N/A | Small! (Smaller!!!) | This method calculates and yields point objects : { xCoordinate, yCoordinate } and in doing so it does a lot of calculations, the ratios between the dataset and the area on the canvas reserved for the graph, and the resulting output depending on the values in the dataset. Each of these calculations are single line, so extracting them would generate no benefit, there are just a lot of them. |
+|||| Do one thing | The function does one thing, it calculates and yields point objects. |
+|||| Monadic | The function is monadic, it only takes the one argument |
+|||| Use descriptive names | The name of the function describes what it does. |
+|||| Argument objects | The function does take an argument object. |
+| - | - | - | - | - | - |
+| setColors | 26 | 44 | Small! (Smaller!) | This function was way to long, having extracted the validation and automatically knowing all the objects passed in the argument is valid allowed my to simply iterate over the objects and overwrite any key that is present.  |
+|||| Extract try-catch | I don't have any try-catch at all. The module throws exceptions if not used correctly. Since I have no idea how the user of the module wants to get the input or go about error handling there is no point in my using a try-catch.|
+|||| Command Query Separation | The function does not return anything, it just sets the colors. Throwing exceptions is not a return. |
+| - | - | - | - | - | - |
+| validateSizeObject(sizeObject) | 26 | 48 |  Small! (Smaller!) | The function is still a bit long. I see the possibility of creating a datatype ccsStyleString. With that, the function could be shortened quite a bit by a simple instance of check. However, with the already significant decrease in length I've opted out of that approach. The line has to be drawn somewhere, and this isn't bad.|
+|||| Argument objects | I did see the opportunity to create an argument object here, both for clarity and to reduce the amount of arguments required... So I did. |
+| - | - | - | - | - | - |
+| drawYAxisLabels | 25 | N/A | Small! (Smaller!) | This function is not overly complex, but it is long. It draws the labels on the Y-Axis, so it has to calculate where those should be, and what value they should be. Extracting the where calculation could save 4 rows... and not improve readability to any significant degree. So it is not done here. |
+|||| Structured Programming | One entry point, one exit point... check. |
+| - | - | - | - | - | - |
+|validateAxisTitles(axisTitles)| 18 | 58 | Small! (Smaller!) || The function was a bit long, but not overly complex. As a validator method it was just several if statements. However I saw the possibility of breaking out 'is' methods isOfSameType(object, object) isObject, isString etc that shortened it quite a bit. |
+|||| Do one thing | The function does one thing, it validates the axisTitles array. |
+|||| Use descriptive names | The name of the function describes what it does. |
+|||| Function arguments | The function takes one argument, the object to be validated. |
+|||| DRY | The function does repeat itself, see Small! (Smaller!) |
+| - | - | - | - | - | - |
+| ColorSettings.constructor | 17 | 43 | Small! (Smaller!) | This was bad... Extracting the validation helped. And semi-preparing it to use an argument-object improved it further. I have not taken the step to fully convert it to take an argument-object... frankly, A: I don't want to rewrite the test suits and B: This is behind the public interface. So yeah... it will do.  |
+|||| Do one thing | The constructor also did validates, this was extracted. |
+|||| Function arguments | The constructor takes a whooping 7 arguments, this should be rewritten to take an argument object. |
+| - | - | - | - | - | - |
+| validateFontSettings(fontSettings) | 13 | 65 | Small! (Smaller!) | The function was a bit long, but not overly complex. As a validator method it was just several if statements. However I saw the possibility of breaking out 'is' methods isOfSameType(object, object) isObject, isString etc that shortened it quite a bit. |
 
 ### Slutsats kring funktioner/metoder
 
-I huvudsak är det mina valideringsfunktioner som är för långa, nästa iteration kommer se fler 'is' funktioner som bryter ut många delar av valideringen. ColorSettings constructorn behöver skrivas om till att ta ett argument objekt, och dess validering brytas ut. drawXAxisLabelsAndVerticalLines kommer att få ytterligare försök att bli nedbruten.
+I huvudsak är det mina valideringsfunktioner som är för långa... smarta isThisThatOrTheOther metoder kan dra ner längden radikalt och minskar upprepad kod.  
+ColorSettings constructorn behöver skrivas om till att ta ett argument objekt.  
+drawXAxisLabelsAndVerticalLines kommer att få ytterligare försök att bli nedbruten.
 
 ### Reflektion över kapitel 3
 
