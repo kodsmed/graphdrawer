@@ -105,6 +105,9 @@ describe ('GraphDrawer', () => {
     }),
     it('should not throw an error if the dataset is valid', () => {
       expect(() => graphdrawerElement.verifyDatasetIntegrity([1, 2, 3])).not.toThrow(Error)
+      expect(() => graphdrawerElement.verifyDatasetIntegrity([-1, 2, 3])).not.toThrow(Error)
+      expect(() => graphdrawerElement.verifyDatasetIntegrity([1, -2, 3])).not.toThrow(Error)
+      expect(() => graphdrawerElement.verifyDatasetIntegrity([1, 2, -3])).not.toThrow(Error)
     })
   })
 

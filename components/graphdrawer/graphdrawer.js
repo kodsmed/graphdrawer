@@ -136,22 +136,14 @@ export default customElements.define('jk224jv-graphdrawer',
      * @throws {TypeError} - If the dataset is not an array of numbers.
      */
     verifyDatasetIntegrity(dataset) {
-      if (dataset === undefined || dataset === null) {
-        throw new TypeError('dataset must not be undefined or null')
+      const validators = new ValidationCollection({ minimumLength: 2 })
+
+      if (!validators.isArrayOfNumbers(dataset)) {
+        throw new TypeError('dataset must be an array of numbers. But is: ' + validators.typeThatFailed)
       }
 
-      if (!Array.isArray(dataset)) {
-        throw new TypeError('dataset must be an array')
-      }
-
-      if (dataset.length === 0) {
-        throw new Error('dataset must not be empty')
-      }
-
-      for (const value of dataset) {
-        if (value === undefined || value === null || typeof value !== 'number' || isNaN(value)) {
-          throw new TypeError('dataset must only contain numbers')
-        }
+      if (!validators.isArrayThatMustHaveMinLength(dataset)) {
+        throw new TypeError('dataset must be an array of numbers with a minimum length of: ' + validators.minimumLength + '. But is: ' + dataset.length)
       }
     }
 
@@ -413,6 +405,8 @@ export default customElements.define('jk224jv-graphdrawer',
 
     #drawBackground(graphAndCanvasData) {
       const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
+
+
       ctx.fillStyle = colorSettings.backgroundColor
       ctx.globalCompositeOperation = 'destination-under'
       ctx.fillRect(0, 0, canvasProperties.width, canvasProperties.height)
