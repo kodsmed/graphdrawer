@@ -29,5 +29,6 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "dependencies": {
+    "validation-collection": "1.0.2"
   }
 }
