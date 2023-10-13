@@ -3,7 +3,7 @@ import { CanvasProperties } from './CanvasProperties.js'
 import { ColorSettings } from './ColorSettings.js'
 import { FontSettings } from './FontSettings.js'
 import { GraphProperties } from './GraphProperties.js'
-import { MathematicalConstants } from '../enum/MathematicalConstants.js'
+import { MathematicalConstants } from './../enum/MathematicalConstants.js'
 import validationCollection from 'validation-collection';
 
 /**

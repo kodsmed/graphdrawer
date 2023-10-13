@@ -1,5 +1,5 @@
 import { BaseIteratingRenderer } from './BaseIteratingRenderer.js'
-import { PointGenerators } from '../generators/PointGenerators.js'
+import { PointGenerators } from './../generators/PointGenerators.js'
 
 export class DataPointRenderer extends BaseIteratingRenderer{
   #pointGenerator

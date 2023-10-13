@@ -1,4 +1,4 @@
-import { PointGenerators } from "../generators/PointGenerators.js";
+import { PointGenerators } from "./../generators/PointGenerators.js";
 import { BaseIteratingRenderer } from "./BaseIteratingRenderer.js";
 
 export class BaseIteratingXAxisRenderer extends BaseIteratingRenderer {

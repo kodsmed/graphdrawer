@@ -1,6 +1,5 @@
-import { BaseIteratingRenderer } from "./BaseIteratingRenderer";
+import { BaseIteratingRenderer } from "./BaseIteratingRenderer.js";
 import { PointGenerators } from "./../generators/PointGenerators.js";
-import { GraphAndCanvasData } from "../GraphAndCanvasData";
 
 export class XLabelAndGuideLineBaseRenderer extends BaseIteratingRenderer {
   #pointGenerator

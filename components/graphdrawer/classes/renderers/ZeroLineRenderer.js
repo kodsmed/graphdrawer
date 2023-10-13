@@ -1,4 +1,4 @@
-import { MathematicalConstants } from "../../enum/MathematicalConstants"
+import { MathematicalConstants } from "./../../enum/MathematicalConstants.js"
 
 export class ZeroLineRenderer {
   drawIfInRange(graphAndCanvasData) {

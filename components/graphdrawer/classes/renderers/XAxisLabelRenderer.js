@@ -1,6 +1,5 @@
-import { MathematicalConstants } from "../../enum/MathematicalConstants";
-import { PointGenerators } from "../generators/PointGenerators";
-import { XLabelAndGuideLineBaseRenderer } from "./XLabelAndGuideLineBaseRenderer";
+import { MathematicalConstants } from "./../../enum/MathematicalConstants.js";
+import { XLabelAndGuideLineBaseRenderer } from "./XLabelAndGuideLineBaseRenderer.js";
 
 export class XAxisLabelRenderer extends XLabelAndGuideLineBaseRenderer {
   draw(graphAndCanvasData) {

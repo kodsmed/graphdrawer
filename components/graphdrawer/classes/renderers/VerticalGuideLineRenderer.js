@@ -1,4 +1,4 @@
-import { XLabelAndGuideLineBaseRenderer } from "./XLabelAndGuideLineBaseRenderer"
+import { XLabelAndGuideLineBaseRenderer } from "./XLabelAndGuideLineBaseRenderer.js"
 
 export class VerticalGuideLineRenderer extends XLabelAndGuideLineBaseRenderer {
   constructor(graphAndCanvasData) {

@@ -1,4 +1,4 @@
-import { BaseIteratingYAxisRenderer } from "./BaseIteratingYAxisRenderer";
+import { BaseIteratingYAxisRenderer } from "./BaseIteratingYAxisRenderer.js";
 
 export class HorizontalGuideLineRenderer extends BaseIteratingYAxisRenderer {
   draw(graphAndCanvasData) {

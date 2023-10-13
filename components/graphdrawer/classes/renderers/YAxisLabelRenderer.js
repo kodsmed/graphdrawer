@@ -1,4 +1,4 @@
-import { BaseIteratingYAxisRenderer } from "./BaseIteratingYAxisRenderer";
+import { BaseIteratingYAxisRenderer } from "./BaseIteratingYAxisRenderer.js";
 
 export class YAxisLabelRenderer extends BaseIteratingYAxisRenderer {
   constructor(graphAndCanvasDataObject) {
