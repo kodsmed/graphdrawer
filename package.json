@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "draw a graph of a given array in a canvas element",
-  "main": "index.js",
+  "main": "components/graphdrawer/graphdrawer.js",
   "scripts": {
     "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
     "clearAndTest": "cls && npm run test"
