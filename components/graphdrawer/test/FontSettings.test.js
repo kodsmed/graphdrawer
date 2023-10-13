@@ -40,7 +40,7 @@ describe('FontSettings', () => {
   }),
   it ('getters should return ctx style properties as string', () => {
     const fontSettings = new FontSettings('Arial', 12, 24)
-    expect(fontSettings.label).toBe('12px Arial')
-    expect(fontSettings.title).toBe('24px Arial')
+    expect(fontSettings.ctxLabelStyle).toBe('12px Arial')
+    expect(fontSettings.ctxTitleStyle).toBe('24px Arial')
   })
 })
