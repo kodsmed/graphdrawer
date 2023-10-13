@@ -1,10 +1,10 @@
 /**
- * GraphDrawer is a Custom Web Element that renders a graph of a number dataset on a canvas.
+ * GraphDrawer is a Custom Web Element that renders a graph of an number[] on a canvas.
  *
  * @author Jimmy Karlsson <jk224jv@student.lnu.se>
  *
  * @ all users:
- * @see Please see the readme file for usage. The public interface starts below the constructor.
+ * @see Please see the readme file for usage.
  *
  * @ developer: I use destructuring assignment and the nullish operator in this file.
  * They are newer and still uncommon feature of JavaScript so here is the docs for them:
