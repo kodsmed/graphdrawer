@@ -22,6 +22,9 @@ rendering the array [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5].
 
 ## Dependencies
 
+Uses 'validation-collection' for input validation,  
+Install it with `npm install validation-collection` or `yarn add validation-collection`
+
 The component will work in any browser that supports the following:
 
 * Custom Elements - [https://caniuse.com/custom-elementsv1](https://caniuse.com/custom-elementsv1)

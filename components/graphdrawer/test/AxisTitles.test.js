@@ -1,15 +1,5 @@
 import { AxisTitles } from '../classes/AxisTitles.js'
 
-/**
- * Test the AxisTitles class.
- * AxisTitles is a simple class that stores the titles of the x and y axes.
- *
- * @see AxisTitles
- * It should have the following properties:
- * @property {string} xAxis - The title of the x axis.
- * @property {string} yAxis - The title of the y axis.
- */
-
 describe('AxisTitles', () => {
   describe('constructor', () => {
     it('should throw a TypeError if xAxis is not a string', () => {

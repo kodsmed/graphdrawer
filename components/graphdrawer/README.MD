@@ -14,6 +14,10 @@ just a simple method call.
 
 ## Dependencies
 
+The component is built using the following dependencies:
+'validation-collection' for input validation,  
+Install it with `npm install validation-collection` or `yarn add validation-collection`
+
 The component will work in any browser that supports the following:
 
 * Custom Elements - [https://caniuse.com/custom-elementsv1](https://caniuse.com/custom-elementsv1)
@@ -162,14 +166,14 @@ graphDrawer.setAxis({ yAxis: 'Units' });
 
 ## How to change the font?
 
-Call the method "setFontSettings({fontFamily: 'string', labelFontSize: 'number', titleFontSize:'number'})" on the GraphDrawer element.
+Call the method "setFontSettings({fontFamily: 'string', fontSizeLabel: 'number', fontSizeTitle:'number'})" on the GraphDrawer element.
 Will throw an error if it receives invalid properties or values.
 
 If you enter a font that is not installed on the users computer,
 the browser will render the graph with a default font,
 this is built in the browser and beyond the control of the component.
 
-Default values for the component are "Arial" for the font, 12 for the labelFontSize and 16 for the titleFontSize.
+Default values for the component are "Arial" for the font, 12 for the fontSizeLabel and 16 for the fontSizeTitle.
 
 example usage:
 
@@ -178,27 +182,15 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
 ```
 
-## How to change the size of the dots? Not Yet implemented
-
-Call the method "setDataPointDotsSize(number)" on the GraphDrawer element.
-The size of the dots must be a number 0 to 10. 0 means no dots will be rendered. Defaults to 3 pixels.
-
-example usage:
-
-```javascript
-const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.setDataPointDotsSize(5);
-```
-
 ## How to clear the canvas?
 
-Call the method "clear()" on the GraphDrawer element.
+Call the method "clearCanvas()" on the GraphDrawer element.
 
 example usage:
 
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.clear();
+graphDrawer.clearCanvas();
 ```
 
 ## Known bugs, limitations and open issues
@@ -210,7 +202,6 @@ graphDrawer.clear();
 ### Limitations
 
 * There is currently no handling of an array that contains more values than the canvas element can reasonably display. This will result in a graph that is too small to be useful. On a full-size screen, you can fit about 1000 values on the X-axis.
-* Some of the setter methods are not yet implemented.
 
 ### Open issues
 
