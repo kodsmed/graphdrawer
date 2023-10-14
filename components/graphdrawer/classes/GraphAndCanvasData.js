@@ -115,7 +115,7 @@ export class GraphAndCanvasData {
     while (numberOfSegments > maxNumberOfSegments) {
       // if the difference is big, divide by 2 else reduce by 1
       if (numberOfSegments > maxNumberOfSegments * 2) {
-        numberOfSegments = numberOfLabelsToDraw / 2
+        numberOfSegments = Math.floor(numberOfSegments / 2)
       } else {
         numberOfSegments--
       }
