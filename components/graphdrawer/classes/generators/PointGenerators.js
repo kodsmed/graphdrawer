@@ -10,7 +10,7 @@ export class PointGenerators {
     const graphAreaWidth = canvasProperties.renderAreaWidth
     const numberOfLabelsOnYAxis = graphAndCanvasData.numberOfLabelsOnYAxis
     const numberOfPoints = graphProperties.primeAdjustedLength
-    const pointDistance = Math.floor(graphAreaWidth / numberOfPoints)
+    const pointDistance = Math.max(Math.floor(graphAreaWidth / numberOfPoints),1)
 
     let adjustedMin, adjustedRange
 
