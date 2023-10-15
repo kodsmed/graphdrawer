@@ -27,7 +27,9 @@ export class YAxisLabelRenderer extends BaseIteratingYAxisRenderer {
       const totalNrOfLabels = graphAndCanvasData.numberOfLabelsOnYAxis
       const adjustedX = point.xCoordinate - axisToLabelMargin
       const rangeToHeightRatio = Math.ceil((adjustedRange) / totalNrOfLabels)
-      ctx.fillText(adjustedMin + (index * rangeToHeightRatio), adjustedX, point.yCoordinate)
+      const label = adjustedMin + (rangeToHeightRatio * index)
+      const labelRounded = Math.round(label * 100) / 100
+      ctx.fillText(labelRounded, adjustedX, point.yCoordinate)
     })
   }
 }
