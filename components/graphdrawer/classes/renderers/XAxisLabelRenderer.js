@@ -12,9 +12,11 @@ export class XAxisLabelRenderer extends XLabelAndGuideLineBaseRenderer {
       const { canvasProperties, fontSettings } = graphAndCanvasData
       const labelFontSize = parseInt(fontSettings.ctxLabelStyle, MathematicalConstants.BaseTen)
       const label = this.#getLabelContent(graphAndCanvasData, index)
-      const labelLength = ctx.measureText(label).width
-      const x = point.xCoordinate - labelLength / 2
-      const y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize * 2)
+      const x = point.xCoordinate
+      let y = canvasProperties.marginHeight + canvasProperties.renderAreaHeight + Math.ceil(labelFontSize / 2)
+      if (index == graphAndCanvasData.dataset.length - 1) {
+        y += labelFontSize
+      }
       ctx.fillText(label, x, y);
     })
   }
