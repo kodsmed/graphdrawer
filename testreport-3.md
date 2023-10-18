@@ -11,8 +11,8 @@ Tester: Jimmy Karlsson
 
 ## Test Report for jk224jvGraphdrawer class, GraphDrawer component
 
-  GraphDrawer Class
-  custom element
+    GraphDrawer Class
+    custom element
       √ should be defined (6 ms)
       √ should have a shadow root (1 ms)
       √ should have a canvas element (7 ms)
@@ -78,7 +78,7 @@ All tests passed.
 
 ## Test Report for ColorSettings Class
 
-  ColorSettings
+    ColorSettings
     √ should throw a TypeError if graphLineColor is not a string (7 ms)
     √ should throw a TypeError if graphLineColor is null (1 ms)
     √ should throw a TypeError if graphLineColor is undefined (1 ms)
@@ -125,7 +125,7 @@ All tests passed.
 
 ## Test Report for GraphProperties Class
 
-  GraphProperties
+    GraphProperties
     √ should throw a TypeError if dataset is not an array (6 ms)
     √ should throw a TypeError if dataset is null
     √ should throw a TypeError if dataset is undefined
@@ -146,7 +146,7 @@ All tests passed.
 
 ## Test Report for FontSettings Class
 
-  FontSettings
+    FontSettings
     √ should throw a TypeError if font is not a string (6 ms)
     √ should throw a TypeError if fontSizeLabel is not a number
     √ should throw a TypeError if fontSizeTitle is not a number
@@ -168,7 +168,7 @@ All tests passed.
 
 ## Test Report for GraphAndCanvasData Class
 
-  GraphAndCanvasData
+    GraphAndCanvasData
     constructor
       √ should throw a TypeError if canvasProperties is not a valid CanvasProperties object (1 ms)
       √ should throw a TypeError if graphProperties is not a valid GraphProperties object
@@ -190,7 +190,7 @@ All tests passed.
 
 ## Test Report for AxisTitles Class
 
-  AxisTitles
+    AxisTitles
     constructor
       √ should throw a TypeError if xAxis is not a string (9 ms)
       √ should throw a TypeError if yAxis is not a string
@@ -211,7 +211,7 @@ All tests passed.
 
 ## Test Report for CanvasProperties Class
 
-  CanvasProperties
+    CanvasProperties
     constructor
       √ should throw a TypeError if canvas is not a canvas element (5 ms)
       √ should throw a TypeError if canvas is null (1 ms)

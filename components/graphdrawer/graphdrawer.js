@@ -70,11 +70,6 @@ export default customElements.define('jk224jv-graphdrawer',
 
     static get observedAttributes() { }
 
-
-    clearCanvas() {
-      clearCanvas(this.shadowRoot.querySelector('#canvas'))
-    }
-
     renderArrayAsGraph(dataset) {
       const canvas = this.shadowRoot.querySelector('#canvas')
       const canvasProperties = new CanvasProperties(canvas)

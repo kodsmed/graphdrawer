@@ -36,48 +36,6 @@ Copy the /components/graphdrawer folder into your project and import it into you
 Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in this readme.
 If you are unsure how to use the custom elements and call its methods, see the example usage in the demo application.
 
-## Testing
-
-The automatic test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
-If you want to change the test environment, the test suit may need to be adapted.
-
-If you want to run the test suite in your project, make sure to include the following scripts in your package.json:
-
-```json
-"scripts": {
-    "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
-}
-```
-
-If you are not using the provided example file create a jest.config.js in the projects root-folder , and include the following:
-
-```javascript
-export default {
-  testEnvironment: 'jsdom',
-  moduleFileExtensions: ['js', 'mjs'],
-  testMatch: ['**/test/**/*.test.js'],
-  verbose: true,
-  transform: {},
-  resolver: null,
-}
-```
-
-Make sure to also include the test dependencies in your projects package.json:
-
-* jest
-* jest-environment-jsdom
-
-```json
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0"
-  },
-```
-
-Install the dependencies with `npm install` and run the test suite with `npm run test`.
-
-For manual testing see even numbered test reports.
-
 ## How to render?
 
 Call the method "renderArrayAsGraph(number[])" on the GraphDrawer object. The array of numbers will be rendered as a graph.
@@ -93,8 +51,12 @@ example usage:
 
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.render([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+graphDrawer.renderArrayAsGraph([0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5]);
 ```
+
+Here we see the graphdrawer element in action,  
+rendering the array [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5].  
+![./readme/screenshot-module.png](./readme/screenshot-module.png)
 
 see the projects root-folder index.html and index.js files for a more complete example.
 
@@ -182,16 +144,47 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
 ```
 
-## How to clear the canvas?
+## Testing
 
-Call the method "clearCanvas()" on the GraphDrawer element.
+The automatic test suite is written in Jest for the jsdom test environment and can be run straight out of the repo with the command `npm run test`.
+If you want to change the test environment, the test suit may need to be adapted.
 
-example usage:
+If you want to run the test suite in your project, make sure to include the following scripts in your package.json:
+
+```json
+"scripts": {
+    "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
+}
+```
+
+If you are not using the provided example file create a jest.config.js in the projects root-folder , and include the following:
 
 ```javascript
-const graphDrawer = document.querySelector('jk224jv-graphdrawer');
-graphDrawer.clearCanvas();
+export default {
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'mjs'],
+  testMatch: ['**/test/**/*.test.js'],
+  verbose: true,
+  transform: {},
+  resolver: null,
+}
 ```
+
+Make sure to also include the test dependencies in your projects package.json:
+
+* jest
+* jest-environment-jsdom
+
+```json
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+```
+
+Install the dependencies with `npm install` and run the test suite with `npm run test`.
+
+For manual testing see even numbered test reports.
 
 ## Known bugs, limitations and open issues
 

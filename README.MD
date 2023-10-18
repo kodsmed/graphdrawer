@@ -39,9 +39,9 @@ A live demo is available at [https://graphdrawerdemo.netlify.app/](https://graph
 
 ## Usage
 
-Copy the /components/graphdrawer folder into your project and import it into your code.
-You will find a full README.MD in the components/graphdrawer folder.
-Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in this readme.
+Copy the /components/graphdrawer folder into your project and import it into your code.  
+**You will find a full README.MD in the components/graphdrawer folder.**  
+Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in **that** readme.
 If you are unsure how to use the custom elements and call its methods, see the example usage in the demo application.
 
 ## License
