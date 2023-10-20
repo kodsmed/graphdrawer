@@ -32,11 +32,69 @@ A live demo is available at [https://graphdrawerdemo.netlify.app/](https://graph
 
 ## Usage
 
-Copy the /components/graphdrawer folder into your project and import it into your code.
-Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in this readme.
+### Option 1: github as dependency
+
+You can install the repo as a dependency in your project with the following command:  
+(replace "main" with the commit you want to use for added stability, or "main" for the latest public version)
+
+``` bash
+npm install --save kodsmed/graphdrawer#main
+```
+
+Then import the component into your code:
+
+``` javascript
+import 'graphdrawer/component'
+```
+
+if you are using typescript, you can import the types as well:
+
+``` typescript
+import 'graphdrawer/component'
+import jk224jvGraphdrawer  from 'graphdrawer/type'
+
+// this is so you don't have to declare as jk224jvGraphdrawer every time you querySelector or createElement it.
+declare global {
+  interface HTMLElementTagNameMap {
+    'jk224jv-graphdrawer': jk224jvGraphdrawer;
+  }
+}
+```
+
+Insert the custom element into your html:
+
+``` html
+<jk224jv-graphdrawer></jk224jv-graphdrawer>
+```
+
+or create it in your javascript:
+
+``` javascript
+const graphDrawer = document.createElement('jk224jv-graphdrawer');
+document.body.appendChild(graphDrawer);
+```
+
+### Option 2: manual install
+
+Copy the /components/graphdrawer folder into your project and import it into your code as any other module:
+
+``` javascript
+import './components/graphdrawer/index.js'
+```
+
+if you are using typescript, you can import the types as well:
+
+``` typescript
+import './components/graphdrawer/graphdrawer.js'
+import jk224jvGraphdrawer from './components/graphdrawer/graphdrawer.js'
+```
+
+## Methods
+
+Public methods are documented in the jsdoc comments in the main graphdrawer.js file, as well in this readme.  
 If you are unsure how to use the custom elements and call its methods, see the example usage in the demo application.
 
-## How to render?
+### How to render?
 
 Call the method "renderArrayAsGraph(number[])" on the GraphDrawer object. The array of numbers will be rendered as a graph.
 The X axis will be the index of the array, the Y axis will be the value of the array at the given index.
@@ -60,7 +118,7 @@ rendering the array [0,4,5,6,4,3,7,8,9,5,2,2,3,4,6,-5,2,4,6,7,8,4,5].
 
 see the projects root-folder index.html and index.js files for a more complete example.
 
-## How to change the colors?
+### How to change the colors?
 
 Call the method "setColors([{option: value}, {option: value}.... ])" on the GraphDrawer element.
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
@@ -93,7 +151,7 @@ graphDrawer.setColors([{ graphLineColor: 'red' }, { graphDotColor: 'blue' }, { z
 
 ![./readme/setColorExample.png](./readme/setColorExample.png)
 
-## How to change the size?
+### How to change the size?
 
 Call the method "setSize({width: 'cssValue', height: 'cssValue'})" on the GraphDrawer element.
 Will throw an error if it receives invalid properties or values.
@@ -106,7 +164,7 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setSize({ width: '500px', height: '500px' });
 ```
 
-## How to change the axistitles?
+### How to change the axistitles?
 
 Call the method "setAxisTitles({xAxis: 'string', yAxis: 'string'})" on the GraphDrawer element.
 Will throw an error if it receives invalid properties or values.
@@ -124,7 +182,7 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setAxis({ yAxis: 'Units' });
 ```
 
-## How to change the font?
+### How to change the font?
 
 Call the method "setFontSettings({fontFamily: 'string', fontSizeLabel: 'number', fontSizeTitle:'number'})" on the GraphDrawer element.
 Will throw an error if it receives invalid properties or values.
@@ -142,7 +200,7 @@ const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
 ```
 
-## Clear the canvas
+### Clear the canvas
 
 Call the method "clearCanvas()" on the GraphDrawer element. This will completely empty the canvas element, should you need to do that.  
 Maybe you want to hi-jack the canvas element and use it for something else, drawing the title of your application, or something like that.  
