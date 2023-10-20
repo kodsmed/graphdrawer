@@ -62,24 +62,22 @@ see the projects root-folder index.html and index.js files for a more complete e
 
 ## How to change the colors?
 
-Call the method "setColors([{graphLineColor: 'color'}, {graphDotColor: 'color'}, {zeroLineColor: 'color'}, {axisColor: 'color'}, {labelColor: 'color'}, {titleColor: 'color'}, {backgroundColor: 'color'}])" on the GraphDrawer element.
+Call the method "setColors([{option: value}, {option: value}.... ])" on the GraphDrawer element.
 Objects not included in the array will be ignored, so you can set only the colors you want to change.
 Order of the objects in the array is not important.
 The method will throw an error if it receives invalid values.
 Default values are: 'black' for everything except the zeroLineColor that is 'gray', and the backgroundColor that is 'white'.
 
-Valid values are:
-
-* 'red'
-* 'green'
-* 'lime'
-* 'blue'
-* 'yellow'
-* 'orange'
-* 'purple'
-* 'black'
-* 'gray'
-* 'white'
+| option          | description  | default | valid values |
+| --------------- | ------------ | ------- | ------------ |
+| graphLineColor  | color of the graphline | 'black' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| graphDotColor   | color of the dots at the data points | 'black' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| zeroLineColor   | color of the zero-line | 'gray' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| axisColor       | color of the axis lines | 'black' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| labelColor      | color of the labels | 'black' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| titleColor      | color of the axis titles | 'black' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| backgroundColor | color of the background | 'white' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
+| guideLineColor  | color of the guide lines | 'gray' | 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white' |
 
 example usage:
 
@@ -142,6 +140,25 @@ example usage:
 ```javascript
 const graphDrawer = document.querySelector('jk224jv-graphdrawer');
 graphDrawer.setFont({ fontFamily: 'Arial', labelFontSize: 12, titleFontSize: 16 });
+```
+
+## Clear the canvas
+
+Call the method "clearCanvas()" on the GraphDrawer element. This will completely empty the canvas element, should you need to do that.  
+Maybe you want to hi-jack the canvas element and use it for something else, drawing the title of your application, or something like that.  
+This gives you the option to do that, but is otherwise not needed.  
+[https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+
+example usage:
+
+```javascript
+const graphDrawer = document.querySelector('jk224jv-graphdrawer');
+graphDrawer.clearCanvas();
+
+const canvas = document.querySelector('jk224jv-graphdrawer').shadowRoot.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+ctx.font = '30px Arial';
+ctx.fillText('My application', 10, 50);
 ```
 
 ## Testing
