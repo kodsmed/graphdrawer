@@ -5,8 +5,8 @@
   "description": "draw a graph of a given array in a canvas element",
   "main": "components/graphdrawer/graphdrawer.js",
   "exports": {
-    "component": "./components/graphdrawer/graphdrawer.js",
-    "type": "./components/graphdrawer/graphdrawer.d.ts"
+    "./component": "./components/graphdrawer/graphdrawer.js",
+    "./type": "./components/graphdrawer/graphdrawer.d.ts"
   },
   "scripts": {
     "test": "npx --node-options=--experimental-vm-modules jest || exit 0",
