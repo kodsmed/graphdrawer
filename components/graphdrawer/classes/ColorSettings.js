@@ -9,6 +9,7 @@ import validationCollection from 'validation-collection';
  * @property {string} labelColor - 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white'
  * @property {string} titleColor - 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white'
  * @property {string} backgroundColor - 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white'
+ * @property {string} guideLineColor - 'red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white'
  */
 export class ColorSettings {
   #graphLineColor
@@ -18,12 +19,13 @@ export class ColorSettings {
   #labelColor
   #titleColor
   #backgroundColor
+  #guideLineColor
 
-  constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor) {
+  constructor (graphLineColor, graphDotColor, zeroLineColor, axisColor, labelColor, titleColor, backgroundColor, guideLineColor) {
     const defaultColor = 'black'
     const backgroundDefaultColor = 'white'
     const validColors = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
-    const mockArgumentObject = { graphLineColor: graphLineColor, graphDotColor: graphDotColor, zeroLineColor: zeroLineColor, axisColor: axisColor, labelColor: labelColor, titleColor: titleColor, backgroundColor: backgroundColor }
+    const mockArgumentObject = { graphLineColor: graphLineColor, graphDotColor: graphDotColor, zeroLineColor: zeroLineColor, axisColor: axisColor, labelColor: labelColor, titleColor: titleColor, backgroundColor: backgroundColor , guideLineColor: guideLineColor}
     const validator = new validationCollection({ validValues: validColors })
 
     if(!validator.isObject.thatMustHaveSanctionedValues(mockArgumentObject)) {
@@ -36,6 +38,7 @@ export class ColorSettings {
     this.#labelColor = labelColor || defaultColor
     this.#titleColor = titleColor || defaultColor
     this.#backgroundColor = backgroundColor || backgroundDefaultColor
+    this.#guideLineColor = guideLineColor || defaultColor
   }
 
   clone() {
@@ -50,31 +53,35 @@ export class ColorSettings {
   }
 
   get graphLineColor () {
-    return this.#graphLineColor
+    return `${this.#graphLineColor}`
   }
 
   get graphDotColor () {
-    return this.#graphDotColor
+    return `${this.#graphDotColor}`
   }
 
   get zeroLineColor () {
-    return this.#zeroLineColor
+    return `${this.#zeroLineColor}`
   }
 
   get axisColor () {
-    return this.#axisColor
+    return `${this.#axisColor}`
   }
 
   get labelColor () {
-    return this.#labelColor
+    return `${this.#labelColor}`
   }
 
   get titleColor () {
-    return this.#titleColor
+    return `${this.#titleColor}`
   }
 
   get backgroundColor () {
-    return this.#backgroundColor
+    return `${this.#backgroundColor}`
+  }
+
+  get guideLineColor () {
+    return `${this.#guideLineColor}`
   }
 
   #validateColorString (color) {
@@ -117,5 +124,10 @@ export class ColorSettings {
   set backgroundColor (color) {
     this.#validateColorString(color)
     this.#backgroundColor = color
+  }
+
+  set guideLineColor (color) {
+    this.#validateColorString(color)
+    this.#guideLineColor = color
   }
 }

@@ -7,7 +7,7 @@ export class VerticalGuideLineRenderer extends XLabelAndGuideLineBaseRenderer {
 
   draw(graphAndCanvasData) {
     const { canvasProperties, colorSettings, ctx } = graphAndCanvasData
-    ctx.strokeStyle = colorSettings.axisColor
+    ctx.strokeStyle = colorSettings.guideLineColor
     ctx.setLineDash([1, 5])
     this.iterateThroughSegments(graphAndCanvasData, (point, index) => {
       const x = point.xCoordinate

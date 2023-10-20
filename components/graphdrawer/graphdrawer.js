@@ -16,7 +16,7 @@ import { CanvasProperties } from './classes/CanvasProperties.js'
 import { DataPointRenderer } from './classes/renderers/DataPointRenderer.js'
 import { GraphProperties } from './classes/GraphProperties.js'
 import { FontSettings } from './classes/FontSettings.js'
-import { clearCanvas } from './classes/utilities/clearCanvas.js'
+import { clearCanvas } from './classes/utilities/ClearCanvas.js'
 import { ColorSettings } from './classes/ColorSettings.js'
 import { AxisTitles } from './classes/AxisTitles.js'
 import { GraphAndCanvasData } from './classes/GraphAndCanvasData.js'
@@ -57,9 +57,10 @@ export default customElements.define('jk224jv-graphdrawer',
         axisColor: 'black',
         labelColor: 'black',
         titleColor: 'black',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        guideLineColor: 'gray'
       }
-      this.#colorSettings = new ColorSettings(initialColors.graphLineColor, initialColors.graphDotColor, initialColors.zeroLineColor, initialColors.axisColor, initialColors.labelColor, initialColors.titleColor, initialColors.backgroundColor)
+      this.#colorSettings = new ColorSettings(initialColors.graphLineColor, initialColors.graphDotColor, initialColors.zeroLineColor, initialColors.axisColor, initialColors.labelColor, initialColors.titleColor, initialColors.backgroundColor, initialColors.guideLineColor)
 
       this.#axisTitles = new AxisTitles('Index', 'Values')
       this.#xAxisLabels = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
@@ -69,6 +70,11 @@ export default customElements.define('jk224jv-graphdrawer',
     }
 
     static get observedAttributes() { }
+
+    clearCanvas() {
+      const canvas = this.shadowRoot.querySelector('#canvas')
+      clearCanvas(canvas)
+    }
 
     renderArrayAsGraph(dataset) {
       const canvas = this.shadowRoot.querySelector('#canvas')

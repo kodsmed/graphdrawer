@@ -29,7 +29,7 @@ export class Validators {
 
   validateColorSettings(colorSettings) {
     const validColorStrings = ['red', 'green', 'lime', 'blue', 'yellow', 'orange', 'purple', 'black', 'gray', 'white']
-    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor', 'backgroundColor']
+    const validColorProperties = ['graphLineColor', 'graphDotColor', 'zeroLineColor', 'axisColor', 'labelColor', 'titleColor', 'backgroundColor', 'guideLineColor']
     let validators = new ValidationCollection({ minimumLength: 1 })
     if (!validators.isArray.withMinimumLength(colorSettings)) {
       throw new TypeError(validators.reportAsString)
